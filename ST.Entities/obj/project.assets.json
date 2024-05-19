@@ -3585,11 +3585,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ACER\\source\\prn221\\Smart Thrive\\ST.Entities\\ST.Entities.csproj",
+      "projectUniqueName": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\ST.Entities\\ST.Entities.csproj",
       "projectName": "ST.Entities",
-      "projectPath": "C:\\Users\\ACER\\source\\prn221\\Smart Thrive\\ST.Entities\\ST.Entities.csproj",
+      "projectPath": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\ST.Entities\\ST.Entities.csproj",
       "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ACER\\source\\prn221\\Smart Thrive\\ST.Entities\\obj\\",
+      "outputPath": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\ST.Entities\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",

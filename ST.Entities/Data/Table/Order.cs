@@ -17,6 +17,11 @@ namespace ST.Entities.Data.Table
         public string StudentId { get; set; }
 
         public string PackagedId { get; set; }
+        public string? PaymentMethod { get; set; }
+        public int? Amount { get; set; }
+        public Decimal? TotalPrice { get; set; }
+        public string? Description { get; set; }
+        public bool? Status { get; set; }
         public string? CreateBy { get; set; }
 
         public DateTime CreateDate { get; set; }
@@ -24,8 +29,9 @@ namespace ST.Entities.Data.Table
         public DateTime LastUpdatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
-        public string? PaymentMethod { get; set; }
-        public int? Amount { get; set; }
-        public string? Description { get; set; }
+
+      //  public virtual Student Student { get; set; }
+        public virtual Package Package { get; set; }
+
     }
 }

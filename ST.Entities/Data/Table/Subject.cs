@@ -23,5 +23,8 @@ namespace ST.Entities.Data.Table
         public DateTime LastUpdatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
+
+        public virtual Category Category { get; set; }
+        public virtual ICollection<Course>Courses { get; set; }
     }
 }

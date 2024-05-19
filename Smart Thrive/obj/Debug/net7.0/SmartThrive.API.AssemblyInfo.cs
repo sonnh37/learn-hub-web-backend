@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartThrive.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec08fccf2c5e3cd4f1918b8eed120e8917d80ce4")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartThrive.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartThrive.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

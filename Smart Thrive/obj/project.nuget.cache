@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VKReo/OVfaza7BVQYimOXCN1xBiwZmFVbbq4UYk0GkJ3EUrPKE4ykxbW2RvDIm8G4H7ja1qvxom2UHCKIn7Llg==",
+  "dgSpecHash": "UQMDfch9ZA8FkH34ToaKqUHOKTLwUZr5GmEQ7D47U+3OIUTGCMKCrVsgzvuNmmfIB/5C4kJ69jhW4oMMc3M/3w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ACER\\source\\prn221\\Smart Thrive\\Smart Thrive\\SmartThrive.API.csproj",
+  "projectFilePath": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\Smart Thrive\\SmartThrive.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ACER\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\ACER\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
