@@ -1,0 +1,29 @@
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\bin\Debug\net7.0\ST.Entities.deps.json
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\bin\Debug\net7.0\ST.Entities.runtimeconfig.json
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\bin\Debug\net7.0\ST.Entities.dll
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\bin\Debug\net7.0\ST.Entities.pdb
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\obj\Debug\net7.0\ST.Entities.csproj.AssemblyReference.cache
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\obj\Debug\net7.0\ST.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\obj\Debug\net7.0\ST.Entities.AssemblyInfoInputs.cache
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\obj\Debug\net7.0\ST.Entities.AssemblyInfo.cs
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\obj\Debug\net7.0\ST.Entities.csproj.CoreCompileInputs.cache
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\obj\Debug\net7.0\ST.Entities.dll
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\obj\Debug\net7.0\refint\ST.Entities.dll
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\obj\Debug\net7.0\ST.Entities.pdb
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\obj\Debug\net7.0\ST.Entities.genruntimeconfig.cache
+C:\Users\ACER\source\prn221\Smart Thrive\ST.Entities\obj\Debug\net7.0\ref\ST.Entities.dll
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\bin\Debug\net7.0\ST.Entities.deps.json
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\bin\Debug\net7.0\ST.Entities.runtimeconfig.json
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\bin\Debug\net7.0\ST.Entities.dll
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\bin\Debug\net7.0\ST.Entities.pdb
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\ST.Entities.csproj.AssemblyReference.cache
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\ST.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\ST.Entities.AssemblyInfoInputs.cache
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\ST.Entities.AssemblyInfo.cs
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\ST.Entities.csproj.CoreCompileInputs.cache
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\ST.Entities.sourcelink.json
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\ST.Entities.dll
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\refint\ST.Entities.dll
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\ST.Entities.pdb
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\ST.Entities.genruntimeconfig.cache
+C:\Users\ACER\source\prn221\New folder\New folder\learn-hub-web-backend\ST.Entities\obj\Debug\net7.0\ref\ST.Entities.dll
