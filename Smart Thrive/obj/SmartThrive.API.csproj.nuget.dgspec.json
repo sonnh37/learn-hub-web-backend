@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\Smart Thrive\\SmartThrive.API.csproj": {}
+    "D:\\SWD392\\smart-thrive-web-backend\\Smart Thrive\\SmartThrive.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\Smart Thrive\\SmartThrive.API.csproj": {
+    "D:\\SWD392\\smart-thrive-web-backend\\Smart Thrive\\SmartThrive.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\Smart Thrive\\SmartThrive.API.csproj",
+        "projectUniqueName": "D:\\SWD392\\smart-thrive-web-backend\\Smart Thrive\\SmartThrive.API.csproj",
         "projectName": "SmartThrive.API",
-        "projectPath": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\Smart Thrive\\SmartThrive.API.csproj",
-        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\Smart Thrive\\obj\\",
+        "projectPath": "D:\\SWD392\\smart-thrive-web-backend\\Smart Thrive\\SmartThrive.API.csproj",
+        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+        "outputPath": "D:\\SWD392\\smart-thrive-web-backend\\Smart Thrive\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\ST.Entities\\ST.Entities.csproj": {
-                "projectPath": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\ST.Entities\\ST.Entities.csproj"
+              "D:\\SWD392\\smart-thrive-web-backend\\ST.Entities\\ST.Entities.csproj": {
+                "projectPath": "D:\\SWD392\\smart-thrive-web-backend\\ST.Entities\\ST.Entities.csproj"
               }
             }
           }
@@ -38,11 +38,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -83,21 +78,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\ST.Entities\\ST.Entities.csproj": {
+    "D:\\SWD392\\smart-thrive-web-backend\\ST.Entities\\ST.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\ST.Entities\\ST.Entities.csproj",
+        "projectUniqueName": "D:\\SWD392\\smart-thrive-web-backend\\ST.Entities\\ST.Entities.csproj",
         "projectName": "ST.Entities",
-        "projectPath": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\ST.Entities\\ST.Entities.csproj",
-        "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ACER\\source\\prn221\\New folder\\New folder\\learn-hub-web-backend\\ST.Entities\\obj\\",
+        "projectPath": "D:\\SWD392\\smart-thrive-web-backend\\ST.Entities\\ST.Entities.csproj",
+        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+        "outputPath": "D:\\SWD392\\smart-thrive-web-backend\\ST.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -117,11 +112,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -173,7 +163,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
