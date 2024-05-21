@@ -14,7 +14,7 @@ namespace ST.Entities.Data.Table
     {
        
             [Key]
-            public string Id { get; set; }
+            public Guid Id { get; set; }
 
             public string CategorytName { get; set; }
             public string? CreateBy { get; set; }

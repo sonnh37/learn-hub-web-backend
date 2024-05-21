@@ -12,14 +12,10 @@ namespace ST.Entities.Data.Table
     public class Role
     {
         [Key]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         public string? RoleName { get; set; }
 
-        public DateTime? CreatedDate { get; set; } = DateTime.Now;
-
-        public DateTime? UpdatedDate { get; set; }
-        public bool IsDeleted { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
     }

@@ -13,7 +13,7 @@ namespace ST.Entities.Data.Table
     public class User
     {
         [Key]
-        public string Id{ get; set; }
+        public Guid Id{ get; set; }
 
         public string? UserName { get; set; }
         public string? Password { get; set; }
@@ -27,13 +27,16 @@ namespace ST.Entities.Data.Table
         public string? Phone { get; set; }
       
         public bool Status { get; set; }
-        public string RoleID { get; set; }
-        public string LocationID { get; set; }
+        public Guid RoleID { get; set; }
+        public Guid LocationID { get; set; }
         public virtual Role Role { get; set; } // khai bao de tu dong tai bien cua role xuong
         public virtual Location Location { get; set; } // khai bao de tu dong tai bien cua role xuong
 
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual Provider Provider { get; set; }
 
-   
+        public virtual ICollection<Student> Students { get; set; }
+     
+
+
     }
 }

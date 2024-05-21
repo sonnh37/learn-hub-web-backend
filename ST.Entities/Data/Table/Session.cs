@@ -12,8 +12,8 @@ namespace ST.Entities.Data.Table
     public class Session
     {
         [Key]
-        public string Id { get; set; }
-        public string CourseId { get; set; }
+        public Guid Id { get; set; }
+        public Guid CourseId { get; set; }
         public string SessionName { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }

@@ -12,10 +12,10 @@ namespace ST.Entities.Data.Table
     public class Subject
     {
         [Key]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         public string SubjectName { get; set; }
-        public string CategoryID { get; set; }
+        public Guid CategoryID { get; set; }
         public string? CreateBy { get; set; }
 
         public DateTime CreateDate { get; set; }

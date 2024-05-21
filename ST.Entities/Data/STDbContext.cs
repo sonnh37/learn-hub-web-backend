@@ -42,6 +42,17 @@ namespace ST.Entities.Data
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Location> Locations { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<Course> Courses { get; set; } = null!;
+        public virtual DbSet<Order> Orders { get; set; } = null!;
+        public virtual DbSet<Package> Packages { get; set; } = null!;
+        public virtual DbSet<Provider> Provider { get; set; } = null!;
+        public virtual DbSet<Session> Sessions { get; set; } = null!;
+        public virtual DbSet<Subject> Subjects { get; set; } = null!;
+        public virtual DbSet<Student> Students { get; set; } = null!;
+
+        public virtual DbSet<CourseXPackage> CourseXPackages { get; set; } = null!;
+
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -69,14 +80,29 @@ namespace ST.Entities.Data
                .HasForeignKey(x => x.LocationID)
                .HasConstraintName("FK_User_Location");
             });
+            modelBuilder.Entity<Provider>(e =>
+            {
+                e.ToTable("Provider");
+                e.HasKey(x => x.Id);
+                e.Property(x => x.CompanyName);
+                e.Property(x=> x.Website);
+
+              modelBuilder.Entity<User>()
+             .HasOne(e => e.Provider)
+             .WithOne(p => p.User)
+             .HasForeignKey<Provider>(p => p.UserId)
+             .OnDelete(DeleteBehavior.Cascade); // Optional: specify behavior on delete
+
+
+
+            });
+
             modelBuilder.Entity<Role>(e =>
             {
                 e.ToTable("Role");
                 e.HasKey(x => x.Id);
                 e.Property(x => x.RoleName).IsRequired();
-                e.Property(x => x.CreatedDate);
-                e.Property(x => x.UpdatedDate);
-                e.Property(x => x.IsDeleted);
+            
             });
 
             modelBuilder.Entity<Location>(e =>
@@ -166,6 +192,12 @@ namespace ST.Entities.Data
             .WithMany(x => x.Courses)
             .HasForeignKey(x => x.SubjectId)
             .HasConstraintName("FK_Subject_Course");
+
+
+                e.HasOne(x => x.Provider)
+            .WithMany(x => x.Courses)
+            .HasForeignKey(x => x.ProviderId)
+            .HasConstraintName("FK_Provider_Course");
             });
 
             modelBuilder.Entity<Session>(e =>
@@ -222,11 +254,14 @@ namespace ST.Entities.Data
 
                 entity.HasOne(cp => cp.Course)
                     .WithMany(c => c.CourseXPackages)
-                    .HasForeignKey(cp => cp.CourseId);
+                    .HasForeignKey(cp => cp.CourseId)
+                     .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete;
+
 
                 entity.HasOne(cp => cp.Package)
                     .WithMany(p => p.CourseXPackages)
-                    .HasForeignKey(cp => cp.PackageId);
+                    .HasForeignKey(cp => cp.PackageId)
+                     .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete;
             });
 
             modelBuilder.Entity<Order>(e =>

@@ -12,8 +12,8 @@ namespace ST.Entities.Data.Table
     public class Student
     {
         [Key]
-        public string Id { get; set; }
-        public string? UserId { get; set; }
+        public Guid Id { get; set; }
+        public Guid? UserId { get; set; }
         public string? StudentName { get; set; }
         public string? Gender { get; set; }
 

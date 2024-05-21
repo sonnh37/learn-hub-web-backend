@@ -12,13 +12,13 @@ namespace ST.Entities.Data.Table
     public class Course
     {
         [Key]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         public string CourseName { get; set; }
 
-        public string SubjectId { get; set; }
+        public Guid SubjectId { get; set; }
 
-        public string ProviderId { get; set; }
+        public Guid ProviderId { get; set; }
         public Guid? Code { get; set; }
         public string? CreateBy { get; set; }
 
@@ -46,7 +46,8 @@ namespace ST.Entities.Data.Table
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public virtual Subject Subject { get; set; }    
+        public virtual Subject Subject { get; set; }
+        public virtual Provider Provider { get; set; }
         public virtual ICollection<Session> Sessions { get; set; }
 
         public virtual ICollection<CourseXPackage> CourseXPackages { get; set; }

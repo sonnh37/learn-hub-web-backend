@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace SmartThrive.DataAccess.Repositories.Repositories
 {
-    public class PakageRepository : BaseRepository<Provider>, IPackageRepository
+    public class PackageRepository : BaseRepository<Provider>, IPackageRepository
     {
-        public PakageRepository(STDbContext context) : base(context)
+        public PackageRepository(STDbContext context) : base(context)
         {
         }
     }

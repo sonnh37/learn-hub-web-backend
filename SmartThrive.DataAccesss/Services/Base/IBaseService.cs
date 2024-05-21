@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartThrive.DataAccesss.Services.Base
 {
-    internal class Class1
+    public interface IBaseService
     {
     }
 }
