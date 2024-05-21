@@ -12,11 +12,11 @@ namespace ST.Entities.Data.Table
     public class Package
     {
         [Key]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
+
+        public Guid StudentId { get; set; }
 
         public string PackageName { get; set; }
-
-        public string StudentId { get; set; }
 
         public DateTime StartDate { get; set; }
         [Required]

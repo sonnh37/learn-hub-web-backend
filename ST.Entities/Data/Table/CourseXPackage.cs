@@ -10,10 +10,10 @@ namespace ST.Entities.Data.Table
     [Table("CourseXPackage")]
     public class CourseXPackage
     {
-        public string CourseId { get; set; }
+        public Guid CourseId { get; set; }
         public Course Course { get; set; }
 
-        public string PackageId { get; set; }
+        public Guid PackageId { get; set; }
         public Package Package { get; set; }
     }
 }

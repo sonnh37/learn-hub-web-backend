@@ -12,11 +12,9 @@ namespace ST.Entities.Data.Table
     public class Order
     {
         [Key]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
-        public string StudentId { get; set; }
-
-        public string PackagedId { get; set; }
+        public Guid PackagedId { get; set; }
         public string? PaymentMethod { get; set; }
         public int? Amount { get; set; }
         public Decimal? TotalPrice { get; set; }
