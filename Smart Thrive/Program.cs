@@ -5,7 +5,7 @@
 using Microsoft.EntityFrameworkCore;
 using ST.Entities.Data;
 using System.Text;
-
+using Smart_Thrive.
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
