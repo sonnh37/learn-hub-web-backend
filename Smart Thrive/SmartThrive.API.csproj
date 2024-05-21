@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SmartThrive.DataAccesss\SmartThrive.DataAccesss.csproj" />
     <ProjectReference Include="..\ST.Entities\ST.Entities.csproj" />
   </ItemGroup>
 
