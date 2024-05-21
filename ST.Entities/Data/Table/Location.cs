@@ -12,7 +12,7 @@ namespace ST.Entities.Data.Table
     public class Location
     {
         [Key]
-        public string Id { get; set; }  
+        public Guid Id { get; set; }  
         public string Country { get; set; }
 
         public string City { get; set; }
