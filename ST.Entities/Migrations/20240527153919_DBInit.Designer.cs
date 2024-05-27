@@ -12,8 +12,8 @@ using ST.Entities.Data;
 namespace ST.Entities.Migrations
 {
     [DbContext(typeof(STDbContext))]
-    [Migration("20240521025712_DbInit")]
-    partial class DbInit
+    [Migration("20240527153919_DBInit")]
+    partial class DBInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,7 @@ namespace ST.Entities.Migrations
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -47,7 +47,8 @@ namespace ST.Entities.Migrations
                     b.Property<string>("LastUpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastUpdatedDate")
+                    b.Property<DateTime?>("LastUpdatedDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -71,7 +72,7 @@ namespace ST.Entities.Migrations
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DOB")
@@ -80,7 +81,7 @@ namespace ST.Entities.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsActive")
@@ -95,7 +96,8 @@ namespace ST.Entities.Migrations
                     b.Property<string>("LastUpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastUpdatedDate")
+                    b.Property<DateTime?>("LastUpdatedDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<decimal?>("Price")
@@ -107,7 +109,7 @@ namespace ST.Entities.Migrations
                     b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("SubjectId")
@@ -228,10 +230,11 @@ namespace ST.Entities.Migrations
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsActive")
@@ -243,7 +246,8 @@ namespace ST.Entities.Migrations
                     b.Property<string>("LastUpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastUpdatedDate")
+                    b.Property<DateTime?>("LastUpdatedDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PackageName")
@@ -256,13 +260,13 @@ namespace ST.Entities.Migrations
                     b.Property<int?>("QuantityCourse")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal?>("TotalPrice")
+                    b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -324,7 +328,7 @@ namespace ST.Entities.Migrations
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -336,7 +340,8 @@ namespace ST.Entities.Migrations
                     b.Property<string>("LastUpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastUpdatedDate")
+                    b.Property<DateTime?>("LastUpdatedDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("LearnDate")
@@ -365,7 +370,7 @@ namespace ST.Entities.Migrations
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DOB")
@@ -380,14 +385,14 @@ namespace ST.Entities.Migrations
                     b.Property<string>("LastUpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastUpdatedDate")
+                    b.Property<DateTime?>("LastUpdatedDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("StudentName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("UserId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -409,7 +414,7 @@ namespace ST.Entities.Migrations
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
@@ -418,7 +423,8 @@ namespace ST.Entities.Migrations
                     b.Property<string>("LastUpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastUpdatedDate")
+                    b.Property<DateTime?>("LastUpdatedDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SubjectName")
@@ -576,8 +582,6 @@ namespace ST.Entities.Migrations
                     b.HasOne("ST.Entities.Data.Table.User", "User")
                         .WithMany("Students")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_User_Student");
 
                     b.Navigation("User");
@@ -662,8 +666,7 @@ namespace ST.Entities.Migrations
 
             modelBuilder.Entity("ST.Entities.Data.Table.User", b =>
                 {
-                    b.Navigation("Provider")
-                        .IsRequired();
+                    b.Navigation("Provider");
 
                     b.Navigation("Students");
                 });

@@ -29,7 +29,7 @@ namespace ST.Entities.Data.Table
         public bool IsDeleted { get; set; }
 
       //  public virtual Student Student { get; set; }
-        public virtual Package Package { get; set; }
+        public virtual Package? Package { get; set; }
 
     }
 }

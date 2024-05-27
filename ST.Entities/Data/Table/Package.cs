@@ -18,28 +18,28 @@ namespace ST.Entities.Data.Table
 
         public string PackageName { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         [Required]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public string? PaymentMethod { get; set; }
 
         public int? QuantityCourse { get; set; }
 
-        public Decimal? TotalPrice { get; set; }
+        public Decimal TotalPrice { get; set; }
 
         public string? CreateBy { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
         [Required]
-        public DateTime LastUpdatedDate { get; set; }
+        public DateTime? LastUpdatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
      
         public bool? IsActive { get; set; }
 
-        public virtual Student Student { get; set; }
-        public virtual ICollection<CourseXPackage> CourseXPackages { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual Student? Student { get; set; }
+        public virtual ICollection<CourseXPackage>? CourseXPackages { get; set; }
+        public virtual ICollection<Order>? Orders { get; set; }
     }
 }

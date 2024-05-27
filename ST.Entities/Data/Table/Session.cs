@@ -20,12 +20,12 @@ namespace ST.Entities.Data.Table
         public DateTime? LearnDate { get; set; }
         public string? CreateBy { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
         [Required]
-        public DateTime LastUpdatedDate { get; set; }
+        public DateTime? LastUpdatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }
     
         public bool IsDeleted { get; set; }
-        public virtual Course Course { get; set; }
+        public virtual Course? Course { get; set; }
     }
 }

@@ -20,6 +20,6 @@ namespace ST.Entities.Data.Table
         public string Ward { get; set; }
         public bool isDeleted { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<User>? Users { get; set; }
     }
 }
