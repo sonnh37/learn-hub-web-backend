@@ -20,15 +20,15 @@ namespace ST.Entities.Data.Table
         public DateTime? DOB { get; set; }
         public string? CreateBy { get; set; }
       
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
         [Required]
-        public DateTime LastUpdatedDate { get; set; }
+        public DateTime? LastUpdatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
 
-        public virtual ICollection<Package> Packages { get; set; }
+        public virtual ICollection<Package>? Packages { get; set; }
 
     //    public virtual ICollection<Order> Orders { get; set; }
     }

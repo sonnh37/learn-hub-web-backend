@@ -29,12 +29,12 @@ namespace ST.Entities.Data.Table
         public bool Status { get; set; }
         public Guid RoleID { get; set; }
         public Guid LocationID { get; set; }
-        public virtual Role Role { get; set; } // khai bao de tu dong tai bien cua role xuong
-        public virtual Location Location { get; set; } // khai bao de tu dong tai bien cua role xuong
+        public virtual Role? Role { get; set; } // khai bao de tu dong tai bien cua role xuong
+        public virtual Location? Location { get; set; } // khai bao de tu dong tai bien cua role xuong
 
-        public virtual Provider Provider { get; set; }
+        public virtual Provider? Provider { get; set; }
 
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Student>? Students { get; set; }
      
 
 
