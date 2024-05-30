@@ -2,6 +2,7 @@
 
 
 
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SmartThrive.DataAccess.Repositories.Repositories;
 using SmartThrive.DataAccess.Repositories.Repositories.Interface;
@@ -32,7 +33,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
 var app = builder.Build();
-
+//
+builder.Services.AddAutoMapper(typeof(Program));
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
