@@ -22,9 +22,9 @@ namespace ST.Entities.Data.Table
         public Guid? Code { get; set; }
         public string? CreateBy { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime? CreateDate { get; set; }
         [Required]
-        public DateTime LastUpdatedDate { get; set; }
+        public DateTime? LastUpdatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }
         public DateTime? DOB { get; set; }
         public string? Title { get; set; }
@@ -43,13 +43,13 @@ namespace ST.Entities.Data.Table
         public bool? IsDeleted { get; set; }
 
 
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
-        public virtual Subject Subject { get; set; }
-        public virtual Provider Provider { get; set; }
-        public virtual ICollection<Session> Sessions { get; set; }
+        public virtual Subject? Subject { get; set; }
+        public virtual Provider? Provider { get; set; }
+        public virtual ICollection<Session>? Sessions { get; set; }
 
-        public virtual ICollection<CourseXPackage> CourseXPackages { get; set; }
+        public virtual ICollection<CourseXPackage>? CourseXPackages { get; set; }
     }
 }

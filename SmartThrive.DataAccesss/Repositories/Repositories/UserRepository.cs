@@ -1,5 +1,7 @@
-﻿using SmartThrive.DataAccess.Repositories.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartThrive.DataAccess.Repositories.Base;
 using SmartThrive.DataAccess.Repositories.Repositories.Interface;
+using SQLitePCL;
 using ST.Entities.Data;
 using ST.Entities.Data.Table;
 using System;
@@ -10,11 +12,27 @@ using System.Threading.Tasks;
 
 namespace SmartThrive.DataAccess.Repositories.Repositories
 {
-    public class UserRepository : BaseRepository<User>, IUserRepository
+    public class UserRepository : IUserRepository
 
     {
-        public UserRepository(STDbContext context) : base(context)
+        private readonly STDbContext _context;
+        public UserRepository(STDbContext context ) 
         {
+            _context = context;
+
+
+        }
+
+        async Task<bool> IUserRepository.AddUser(User user)
+        {
+           await _context.Users.AddAsync(user);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        async Task<User> IUserRepository.GetUserById(Guid id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            return user;
         }
     }
 }

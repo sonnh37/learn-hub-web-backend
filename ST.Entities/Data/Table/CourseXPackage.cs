@@ -11,9 +11,9 @@ namespace ST.Entities.Data.Table
     public class CourseXPackage
     {
         public Guid CourseId { get; set; }
-        public Course Course { get; set; }
+        public Course? Course { get; set; }
 
         public Guid PackageId { get; set; }
-        public Package Package { get; set; }
+        public Package? Package { get; set; }
     }
 }
