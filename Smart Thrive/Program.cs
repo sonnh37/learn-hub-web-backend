@@ -27,7 +27,7 @@ builder.Services.AddDbContext<STDbContext>(options =>
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
-
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
