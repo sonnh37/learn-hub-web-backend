@@ -18,12 +18,12 @@ namespace ST.Entities.Data.Table
         public string? Gender { get; set; }
 
         public DateTime? DOB { get; set; }
-        public string? CreateBy { get; set; }
+        public Guid? CreateBy { get; set; }
       
         public DateTime? CreateDate { get; set; }
         [Required]
         public DateTime? LastUpdatedDate { get; set; }
-        public string? LastUpdatedBy { get; set; }
+        public Guid? LastUpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
 
         public virtual User? User { get; set; }

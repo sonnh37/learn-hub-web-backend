@@ -32,8 +32,8 @@ namespace ST.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreateBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -41,8 +41,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastUpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
@@ -63,11 +63,10 @@ namespace ST.Entities.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CourseName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreateBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -90,12 +89,15 @@ namespace ST.Entities.Migrations
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastUpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -106,19 +108,21 @@ namespace ST.Entities.Migrations
                     b.Property<int?>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int?>("Sold_product")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("SubjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("TotalSlot")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("ProviderId");
 
@@ -152,10 +156,6 @@ namespace ST.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("District")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -181,8 +181,8 @@ namespace ST.Entities.Migrations
                     b.Property<int?>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<string>("CreateBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -199,7 +199,7 @@ namespace ST.Entities.Migrations
                     b.Property<DateTime>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("PackagedId")
+                    b.Property<Guid>("PackageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PaymentMethod")
@@ -213,7 +213,7 @@ namespace ST.Entities.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PackagedId");
+                    b.HasIndex("PackageId");
 
                     b.ToTable("Order", (string)null);
                 });
@@ -224,8 +224,8 @@ namespace ST.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CreateBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -240,8 +240,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastUpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
@@ -249,9 +249,6 @@ namespace ST.Entities.Migrations
 
                     b.Property<string>("PackageName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentMethod")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("QuantityCourse")
@@ -322,8 +319,8 @@ namespace ST.Entities.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CreateBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -334,8 +331,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastUpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
@@ -364,8 +361,8 @@ namespace ST.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CreateBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -379,8 +376,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastUpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
@@ -408,8 +405,8 @@ namespace ST.Entities.Migrations
                     b.Property<Guid>("CategoryID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CreateBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("CreateBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -417,8 +414,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastUpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
@@ -489,6 +486,13 @@ namespace ST.Entities.Migrations
 
             modelBuilder.Entity("ST.Entities.Data.Table.Course", b =>
                 {
+                    b.HasOne("ST.Entities.Data.Table.Location", "Location")
+                        .WithMany("Courses")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Location_Course");
+
                     b.HasOne("ST.Entities.Data.Table.Provider", "Provider")
                         .WithMany("Courses")
                         .HasForeignKey("ProviderId")
@@ -502,6 +506,8 @@ namespace ST.Entities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Subject_Course");
+
+                    b.Navigation("Location");
 
                     b.Navigation("Provider");
 
@@ -531,7 +537,7 @@ namespace ST.Entities.Migrations
                 {
                     b.HasOne("ST.Entities.Data.Table.Package", "Package")
                         .WithMany("Orders")
-                        .HasForeignKey("PackagedId")
+                        .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Package_Order");
@@ -631,6 +637,8 @@ namespace ST.Entities.Migrations
 
             modelBuilder.Entity("ST.Entities.Data.Table.Location", b =>
                 {
+                    b.Navigation("Courses");
+
                     b.Navigation("Users");
                 });
 

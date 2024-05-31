@@ -16,12 +16,12 @@ namespace ST.Entities.Data.Table
 
         public string SubjectName { get; set; }
         public Guid CategoryID { get; set; }
-        public string? CreateBy { get; set; }
+        public Guid? CreateBy { get; set; }
 
         public DateTime? CreateDate { get; set; }
         [Required]
         public DateTime? LastUpdatedDate { get; set; }
-        public string? LastUpdatedBy { get; set; }
+        public Guid? LastUpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
 
         public virtual Category? Category { get; set; }
