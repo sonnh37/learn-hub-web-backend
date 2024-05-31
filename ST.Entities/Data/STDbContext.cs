@@ -109,7 +109,6 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Location");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Country);
                 e.Property(x => x.City);
                 e.Property(x => x.District);
                 e.Property(x => x.Ward);
@@ -176,8 +175,9 @@ namespace ST.Entities.Data
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);
                 e.Property(x => x.IsDeleted);
+                e.Property(x => x.CreateBy);
+                e.Property(x => x.Sold_product);
                 e.Property(x => x.DOB);
-                e.Property(x => x.Title);
                 e.Property(x => x.Description);
                 e.Property(x => x.Price).HasColumnType("decimal(18,2)");
                 e.Property(x => x.Quantity);
@@ -186,6 +186,11 @@ namespace ST.Entities.Data
                 e.Property(x => x.IsActive);
                 e.Property(x => x.StartDate);
                 e.Property(x => x.EndDate);
+
+                e.HasOne(x => x.Location)
+                .WithMany(x => x.Courses)
+                .HasForeignKey(x => x.LocationId)
+                .HasConstraintName("FK_Location_Course");
 
 
                 e.HasOne(x => x.Subject)
@@ -232,11 +237,11 @@ namespace ST.Entities.Data
                 e.Property(x => x.IsDeleted);
                 e.Property(x => x.StartDate);
                 e.Property(x => x.EndDate);
-                e.Property(x => x.PaymentMethod);
                 e.Property(x => x.QuantityCourse);
                 e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)"); 
                 e.Property(x => x.IsActive);
-      
+                e.Property(x => x.CreateBy);
+
 
 
                 e.HasOne(x => x.Student)
@@ -271,12 +276,12 @@ namespace ST.Entities.Data
                 e.Property(x => x.CreateDate);
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);
-                e.Property(x => x.IsDeleted);
                 e.Property(x => x.Amount);
                 e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)"); ;
                 e.Property(x => x.PaymentMethod);
-                e.Property(x => x.TotalPrice);
+                e.Property(x => x.CreateBy);
                 e.Property(x => x.Description);
+                e.Property(x => x.Status);
                 e.Property(x => x.IsDeleted);
 
 
@@ -288,7 +293,7 @@ namespace ST.Entities.Data
 
                 e.HasOne(x => x.Package)
              .WithMany(x => x.Orders)
-             .HasForeignKey(x => x.PackagedId)
+             .HasForeignKey(x => x.PackageId)
              .HasConstraintName("FK_Package_Order");
             });
         }

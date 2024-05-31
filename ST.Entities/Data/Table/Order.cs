@@ -14,13 +14,13 @@ namespace ST.Entities.Data.Table
         [Key]
         public Guid Id { get; set; }
 
-        public Guid PackagedId { get; set; }
+        public Guid PackageId { get; set; }
         public string? PaymentMethod { get; set; }
         public int? Amount { get; set; }
         public Decimal? TotalPrice { get; set; }
         public string? Description { get; set; }
         public bool? Status { get; set; }
-        public string? CreateBy { get; set; }
+        public Guid? CreateBy { get; set; }
 
         public DateTime CreateDate { get; set; }
         [Required]
