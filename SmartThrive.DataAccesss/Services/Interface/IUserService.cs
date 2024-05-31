@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartThrive.DataAccesss.Services
+namespace SmartThrive.DataAccesss.Services.Interface
 {
     public interface IUserService
     {
-        public  Task<bool> AddUser(User user);
+        public Task<bool> AddUser(User user);
 
-        public  Task<User> GetUserById(Guid id);
+        public Task<User> GetUserById(Guid id);
 
     }
 }

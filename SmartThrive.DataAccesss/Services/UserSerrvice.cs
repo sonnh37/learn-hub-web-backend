@@ -1,4 +1,5 @@
 ﻿using SmartThrive.DataAccess.Repositories.Repositories.Interface;
+using SmartThrive.DataAccesss.Services.Interface;
 using ST.Entities.Data.Table;
 using System;
 using System.Collections.Generic;
