@@ -16,12 +16,7 @@ namespace ST.Entities.Data.Table
 
         public string? RoleName { get; set; }
 
-<<<<<<< HEAD
-        public virtual ICollection<User> Users { get; set; }
-=======
-
         public virtual ICollection<User>? Users { get; set; }
->>>>>>> c33481cb1ec6d4aef2fd4a0267e507cbfe68cbee
     }
 }
 
