@@ -11,4 +11,10 @@
     <ProjectReference Include="..\ST.Entities\ST.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\ResponseModel\" />
+    <Folder Include="Model\RequestModel\" />
+    <Folder Include="Validation\" />
+  </ItemGroup>
+
 </Project>

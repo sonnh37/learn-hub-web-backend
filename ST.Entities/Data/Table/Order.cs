@@ -20,7 +20,7 @@ namespace ST.Entities.Data.Table
         public Decimal? TotalPrice { get; set; }
         public string? Description { get; set; }
         public bool? Status { get; set; }
-        public Guid? CreateBy { get; set; }
+        public string? CreateBy { get; set; }
 
         public DateTime CreateDate { get; set; }
         [Required]

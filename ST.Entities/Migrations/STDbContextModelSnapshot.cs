@@ -32,8 +32,8 @@ namespace ST.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CreateBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -41,8 +41,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("LastUpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("LastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
@@ -65,8 +65,8 @@ namespace ST.Entities.Migrations
                     b.Property<string>("CourseName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("CreateBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -89,8 +89,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("LastUpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("LastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
@@ -181,8 +181,8 @@ namespace ST.Entities.Migrations
                     b.Property<int?>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("CreateBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -224,8 +224,8 @@ namespace ST.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CreateBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -240,8 +240,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("LastUpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("LastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
@@ -319,8 +319,8 @@ namespace ST.Entities.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CreateBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -331,8 +331,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("LastUpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("LastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
@@ -361,8 +361,8 @@ namespace ST.Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CreateBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -376,8 +376,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("LastUpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("LastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
@@ -405,8 +405,8 @@ namespace ST.Entities.Migrations
                     b.Property<Guid>("CategoryID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CreateBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CreateBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -414,8 +414,8 @@ namespace ST.Entities.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("LastUpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("LastUpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastUpdatedDate")
                         .IsRequired()
