@@ -164,7 +164,7 @@ namespace ST.Entities.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Code = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CourseName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -198,7 +198,7 @@ namespace ST.Entities.Migrations
                         column: x => x.ProviderId,
                         principalTable: "Provider",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Subject_Course",
                         column: x => x.SubjectId,

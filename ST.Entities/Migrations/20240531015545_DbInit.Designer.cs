@@ -12,7 +12,7 @@ using ST.Entities.Data;
 namespace ST.Entities.Migrations
 {
     [DbContext(typeof(STDbContext))]
-    [Migration("20240531010133_DbInit")]
+    [Migration("20240531015545_DbInit")]
     partial class DbInit
     {
         /// <inheritdoc />
@@ -105,7 +105,7 @@ namespace ST.Entities.Migrations
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("ProviderId")
+                    b.Property<Guid?>("ProviderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("Quantity")
@@ -499,8 +499,7 @@ namespace ST.Entities.Migrations
                     b.HasOne("ST.Entities.Data.Table.Provider", "Provider")
                         .WithMany("Courses")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
+                        .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("FK_Provider_Course");
 
                     b.HasOne("ST.Entities.Data.Table.Subject", "Subject")
