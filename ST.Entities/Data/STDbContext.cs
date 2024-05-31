@@ -202,7 +202,8 @@ namespace ST.Entities.Data
                 e.HasOne(x => x.Provider)
             .WithMany(x => x.Courses)
             .HasForeignKey(x => x.ProviderId)
-            .HasConstraintName("FK_Provider_Course");
+            .HasConstraintName("FK_Provider_Course")
+            .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Session>(e =>
