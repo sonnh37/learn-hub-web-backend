@@ -12,27 +12,37 @@ using System.Threading.Tasks;
 
 namespace SmartThrive.DataAccess.Repositories.Repositories
 {
-    public class UserRepository : IUserRepository
-
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         private readonly STDbContext _context;
-        public UserRepository(STDbContext context ) 
+        public UserRepository(STDbContext context) : base(context)
         {
-            _context = context;
-
-
+            //_context = context;
         }
 
-        async Task<bool> IUserRepository.AddUser(User user)
+        public async Task<List<User>> GetByRoleId(Guid roleId)
         {
-           await _context.Users.AddAsync(user);
-            return await _context.SaveChangesAsync() > 0;
+            return await _context.Users.Where(u => u.RoleID == roleId).ToListAsync();
         }
 
-        async Task<User> IUserRepository.GetUserById(Guid id)
+        public async Task<User> GetUserByEmail(string email)
         {
-            var user = await _context.Users.FindAsync(id);
-            return user;
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<bool> UpdatePassword(string email, string password)
+        {
+            var user = await GetUserByEmail(email);
+            user.Password = password;
+            _context.Update(user);
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

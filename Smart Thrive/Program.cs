@@ -4,6 +4,7 @@
 
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SmartThrive.DataAccess.Repositories.Base;
 using SmartThrive.DataAccess.Repositories.Repositories;
 using SmartThrive.DataAccess.Repositories.Repositories.Interface;
 using SmartThrive.DataAccesss.Repositories.Repositories.Interface;
@@ -30,6 +31,7 @@ builder.Services.AddDbContext<STDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(Program));
 
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();

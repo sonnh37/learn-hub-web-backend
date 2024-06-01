@@ -11,6 +11,7 @@ namespace SmartThrive.DataAccess.Repositories.Base
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
         private readonly STDbContext _context;
+
         public BaseRepository(STDbContext context)
         {
             _context = context;
