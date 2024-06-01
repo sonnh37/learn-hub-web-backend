@@ -2,11 +2,14 @@
 
 
 
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SmartThrive.DataAccess.Repositories.Base;
 using SmartThrive.DataAccess.Repositories.Repositories;
 using SmartThrive.DataAccess.Repositories.Repositories.Interface;
 using SmartThrive.DataAccesss.Repositories.Repositories.Interface;
 using SmartThrive.DataAccesss.Services;
+using SmartThrive.DataAccesss.Services.Interface;
 using ST.Entities.Data;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
@@ -26,8 +29,9 @@ builder.Services.AddDbContext<STDbContext>(options =>
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
 
-
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
@@ -49,7 +53,8 @@ builder.Services.AddScoped<IUserService, UserSerrvice>();
 builder.Services.AddScoped(typeof(UserSerrvice));
 
 var app = builder.Build();
-
+//
+builder.Services.AddAutoMapper(typeof(Program));
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
