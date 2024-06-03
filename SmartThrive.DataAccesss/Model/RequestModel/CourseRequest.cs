@@ -14,7 +14,7 @@ namespace SmartThrive.DataAccesss.Model.RequestModel
         public Guid? ProviderId { get; set; }
 
         public Guid LocationId { get; set; }
-        public Guid? Code { get; set; }
+        public string? Code { get; set; }
 
         public string? CourseName { get; set; }
         public string? CreateBy { get; set; }
@@ -29,6 +29,20 @@ namespace SmartThrive.DataAccesss.Model.RequestModel
 
         public int? Quantity { get; set; }
 
+        public int? Sold_product { get; set; }
+
         public int? TotalSlot { get; set; }
+
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+
+        public bool? IsApproved { get; set; }
+
+        public bool? IsActive { get; set; }
+
+        public bool? IsDeleted { get; set; }
+
+
+      
     }
 }

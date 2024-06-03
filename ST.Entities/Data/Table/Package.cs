@@ -14,7 +14,7 @@ namespace ST.Entities.Data.Table
         [Key]
         public Guid Id { get; set; }
 
-        public Guid StudentId { get; set; }
+        public Guid? StudentId { get; set; }
 
         public string PackageName { get; set; }
 
