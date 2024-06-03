@@ -12,15 +12,24 @@ using System.Threading.Tasks;
 
 namespace SmartThrive.DataAccess.Repositories.Repositories
 {
+    public class UserRepository : BaseRepository<User>, IUserRepository
     public class UserRepository : BaseRepository<User>,IUserRepository
 
     {
         private readonly STDbContext _context;
+        public UserRepository(STDbContext context) : base(context)
         public UserRepository(STDbContext context )  : base(context)
         {
             this._context = context;
 
+        public async Task<List<User>> GetByRoleId(Guid roleId)
+        {
+            return await _context.Users.Where(u => u.RoleID == roleId).ToListAsync();
+        }
 
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         async Task<bool> IUserRepository.AddUser(User user)

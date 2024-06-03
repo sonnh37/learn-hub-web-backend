@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Model\RequestModel\" />
     <Folder Include="Model\ResponseModel\" />
     <Folder Include="Validation\" />
   </ItemGroup>
