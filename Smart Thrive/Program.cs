@@ -3,6 +3,7 @@
 
 
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using SmartThrive.DataAccess.Repositories.Base;
 using SmartThrive.DataAccess.Repositories.Repositories;
@@ -51,6 +52,8 @@ builder.Services.AddScoped<IUserService, UserSerrvice>();
 
 
 builder.Services.AddScoped(typeof(UserSerrvice));
+
+
 
 var app = builder.Build();
 //

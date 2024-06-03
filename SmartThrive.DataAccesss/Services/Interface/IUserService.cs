@@ -1,4 +1,5 @@
-﻿using SmartThrive.DataAccess.Repositories.Base;
+﻿using SmartThrive.DataAccesss.Model.RequestModel;
+using SmartThrive.DataAccess.Repositories.Base;
 using ST.Entities.Data.Table;
 using ST.Entities.Model;
 using System;
@@ -20,6 +21,9 @@ namespace SmartThrive.DataAccesss.Services.Interface
         public Task<UserModel> GetUserByEmail(string email);
         //public Task<User> Login(string username, string password);
         public Task<bool> UpdatePassword(string email, string password);
+        public Task<bool> AddUser(UserRequest user);
+
+        public Task<User> GetUserById(Guid id);
 
     }
 }
