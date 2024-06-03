@@ -1,4 +1,5 @@
-﻿using ST.Entities.Data.Table;
+﻿using SmartThrive.DataAccesss.Model.RequestModel;
+using ST.Entities.Data.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace SmartThrive.DataAccesss.Services.Interface
 {
     public interface IUserService
     {
-        public Task<bool> AddUser(User user);
+        public Task<bool> AddUser(UserRequest user);
 
         public Task<User> GetUserById(Guid id);
 

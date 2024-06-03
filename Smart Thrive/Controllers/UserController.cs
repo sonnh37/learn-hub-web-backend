@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartThrive.DataAccess.Repositories.Repositories.Interface;
+using SmartThrive.DataAccesss.Model.RequestModel;
 using SmartThrive.DataAccesss.Services.Interface;
 using ST.Entities.Data.Table;
 using System.Net;
@@ -40,7 +41,7 @@ namespace Smart_Thrive.Controllers
 
 
         [HttpPost("create-user")]
-        public async Task<IActionResult> AddUser(User model)
+        public async Task<IActionResult> AddUser(UserRequest model)
         {
             try
             {

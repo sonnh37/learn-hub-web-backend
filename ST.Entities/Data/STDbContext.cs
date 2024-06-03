@@ -85,6 +85,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Provider");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.CompanyName);
                 e.Property(x=> x.Website);
 
@@ -102,7 +103,6 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Role");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.RoleName).IsRequired();
             
             });
@@ -111,7 +111,6 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Location");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.City);
                 e.Property(x => x.District);
                 e.Property(x => x.Ward);
@@ -122,6 +121,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Student");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.StudentName);
                 e.Property(x => x.CreateBy);
                 e.Property(x => x.CreateDate);
@@ -142,6 +142,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Category");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.CategorytName);
                 e.Property(x => x.CreateBy);
                 e.Property(x => x.CreateDate);
@@ -154,6 +155,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Subject");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.SubjectName);
                 e.Property(x => x.CreateBy);
                 e.Property(x => x.CreateDate);
@@ -172,6 +174,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Course");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.Code);
                 e.Property(x => x.CourseName);
                 e.Property(x => x.CreateDate);
@@ -180,7 +183,6 @@ namespace ST.Entities.Data
                 e.Property(x => x.IsDeleted);
                 e.Property(x => x.CreateBy);
                 e.Property(x => x.Sold_product);
-                e.Property(x => x.DOB);
                 e.Property(x => x.Description);
                 e.Property(x => x.Price).HasColumnType("decimal(18,2)");
                 e.Property(x => x.Quantity);
@@ -213,6 +215,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Sesion");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.SessionName);
                 e.Property(x => x.LearnDate);
                 e.Property(x => x.CreateBy);
@@ -234,6 +237,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Package");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.PackageName);
                 e.Property(x => x.CreateDate);
                 e.Property(x => x.LastUpdatedBy);
@@ -277,6 +281,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Order");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.CreateDate);
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);
