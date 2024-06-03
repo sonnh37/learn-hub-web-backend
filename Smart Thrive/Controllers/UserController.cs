@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartThrive.DataAccess.Repositories.Repositories.Interface;
-using SmartThrive.DataAccesss.Services;
+using SmartThrive.DataAccesss.Services.Interface;
 using ST.Entities.Data.Table;
 using System.Net;
 

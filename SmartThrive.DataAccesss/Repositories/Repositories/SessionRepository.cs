@@ -14,6 +14,39 @@ namespace SmartThrive.DataAccess.Repositories.Repositories
     {
         public SessionRepository(STDbContext context) : base(context)
         {
+
+            
+        }
+
+        public async Task<bool> AddSession(Session session)
+        {
+            var s = await base.Add(session);
+            return s;
+
+        }
+
+        public async Task<bool> DeleteSession(Guid id)
+        {
+            var d = await base.Delete(id);
+            return d;
+        }
+
+        public async Task<IEnumerable<Session>> GetAllSessions()
+        {
+            var a = await base.GetAll();
+            return a;
+        }
+
+        public async Task<Session> GetSession(Guid id)
+        {
+            var g = await base.GetById(id);
+            return g;
+        }
+
+        public async Task<bool> UpdateSession(Session session)
+        {
+           var u = await base.Update(session);
+            return u;
         }
     }
 }

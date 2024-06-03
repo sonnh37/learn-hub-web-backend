@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace SmartThrive.DataAccess.Repositories.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository<User>,IUserRepository
 
     {
         private readonly STDbContext _context;
-        public UserRepository(STDbContext context ) 
+        public UserRepository(STDbContext context )  : base(context)
         {
-            _context = context;
+            this._context = context;
 
 
         }

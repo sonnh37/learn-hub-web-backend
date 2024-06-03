@@ -1,4 +1,5 @@
-﻿using SmartThrive.DataAccess.Repositories.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartThrive.DataAccess.Repositories.Base;
 using SmartThrive.DataAccess.Repositories.Repositories.Interface;
 using SmartThrive.DataAccesss.Repositories.Repositories.Interface;
 using ST.Entities.Data;
@@ -11,10 +12,25 @@ using System.Threading.Tasks;
 
 namespace SmartThrive.DataAccess.Repositories.Repositories
 {
-    public class CourseXPackageRepository : BaseRepository<Provider>, ICourseXPackageRepository
+    public class CourseXPackageRepository : BaseRepository<CourseXPackage>, ICourseXPackageRepository
     {
-        public CourseXPackageRepository(STDbContext context) : base(context)
+        private readonly STDbContext context;
+
+        public CourseXPackageRepository(STDbContext _context) : base(_context)
         {
+           this.context = _context;
+        }
+
+        public async Task<bool> AddCourseToPackage(CourseXPackage newcourse)
+        {
+            await context.CourseXPackages.AddAsync(newcourse);
+            await context.SaveChangesAsync();
+            return true;
+        }
+
+        public Task<bool> DeleteCourseToPackage(CourseXPackage courseid)
+        {
+            throw new NotImplementedException();
         }
     }
 }

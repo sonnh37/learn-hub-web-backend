@@ -60,6 +60,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("User");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.UserName).IsRequired();
                 e.Property(x => x.Email).IsRequired();
                 e.Property(x => x.Password).IsRequired();
@@ -101,6 +102,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Role");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.RoleName).IsRequired();
             
             });
@@ -109,6 +111,7 @@ namespace ST.Entities.Data
             {
                 e.ToTable("Location");
                 e.HasKey(x => x.Id);
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.City);
                 e.Property(x => x.District);
                 e.Property(x => x.Ward);
