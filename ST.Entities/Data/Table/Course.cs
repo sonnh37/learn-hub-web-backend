@@ -14,11 +14,11 @@ namespace ST.Entities.Data.Table
         [Key]
         public Guid Id { get; set; }
 
-        public Guid SubjectId { get; set; }
+        public Guid? SubjectId { get; set; }
 
         public Guid? ProviderId { get; set; }
 
-        public Guid LocationId { get; set; }
+        public Guid? LocationId { get; set; }
         public Guid? Code { get; set; }
 
         public string? CourseName { get; set; }

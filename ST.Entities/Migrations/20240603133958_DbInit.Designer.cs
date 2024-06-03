@@ -12,8 +12,8 @@ using ST.Entities.Data;
 namespace ST.Entities.Migrations
 {
     [DbContext(typeof(STDbContext))]
-    [Migration("20240603095334_Db")]
-    partial class Db
+    [Migration("20240603133958_DbInit")]
+    partial class DbInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,7 +98,8 @@ namespace ST.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("LocationId")
+                    b.Property<Guid?>("LocationId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("Price")
@@ -116,7 +117,8 @@ namespace ST.Entities.Migrations
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("SubjectId")
+                    b.Property<Guid?>("SubjectId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("TotalSlot")
@@ -187,7 +189,7 @@ namespace ST.Entities.Migrations
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -199,10 +201,11 @@ namespace ST.Entities.Migrations
                     b.Property<string>("LastUpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastUpdatedDate")
+                    b.Property<DateTime?>("LastUpdatedDate")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("PackageId")
+                    b.Property<Guid?>("PackageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PaymentMethod")
@@ -261,7 +264,7 @@ namespace ST.Entities.Migrations
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("StudentId")
+                    b.Property<Guid?>("StudentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("TotalPrice")
@@ -285,7 +288,7 @@ namespace ST.Entities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Website")
@@ -295,7 +298,8 @@ namespace ST.Entities.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Provider", (string)null);
                 });
@@ -322,7 +326,7 @@ namespace ST.Entities.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<Guid>("CourseId")
+                    b.Property<Guid?>("CourseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreateBy")
@@ -410,7 +414,7 @@ namespace ST.Entities.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<Guid>("CategoryID")
+                    b.Property<Guid?>("CategoryID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreateBy")
@@ -546,8 +550,6 @@ namespace ST.Entities.Migrations
                     b.HasOne("ST.Entities.Data.Table.Package", "Package")
                         .WithMany("Orders")
                         .HasForeignKey("PackageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_Package_Order");
 
                     b.Navigation("Package");
@@ -558,8 +560,6 @@ namespace ST.Entities.Migrations
                     b.HasOne("ST.Entities.Data.Table.Student", "Student")
                         .WithMany("Packages")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_Student_Packages");
 
                     b.Navigation("Student");
@@ -570,8 +570,7 @@ namespace ST.Entities.Migrations
                     b.HasOne("ST.Entities.Data.Table.User", "User")
                         .WithOne("Provider")
                         .HasForeignKey("ST.Entities.Data.Table.Provider", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
@@ -581,8 +580,6 @@ namespace ST.Entities.Migrations
                     b.HasOne("ST.Entities.Data.Table.Course", "Course")
                         .WithMany("Sessions")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_Course_Session");
 
                     b.Navigation("Course");
@@ -603,8 +600,6 @@ namespace ST.Entities.Migrations
                     b.HasOne("ST.Entities.Data.Table.Category", "Category")
                         .WithMany("Subjects")
                         .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_Category_Subject");
 
                     b.Navigation("Category");

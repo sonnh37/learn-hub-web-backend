@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SmartThrive.DataAccess.Repositories.Repositories.Interface;
+using SmartThrive.DataAccesss.Model.RequestModel;
 using SmartThrive.DataAccesss.Services.Interface;
 using ST.Entities.Data.Table;
 using ST.Entities.Model;
@@ -34,6 +35,7 @@ namespace SmartThrive.DataAccesss.Services
             }
 
         }
+
 
         public async Task<bool> Delete(Guid id)
         {
@@ -98,6 +100,8 @@ namespace SmartThrive.DataAccesss.Services
                 throw new Exception(ex.Message);
             }
         }
+
+      
 
         public async Task<bool> Update(UserModel user)
         {
