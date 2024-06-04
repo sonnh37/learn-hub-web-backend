@@ -1,5 +1,5 @@
-﻿using SmartThrive.DataAccesss.Model.RequestModel;
-using ST.Entities.Data.Table;
+﻿using ST.Entities.Data.Table;
+using SWD.DataAccesss.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +10,16 @@ namespace SmartThrive.DataAccesss.Services.Interface
 {
     public interface IOrderService
     {
-        public Task<bool> AddOrder(OrderRequest order);
-        public Task<bool> UpdateOrder(OrderRequest order);
+        public Task<bool> AddOrder(OrderModel order);
+        public Task<bool> UpdateOrder(OrderModel order);
 
         public Task<bool> DeleteOrder(Guid id);
 
-        public Task<OrderRequest> GetOrder(Guid id);
+        public Task<OrderModel> GetOrder(Guid id);
 
-        public Task<IEnumerable<OrderRequest>> GetAllOrdersByStudent(Guid id);
+        public Task<IEnumerable<OrderModel>> GetAllOrdersByStudent(Guid id);
 
-        public Task<IEnumerable<OrderRequest>> GetAllOrder();
+        public Task<IEnumerable<OrderModel>> GetAllOrder();
 
     }
 }

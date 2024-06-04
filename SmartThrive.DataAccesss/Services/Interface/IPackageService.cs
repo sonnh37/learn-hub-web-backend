@@ -1,5 +1,5 @@
-﻿using SmartThrive.DataAccesss.Model.RequestModel;
-using ST.Entities.Data.Table;
+﻿using ST.Entities.Data.Table;
+using SWD.DataAccesss.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +10,15 @@ namespace SmartThrive.DataAccesss.Services.Interface
 {
     public interface IPackageService
     {
-        public Task<bool> AddPackage(PackageRequest package);
-        public Task<bool> UpdatePackage(PackageRequest package);
+        public Task<bool> AddPackage(PackageModel package);
+        public Task<bool> UpdatePackage(PackageModel package);
 
         public Task<bool> DeletePackage(Guid id);
 
-        public Task<PackageRequest> GetPackage(Guid id);
+        public Task<PackageModel> GetPackage(Guid id);
 
-        public Task<IEnumerable<PackageRequest>> GetAllPackagesByStudent(Guid id);
+        public Task<IEnumerable<PackageModel>> GetAllPackagesByStudent(Guid id);
 
-        public Task<IEnumerable<PackageRequest>> GetAllPackages();
+        public Task<IEnumerable<PackageModel>> GetAllPackages();
     }
 }

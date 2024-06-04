@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ST.Entities.Data;
 
+
 #nullable disable
 
 namespace ST.Entities.Migrations

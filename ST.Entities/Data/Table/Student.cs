@@ -19,7 +19,7 @@ namespace ST.Entities.Data.Table
 
         public DateTime? DOB { get; set; }
         public string? CreateBy { get; set; }
-      
+
         public DateTime? CreateDate { get; set; }
         [Required]
         public DateTime? LastUpdatedDate { get; set; }
@@ -30,6 +30,6 @@ namespace ST.Entities.Data.Table
 
         public virtual ICollection<Package>? Packages { get; set; }
 
-    //    public virtual ICollection<Order> Orders { get; set; }
+        //    public virtual ICollection<Order> Orders { get; set; }
     }
 }

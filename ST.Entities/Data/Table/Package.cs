@@ -24,7 +24,7 @@ namespace ST.Entities.Data.Table
 
         public int? QuantityCourse { get; set; }
 
-        public Decimal TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public string? CreateBy { get; set; }
 
@@ -33,7 +33,7 @@ namespace ST.Entities.Data.Table
         public DateTime? LastUpdatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
-     
+
         public bool? IsActive { get; set; }
 
         public virtual Student? Student { get; set; }
