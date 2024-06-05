@@ -5,12 +5,13 @@
 
 using Microsoft.EntityFrameworkCore;
 using SmartThrive.DataAccess.Repositories.Base;
-using SmartThrive.DataAccess.Repositories.Repositories;
-using SmartThrive.DataAccess.Repositories.Repositories.Interface;
-using SmartThrive.DataAccesss.Repositories.Repositories.Interface;
-using SmartThrive.DataAccesss.Services;
 using SmartThrive.DataAccesss.Services.Interface;
 using ST.Entities.Data;
+using ST.Entities.Repositories.Repositories.Repository;
+using SWD.DataAccesss.Services.Interface;
+using SWD.DataAccesss.Services.Service;
+using SWD.Entities.Repositories.Repositories.Interface;
+using SWD.Entities.Repositories.Repositories.Repository;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IPackageService, PackageService>();
 
 
 

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ST.Entities.Data.Table
 {
-    public class Provider 
+    public class Provider
     {
 
-       public Guid Id { get; set; }
+        public Guid Id { get; set; }
         public Guid? UserId { get; set; }
         public string CompanyName { get; set; }
         public string Website { get; set; }

@@ -24,7 +24,7 @@ namespace ST.Entities.Data.Table
         [Required]
         public DateTime? LastUpdatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }
-    
+
         public bool IsDeleted { get; set; }
         public virtual Course? Course { get; set; }
     }

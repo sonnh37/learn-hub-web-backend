@@ -87,13 +87,13 @@ namespace ST.Entities.Data
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.CompanyName);
-                e.Property(x=> x.Website);
+                e.Property(x => x.Website);
 
-              modelBuilder.Entity<User>()
-             .HasOne(e => e.Provider)
-             .WithOne(p => p.User)
-             .HasForeignKey<Provider>(p => p.UserId)
-             .OnDelete(DeleteBehavior.Cascade); // Optional: specify behavior on delete
+                modelBuilder.Entity<User>()
+               .HasOne(e => e.Provider)
+               .WithOne(p => p.User)
+               .HasForeignKey<Provider>(p => p.UserId)
+               .OnDelete(DeleteBehavior.Cascade); // Optional: specify behavior on delete
 
 
 
@@ -104,7 +104,7 @@ namespace ST.Entities.Data
                 e.ToTable("Role");
                 e.HasKey(x => x.Id);
                 e.Property(x => x.RoleName).IsRequired();
-            
+
             });
 
             modelBuilder.Entity<Location>(e =>
@@ -246,7 +246,7 @@ namespace ST.Entities.Data
                 e.Property(x => x.StartDate);
                 e.Property(x => x.EndDate);
                 e.Property(x => x.QuantityCourse);
-                e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)"); 
+                e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)");
                 e.Property(x => x.IsActive);
                 e.Property(x => x.CreateBy);
 
@@ -295,10 +295,10 @@ namespace ST.Entities.Data
 
 
 
-      //          e.HasOne(x => x.Student)
-    //        .WithMany(x => x.Orders)
-     //       .HasForeignKey(x => x.StudentId)
-     //       .HasConstraintName("FK_Student_Order");
+                //          e.HasOne(x => x.Student)
+                //        .WithMany(x => x.Orders)
+                //       .HasForeignKey(x => x.StudentId)
+                //       .HasConstraintName("FK_Student_Order");
 
                 e.HasOne(x => x.Package)
              .WithMany(x => x.Orders)

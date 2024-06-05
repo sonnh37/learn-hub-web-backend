@@ -28,9 +28,9 @@ namespace ST.Entities.Data.Table
         [Required]
         public DateTime? LastUpdatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }
-        
+
         public string? Description { get; set; }
-        public Decimal? Price { get; set; }
+        public decimal? Price { get; set; }
 
         public int? Quantity { get; set; }
 

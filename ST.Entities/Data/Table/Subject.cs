@@ -25,6 +25,6 @@ namespace ST.Entities.Data.Table
         public bool IsDeleted { get; set; }
 
         public virtual Category? Category { get; set; }
-        public virtual ICollection<Course>?Courses { get; set; }
+        public virtual ICollection<Course>? Courses { get; set; }
     }
 }
