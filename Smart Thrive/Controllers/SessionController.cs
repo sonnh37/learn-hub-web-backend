@@ -14,7 +14,7 @@ namespace Smart_Thrive.Controllers
         private readonly ISessionService _sessionService;
         private readonly IMapper _mapper;
 
-        public SessionController(ISessionService sessionService, IMapper mapper)
+        public SessionController(ISessionService sessionService, IMapper mapper) 
         {
             _sessionService = sessionService;
             _mapper = mapper;
@@ -103,7 +103,7 @@ namespace Smart_Thrive.Controllers
         {
             try
             {
-
+                
 
                 var exist = _sessionService.GetSession(id);
 

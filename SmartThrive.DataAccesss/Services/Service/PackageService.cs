@@ -57,8 +57,8 @@ namespace SWD.DataAccesss.Services.Service
             var s = await _repository.GetAllPackagesByStudent(id);
             if (s != null)
             {
-                return _mapper.Map<IEnumerable<PackageModel>>(s);
-            }
+            return _mapper.Map<IEnumerable<PackageModel>>(s);
+        }
             return null;
         }
 
