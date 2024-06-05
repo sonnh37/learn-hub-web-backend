@@ -8,6 +8,7 @@ namespace SWD.DataAccesss.Model
 {
     public class SessionModel
     {
+        public Guid Id { get; set; }
         public Guid CourseId { get; set; }
         public string SessionName { get; set; }
         public string? Title { get; set; }

@@ -3,6 +3,7 @@ using SmartThrive.DataAccesss.Services.Interface;
 using ST.Entities.Data.Table;
 using SWD.DataAccesss.Model;
 using SWD.Entities.Repositories.Repositories.Interface;
+using SWD.Entities.Repositories.Repositories.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,19 @@ namespace SWD.DataAccesss.Services.Service
 
         public async Task<bool> DeleteOrder(Guid id)
         {
-            return await _repo.DeleteOrder(id);
+           var s = await _repo.GetOrder(id);
+            if (s!= null)
+            {
+                s.IsDeleted= true; 
+                var order = await _repo.UpdateOrder(s);
+                if (order)
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+           
         }
 
         public async Task<IEnumerable<OrderModel>> GetAllOrder()
@@ -41,11 +54,14 @@ namespace SWD.DataAccesss.Services.Service
 
         }
 
-        public async Task<IEnumerable<OrderModel>> GetAllOrdersByStudent(Guid id)
+        public async Task<IEnumerable<OrderByStudent>> GetAllOrdersByStudent(Guid id)
         {
             var s = await _repo.GetAllOrdersByStudent(id);
-
-            return _mapper.Map<IEnumerable<OrderModel>>(s);
+            if (s != null)
+            {
+                return s;
+            }
+            return null;
         }
 
         public async Task<OrderModel> GetOrder(Guid id)

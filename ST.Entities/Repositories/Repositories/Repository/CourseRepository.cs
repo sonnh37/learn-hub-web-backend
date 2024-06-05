@@ -50,9 +50,10 @@ namespace ST.Entities.Repositories.Repositories.Repository
             return course;
         }
 
-        public Task<IEnumerable<Course>> SearchCourse(string name)
+        public async Task<IEnumerable<Course>> SearchCourse(string name)
         {
-            throw new NotImplementedException();
+             var course = await context.Courses.Where(x => x.CourseName.StartsWith(name) || x.Id.Equals(name)).ToListAsync();
+            return course;
         }
 
         public async Task<bool> UpdateCourse(Course course)

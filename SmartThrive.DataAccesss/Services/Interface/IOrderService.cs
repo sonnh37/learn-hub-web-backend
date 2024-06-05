@@ -1,5 +1,6 @@
 ﻿using ST.Entities.Data.Table;
 using SWD.DataAccesss.Model;
+using SWD.Entities.Repositories.Repositories.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace SmartThrive.DataAccesss.Services.Interface
 
         public Task<OrderModel> GetOrder(Guid id);
 
-        public Task<IEnumerable<OrderModel>> GetAllOrdersByStudent(Guid id);
+        public Task<IEnumerable<OrderByStudent>> GetAllOrdersByStudent(Guid id);
 
         public Task<IEnumerable<OrderModel>> GetAllOrder();
 
