@@ -207,7 +207,7 @@ namespace SWD.SmartThrive.Repositories.Data
 
             modelBuilder.Entity<Session>(e =>
             {
-                e.ToTable("Sesion");
+                e.ToTable("Session");
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.SessionName);
