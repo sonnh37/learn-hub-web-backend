@@ -31,7 +31,18 @@ namespace SWD.DataAccesss.Services.Service
 
         public async Task<bool> DeletePackage(Guid id)
         {
-            return await _repository.DeletePackage(id);
+            var s = await _repository.GetPackage(id);
+            if (s != null)
+            {
+                s.IsDeleted = true;
+                var order = await _repository.UpdatePackage(s);
+                if (order)
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
         }
 
         public async Task<IEnumerable<PackageModel>> GetAllPackages()
@@ -42,8 +53,13 @@ namespace SWD.DataAccesss.Services.Service
 
         public async Task<IEnumerable<PackageModel>> GetAllPackagesByStudent(Guid id)
         {
+            
             var s = await _repository.GetAllPackagesByStudent(id);
+            if (s != null)
+            {
             return _mapper.Map<IEnumerable<PackageModel>>(s);
+        }
+            return null;
         }
 
         public async Task<PackageModel> GetPackage(Guid id)

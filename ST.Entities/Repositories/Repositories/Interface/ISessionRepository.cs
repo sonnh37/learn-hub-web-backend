@@ -18,6 +18,8 @@ namespace SWD.Entities.Repositories.Repositories.Interface
 
         public  Task<IEnumerable<Session>> GetAllSessions();
 
+        public Task<IEnumerable<Session>> GetAllSessionsByCouse(Guid CourseId);
+
 
     }
 }

@@ -41,6 +41,7 @@ namespace ST.Entities.Repositories.Repositories.Repository
                     select new OrderByStudent
                     {
                         Id = c.Id,
+                        PackageId = c.Id,
                         PackageName = t.PackageName,
                         PaymentMethod = c.PaymentMethod,
                         Amount = c.Amount,

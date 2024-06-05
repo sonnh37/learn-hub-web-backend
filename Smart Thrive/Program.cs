@@ -51,7 +51,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPackageService, PackageService>();
-
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 
 builder.Services.AddScoped(typeof(UserService));

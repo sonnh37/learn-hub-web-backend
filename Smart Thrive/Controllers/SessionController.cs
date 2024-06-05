@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Smart_Thrive.ResponseModel;
 using SmartThrive.DataAccesss.Model.RequestModel;
 using SmartThrive.DataAccesss.Services.Interface;
 using SWD.DataAccesss.Model;
@@ -22,7 +23,7 @@ namespace Smart_Thrive.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Add(SessionRequest session )
+        public async Task<IActionResult> Add(SessionRequest session)
         {
             try
             {
@@ -31,11 +32,13 @@ namespace Smart_Thrive.Controllers
                 if (s)
                 {
                     return Ok(s);
-                }else
+                }
+                else
                 {
                     return BadRequest("Hu r cuu t");
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -56,7 +59,8 @@ namespace Smart_Thrive.Controllers
                 {
                     return BadRequest("It'not exist");
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -87,7 +91,8 @@ namespace Smart_Thrive.Controllers
                 {
                     return BadRequest("It's not exist");
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -125,5 +130,37 @@ namespace Smart_Thrive.Controllers
             }
         }
 
+        [HttpGet("get-all-session-by-course")]
+        public async Task<IActionResult> GetAllSessionByCourse(Guid CourseId)
+        {
+            try
+            {
+
+
+                /// nho check xem id co trong database khong o student
+                if (CourseId == Guid.Empty)
+                {
+                    return BadRequest("CourseId is empty");
+                }
+                var s = await _sessionService.GetAllSessionByCourse(CourseId);
+                if (s == null)
+                {
+                    return BadRequest("Empty");
+                }
+                return Ok(new BaseReponse()
+                {
+                    Code = 200,
+                    Data = s,
+                    Message = "Succesfuly"
+
+                });
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }

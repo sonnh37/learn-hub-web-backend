@@ -31,7 +31,30 @@ namespace SWD.DataAccesss.Services.Service
 
         public async Task<bool> DeleteSession(Guid id)
         {
-            return await _repository.DeleteSession(id);
+
+            var s = await _repository.GetSession(id);
+            if (s != null)
+            {
+                s.IsDeleted = true;
+                var order = await _repository.UpdateSession(s);
+                if (order)
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        public async Task<IEnumerable<SessionModel>> GetAllSessionByCourse(Guid courseid)
+        {
+             var s = await _repository.GetAllSessionsByCouse(courseid);
+            if (s != null)
+            {
+                return _mapper.Map<IEnumerable<SessionModel>>(s);
+            }
+            return null;
+            
         }
 
         public async Task<IEnumerable<SessionModel>> GetAllSessions()

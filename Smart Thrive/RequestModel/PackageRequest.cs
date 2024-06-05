@@ -9,6 +9,7 @@ namespace SmartThrive.DataAccesss.Model.RequestModel
 {
     public  class PackageRequest
     {
+        public Guid Id { get; set; }
         public Guid? StudentId { get; set; }
 
         public string PackageName { get; set; }

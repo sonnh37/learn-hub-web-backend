@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Identity.Client;
 using ST.Entities.Data.Table;
 using SWD.DataAccesss.Model;
 using System;
@@ -17,6 +18,8 @@ namespace SmartThrive.DataAccesss.Services.Interface
         public Task<bool> DeleteSession(Guid id);
 
         public Task<SessionModel> GetSession(Guid id);
+
+        public Task<IEnumerable<SessionModel>> GetAllSessionByCourse(Guid courseid); 
 
         public Task<IEnumerable<SessionModel>> GetAllSessions();
 
