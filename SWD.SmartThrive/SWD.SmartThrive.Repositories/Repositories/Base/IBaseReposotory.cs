@@ -1,12 +1,32 @@
-﻿namespace SWD.SmartThrive.Repositories.Repositories.Base
+﻿using SWD.SmartThrive.Repositories.Data.Table;
+
+namespace SWD.SmartThrive.Repositories.Repositories.Base
 {
-    public interface IBaseRepository<TEntity> where TEntity : class
+    public interface IBaseRepository
     {
-        Task<IList<TEntity>> GetAll();
+    }
+    public interface IBaseRepository<TEntity> : IBaseRepository
+        where TEntity : BaseEntity
+    {
+        Task<bool> Check(Guid id);
+
+        IQueryable<TEntity> GetQueryable(CancellationToken cancellationToken = default);
+
+        Task<long> GetTotaCount();
+
+        Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default);
+
         Task<TEntity> GetById(Guid id);
-        Task<bool> Add(TEntity entity);
-        Task<bool> Delete(Guid id);
-        Task<bool> Update(TEntity entity);
+
+        Task<IList<TEntity>> GetByIds(IList<Guid> ids);
+
+        void Add(TEntity entity);
+        void AddRange(IEnumerable<TEntity> entities);
+        void Update(TEntity entity);
+        void UpdateRange(IEnumerable<TEntity> entities);
+        void Delete(TEntity entity);
+        void DeleteRange(IEnumerable<TEntity> entities);
+        void CheckCancellationToken(CancellationToken cancellationToken = default);
 
     }
 }

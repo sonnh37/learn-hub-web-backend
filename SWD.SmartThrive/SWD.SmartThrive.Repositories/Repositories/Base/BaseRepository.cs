@@ -1,90 +1,164 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SWD.SmartThrive.Repositories.Data;
+using SWD.SmartThrive.Repositories.Data.Table;
+using System.Linq.Expressions;
 
 namespace SWD.SmartThrive.Repositories.Repositories.Base
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly STDbContext _context;
+        private readonly DbContext _context;
+        protected readonly IMapper _mapper;
 
-        public BaseRepository(STDbContext context)
+        public BaseRepository(DbContext dbContext)
         {
-            _context = context;
-        }
-        public async Task<bool> Add(TEntity entity)
-        {
-            try
-            {
-                await _context.AddAsync(entity);
-                return await _context.SaveChangesAsync() > 0;
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
+            _context = dbContext;
         }
 
-        public async Task<bool> Delete(Guid id)
+        public BaseRepository(DbContext dbContext, IMapper mapper) : this(dbContext)
         {
-            try
-            {
-                var e = await GetById(id);
-                _context.Remove(e);
-                return await _context.SaveChangesAsync() > 0;
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
+            _mapper = mapper;
         }
 
-        public async Task<IList<TEntity>> GetAll()
+        #region DbSet
+        protected DbSet<TEntity> DbSet
         {
-            try
+            get
             {
-                return await _context.Set<TEntity>().ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null;
+                var dbSet = GetDbSet<TEntity>();
+                return dbSet;
             }
         }
-
-        public async Task<TEntity> GetById(Guid id)
+        
+        protected DbSet<T> GetDbSet<T>() where T : BaseEntity
         {
-            try
-            {
-                var e = await GetById(id);
-                return e;
+            var dbSet = _context.Set<T>();
+            return dbSet;
+        }
+        #endregion
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null;
-            }
+        #region GetQueryable(CancellationToken) + GetQueryable() + GetQueryable(Expression<Func<TEntity, bool>>)
+
+        public IQueryable<TEntity> GetQueryable(CancellationToken cancellationToken = default)
+        {
+            CheckCancellationToken(cancellationToken);
+            IQueryable<TEntity> queryable = GetQueryable<TEntity>();
+            return queryable;
         }
 
-        public async Task<bool> Update(TEntity entity)
+        public IQueryable<T> GetQueryable<T>()
+            where T : BaseEntity
         {
-            try
-            {
-                _context.Update(entity);
-                return await _context.SaveChangesAsync() > 0;
+            IQueryable<T> queryable = GetDbSet<T>(); // like DbSet in this
+            return queryable;
 
-            }
-            catch (Exception ex)
+        }
+
+        public IQueryable<TEntity> GetQueryable(Expression<Func<TEntity, bool>> predicate)
+        {
+            IQueryable<TEntity> queryable = GetQueryable<TEntity>();
+            if (predicate != null)
             {
-                Console.WriteLine(ex.Message);
-                return false;
+                queryable = queryable.Where(predicate);
             }
+            return queryable;
+        }
+
+        #endregion
+
+        #region Check(Guid) + CheckCancellationToken(CancellationToken)
+        public async Task<bool> Check(Guid id)
+        {
+            return await DbSet.AnyAsync(t => t.Id.Equals(id));
+        }
+
+        public virtual void CheckCancellationToken(CancellationToken cancellationToken = default)
+        {
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException("Request was cancelled");
+        }
+        #endregion
+
+        #region Add(TEntity) + AddRange(IEnumerable<TEntity>)
+        public void Add(TEntity entity)
+        {
+            DbSet.Add(entity);
+        }
+
+        public void AddRange(IEnumerable<TEntity> entities)
+        {
+            if (entities.Any())
+            {
+                DbSet.AddRange(entities);
+            }
+        }
+        #endregion
+
+        #region Update(TEntity) + UpdateRange(IEnumerable<TEntity>)
+        public void Update(TEntity entity)
+        {
+            DbSet.Update(entity);
+        }
+
+        public void UpdateRange(IEnumerable<TEntity> entities)
+        {
+            if (entities.Any())
+            {
+                DbSet.UpdateRange(entities);
+            }
+        }
+        #endregion
+
+        #region Delete(TEntity) + DeleteRange(IEnumerable<TEntity>)
+        public void Delete(TEntity entity)
+        {
+            entity.IsDeleted = true;
+            DbSet.Update(entity);
+        }
+
+        public void DeleteRange(IEnumerable<TEntity> entities)
+        {
+            entities.Where(e => e.IsDeleted == false ? e.IsDeleted = true : e.IsDeleted = false);
+            DbSet.UpdateRange(entities);
+        }
+        #endregion
+
+        #region GetAll(CancellationToken)
+        public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
+        {
+            var queryable = GetQueryable(cancellationToken);
+            var result = await queryable.Where(entity => !entity.IsDeleted).ToListAsync();
+            return result;
         }
 
 
+        #endregion
+
+        #region GetById(Guid) + GetByIds(IList<Guid>)
+        public virtual async Task<TEntity> GetById(Guid id)
+        {
+            var queryable = GetQueryable(x => x.Id == id);
+            var entity = await queryable.FirstOrDefaultAsync();
+
+            return entity;
+        }
+
+        public virtual async Task<IList<TEntity>> GetByIds(IList<Guid> ids)
+        {
+            var queryable = GetQueryable(x => ids.Contains(x.Id));
+            var entity = await queryable.ToListAsync();
+
+            return entity;
+        }
+        #endregion
+
+        #region GetTotalCount()
+        public async Task<long> GetTotaCount()
+        {
+            var result = await GetQueryable().LongCountAsync();
+            return result;
+        }
+        #endregion
     }
 }

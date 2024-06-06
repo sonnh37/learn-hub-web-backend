@@ -16,39 +16,72 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
         public async Task<bool> AddSession(Session session)
         {
-            var s = await Add(session);
-            return s;
+            var entity = await base.GetById(session.Id);
 
+            if (entity != null)
+            {
+                return false;
+            }
+
+            base.Add(session);
+            _context.SaveChanges();
+
+            return true;
         }
 
         public async Task<bool> DeleteSession(Guid id)
         {
-            var d = await Delete(id);
-            return d;
+            var entity = await base.GetById(id);
+
+            if (entity == null)
+            {
+                return false;
+            }
+            base.Delete(entity);
+            _context.SaveChanges();
+
+            return true;
         }
 
         public async Task<IEnumerable<Session>> GetAllSessions()
         {
-            var a = await GetAll();
-            return a;
+            var sessions = await base.GetAll();
+            return sessions;
         }
 
         public async Task<IEnumerable<Session>> GetAllSessionsByCouse(Guid CourseId)
         {
-            var session = await _context.Sessions.Where(x => x.CourseId == CourseId).ToListAsync();
-            return session;
+            var sessions = base.GetQueryable(x => x.CourseId == CourseId);
+
+            if (sessions.Any())
+            {
+                sessions = sessions.Where(x => !x.IsDeleted);
+            }
+
+            var results = await sessions.Include(x => x.Course).ToListAsync();
+
+            return results;
         }
 
         public async Task<Session> GetSession(Guid id)
         {
-            var g = await GetById(id);
-            return g;
+            var session = await base.GetById(id);
+            return session;
         }
 
         public async Task<bool> UpdateSession(Session session)
         {
-            var u = await Update(session);
-            return u;
+            var entity = await base.GetById(session.Id);
+
+            if (entity == null)
+            {
+                return false;
+            }
+
+            base.Update(entity);
+            _context.SaveChanges();
+
+            return true;
         }
     }
 }

@@ -5,6 +5,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
     public interface ISessionRepository
     {
         public Task<bool> AddSession(Session session);
+
         public Task<bool> UpdateSession(Session session);
 
         public Task<bool> DeleteSession(Guid id);
@@ -14,7 +15,5 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
         public Task<IEnumerable<Session>> GetAllSessions();
 
         public Task<IEnumerable<Session>> GetAllSessionsByCouse(Guid CourseId);
-
-
     }
 }
