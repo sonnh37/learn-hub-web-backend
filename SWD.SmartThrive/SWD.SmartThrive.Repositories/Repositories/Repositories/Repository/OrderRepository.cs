@@ -9,17 +9,26 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 {
     public class OrderRepository : BaseRepository<Order>, IOrderRepository
     {
-        private readonly STDbContext context;
+        private readonly STDbContext _context;
 
-        public OrderRepository(STDbContext context_) : base(context_)
+        public OrderRepository(STDbContext _context) : base(_context)
         {
-            context = context_;
+            _context = _context;
         }
 
         public async Task<bool> AddOrder(Order order)
         {
-            var s = await Add(order);
-            return s;
+            var entity = await base.GetById(order.Id);
+
+            if (entity != null)
+            {
+                return false;
+            }
+
+            base.Add(order);
+            _context.SaveChanges();
+
+            return true;
         }
         public async Task<IEnumerable<Order>> GetAllOrder()
         {
@@ -29,9 +38,9 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
         public async Task<IEnumerable<OrderByStudent>> GetAllOrdersByStudent(Guid id)
         {
-            var a = from c in context.Orders
-                    join t in context.Packages on c.PackageId equals t.Id
-                    join s in context.Students on t.StudentId equals s.Id
+            var a = from c in _context.Orders
+                    join t in _context.Packages on c.PackageId equals t.Id
+                    join s in _context.Students on t.StudentId equals s.Id
                     select new OrderByStudent
                     {
                         Id = c.Id,
@@ -53,14 +62,25 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
         public async Task<Order> GetOrder(Guid id)
         {
-            var g = await GetById(id);
-            return g;
+            var order = await GetById(id);
+
+            return order;
         }
 
         public async Task<bool> UpdateOrder(Order order)
         {
-            var u = await Update(order);
-            return u;
+            // Update
+            var entity = await base.GetById(order.Id);
+
+            if (entity == null)
+            {
+                return false;
+            }
+
+            base.Update(entity);
+            _context.SaveChanges();
+
+            return true;
         }
     }
 }

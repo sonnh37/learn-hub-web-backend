@@ -6,8 +6,8 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
     public interface IOrderRepository
     {
         public Task<bool> AddOrder(Order order);
-        public Task<bool> UpdateOrder(Order order);
 
+        public Task<bool> UpdateOrder(Order order);
 
         public Task<Order> GetOrder(Guid id);
 

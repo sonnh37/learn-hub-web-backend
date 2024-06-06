@@ -4,12 +4,8 @@ using SWD.SmartThrive.Repositories.Data.Table;
 
 namespace SWD.SmartThrive.Repositories.Data
 {
-    public class STDbContext : DbContext
+    public class STDbContext : BaseDbContext
     {
-        public STDbContext()
-        {
-        }
-
         public STDbContext(DbContextOptions<STDbContext> options) : base(options)
         {
         }
