@@ -42,8 +42,8 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
                         TotalPrice = c.TotalPrice,
                         Description = c.Description,
                         Status = c.Status,
-                        CreateBy = c.CreateBy,
-                        CreateDate = c.CreateDate,
+                        CreateBy = c.CreatedBy,
+                        CreateDate = c.CreatedDate,
                         LastUpdatedDate = c.LastUpdatedDate,
                         LastUpdatedBy = c.LastUpdatedBy,
                         IsDeleted = c.IsDeleted

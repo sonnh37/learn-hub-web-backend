@@ -8,13 +8,13 @@ namespace SWD.SmartThrive.Repositories.Data
     {
         public STDbContext()
         {
-
         }
+
         public STDbContext(DbContextOptions<STDbContext> options) : base(options)
         {
-
-
         }
+
+        #region Config 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -32,6 +32,8 @@ namespace SWD.SmartThrive.Repositories.Data
 
             return strConn;
         }
+        #endregion
+
         #region Dbset
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Location> Locations { get; set; } = null!;
@@ -48,6 +50,7 @@ namespace SWD.SmartThrive.Repositories.Data
         public virtual DbSet<CourseXPackage> CourseXPackages { get; set; } = null!;
 
         #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(e =>
@@ -108,7 +111,7 @@ namespace SWD.SmartThrive.Repositories.Data
                 e.Property(x => x.City);
                 e.Property(x => x.District);
                 e.Property(x => x.Ward);
-                e.Property(x => x.isDeleted);
+                e.Property(x => x.IsDeleted);
             });
 
             modelBuilder.Entity<Student>(e =>
@@ -117,8 +120,8 @@ namespace SWD.SmartThrive.Repositories.Data
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.StudentName);
-                e.Property(x => x.CreateBy);
-                e.Property(x => x.CreateDate);
+                e.Property(x => x.CreatedBy);
+                e.Property(x => x.CreatedDate);
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);
                 e.Property(x => x.Gender);
@@ -137,9 +140,9 @@ namespace SWD.SmartThrive.Repositories.Data
                 e.ToTable("Category");
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-                e.Property(x => x.CategorytName);
-                e.Property(x => x.CreateBy);
-                e.Property(x => x.CreateDate);
+                e.Property(x => x.CategoryName);
+                e.Property(x => x.CreatedBy);
+                e.Property(x => x.CreatedDate);
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);
                 e.Property(x => x.IsDeleted);
@@ -151,8 +154,8 @@ namespace SWD.SmartThrive.Repositories.Data
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.SubjectName);
-                e.Property(x => x.CreateBy);
-                e.Property(x => x.CreateDate);
+                e.Property(x => x.CreatedBy);
+                e.Property(x => x.CreatedDate);
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);
                 e.Property(x => x.IsDeleted);
@@ -171,11 +174,11 @@ namespace SWD.SmartThrive.Repositories.Data
                 e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.Code);
                 e.Property(x => x.CourseName);
-                e.Property(x => x.CreateDate);
+                e.Property(x => x.CreatedDate);
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);
                 e.Property(x => x.IsDeleted);
-                e.Property(x => x.CreateBy);
+                e.Property(x => x.CreatedBy);
                 e.Property(x => x.Sold_product);
                 e.Property(x => x.Description);
                 e.Property(x => x.Price).HasColumnType("decimal(18,2)");
@@ -212,8 +215,8 @@ namespace SWD.SmartThrive.Repositories.Data
                 e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.SessionName);
                 e.Property(x => x.LearnDate);
-                e.Property(x => x.CreateBy);
-                e.Property(x => x.CreateDate);
+                e.Property(x => x.CreatedBy);
+                e.Property(x => x.CreatedDate);
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);
                 e.Property(x => x.IsDeleted);
@@ -233,7 +236,7 @@ namespace SWD.SmartThrive.Repositories.Data
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
                 e.Property(x => x.PackageName);
-                e.Property(x => x.CreateDate);
+                e.Property(x => x.CreatedDate);
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);
                 e.Property(x => x.IsDeleted);
@@ -242,7 +245,7 @@ namespace SWD.SmartThrive.Repositories.Data
                 e.Property(x => x.QuantityCourse);
                 e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)");
                 e.Property(x => x.IsActive);
-                e.Property(x => x.CreateBy);
+                e.Property(x => x.CreatedBy);
 
 
 
@@ -276,13 +279,13 @@ namespace SWD.SmartThrive.Repositories.Data
                 e.ToTable("Order");
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-                e.Property(x => x.CreateDate);
+                e.Property(x => x.CreatedDate);
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);
                 e.Property(x => x.Amount);
                 e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)"); ;
                 e.Property(x => x.PaymentMethod);
-                e.Property(x => x.CreateBy);
+                e.Property(x => x.CreatedBy);
                 e.Property(x => x.Description);
                 e.Property(x => x.Status);
                 e.Property(x => x.IsDeleted);

@@ -3,12 +3,14 @@
 namespace SWD.SmartThrive.Repositories.Data.Table
 {
     [Table("CourseXPackage")]
-    public class CourseXPackage
+    public class CourseXPackage : BaseEntity
     {
         public Guid CourseId { get; set; }
-        public Course? Course { get; set; }
 
         public Guid PackageId { get; set; }
-        public Package? Package { get; set; }
+
+        public virtual Course? Course { get; set; }
+
+        public virtual Package? Package { get; set; }
     }
 }

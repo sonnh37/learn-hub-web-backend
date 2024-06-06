@@ -4,22 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SWD.SmartThrive.Repositories.Data.Table
 {
     [Table("Subject")]
-    public class Subject
+    public class Subject : BaseEntity
     {
-        [Key]
-        public Guid Id { get; set; }
-
         public string SubjectName { get; set; }
-        public Guid? CategoryID { get; set; }
-        public string? CreateBy { get; set; }
 
-        public DateTime? CreateDate { get; set; }
-        [Required]
-        public DateTime? LastUpdatedDate { get; set; }
-        public string? LastUpdatedBy { get; set; }
-        public bool IsDeleted { get; set; }
+        public Guid? CategoryID { get; set; }
 
         public virtual Category? Category { get; set; }
+
         public virtual ICollection<Course>? Courses { get; set; }
     }
 }
