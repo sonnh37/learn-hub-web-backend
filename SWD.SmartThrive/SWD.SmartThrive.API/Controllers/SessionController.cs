@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.API.ResponseModel;
-using SWD.SmartThrive.API.RequestModel;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Model;
+using SWD.SmartThrive.API.RequestModel;
 
 namespace Smart_Thrive.Controllers
 {
