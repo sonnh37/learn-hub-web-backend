@@ -17,78 +17,143 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
         public async Task<bool> AddCourse(Course course)
         {
-            var entity = await base.GetById(course.Id);
+            var queryable = await base.GetById(course.Id);
 
-            if (entity != null)
+            if (!queryable.Any())
             {
-                return false;
+                base.Add(course);
+                _context.SaveChanges();
+                return true;
             }
 
-            base.Add(course);
-            _context.SaveChanges();
-
-            return true;
+            return false;
         }
 
         public async Task<bool> DeleteCourse(Guid id)
         {
-            var entity = await base.GetById(id);
+            var queryable = await base.GetById(id);
 
-            if (entity == null)
+            if (queryable.Any())
             {
-                return false;
-            }
-            base.Delete(entity);
-            _context.SaveChanges();
-
-            return true;
-        }
-
-        public async Task<IEnumerable<Course>> GetAllCourse()
-        {
-            var courses = await base.GetAll();
-            return courses;
-        }
-
-        public async Task<IEnumerable<Course>> GetAllCoursesByProvider(Guid id)
-        {
-            var courses = base.GetQueryable(x => x.ProviderId == id);
-
-            if (courses.Any())
-            {
-                courses = courses.Where(x => !x.IsDeleted);
+                queryable = queryable.Where(x => !x.IsDeleted);
             }
 
-            var results = await courses.Include(x => x.Provider).ToListAsync();
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
+                if (entity != null)
+                {
+                    base.Delete(entity);
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
 
-            return results;
+            return false;
+        }
+
+        public async Task<List<Course>> GetAllCourse()
+        {
+            var queryable = await GetAll();
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var results = await queryable.ToListAsync();
+
+                return results;
+            }
+
+            return null;
+        }
+
+        public async Task<List<Course>> GetAllCourseByProvider(Guid id)
+        {
+            var queryable = base.GetQueryable(x => x.ProviderId == id);
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var results = await queryable.Include(x => x.Provider).ToListAsync();
+
+                return results;
+            }
+
+            return null;
         }
 
         public async Task<Course> GetCourse(Guid id)
         {
-            var course = await base.GetById(id);
-            return course;
-        }
+            var queryable = await base.GetById(id);
 
-        public async Task<IEnumerable<Course>> SearchCourse(string name)
-        {
-            var course = await _context.Courses.Where(x => x.CourseName.StartsWith(name) || x.Id.Equals(name)).ToListAsync();
-            return course;
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
+
+                return entity;
+            }
+
+            return null;
         }
 
         public async Task<bool> UpdateCourse(Course course)
         {
-            var entity = await base.GetById(course.Id);
+            var queryable = await base.GetById(course.Id);
 
-            if (entity == null)
+            if (queryable.Any())
             {
-                return false;
+                queryable = queryable.Where(x => !x.IsDeleted);
             }
 
-            base.Update(entity);
-            _context.SaveChanges();
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
 
-            return true;
+                if (entity != null)
+                {
+                    _mapper.Map(course, entity);
+                    base.Update(entity);
+
+                    _context.SaveChanges();
+
+                    return true;
+                }
+            }
+
+            return false;
         }
+
+        public async Task<List<Course>> SearchCourse(string name)
+        {
+            var queryable = base.GetQueryable(x => x.CourseName.StartsWith(name) || x.Id.Equals(name));
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var results = await queryable.Include(x => x.Provider).ToListAsync();
+
+                return results;
+            }
+
+            return null;
+        }
+
     }
 }

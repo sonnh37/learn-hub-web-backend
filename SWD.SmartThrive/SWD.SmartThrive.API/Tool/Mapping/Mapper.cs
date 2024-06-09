@@ -9,7 +9,14 @@ namespace SWD.SmartThrive.API.Tool.Mapping
     {
         public Mapper()
         {
-
+            CategoryMapping();
+            CourseMapping();
+            OrderMapping();
+            PackageMapping();
+            ProviderMapping();
+            SessionMapping();
+            StudentMapping();
+            UserMapping();
         }
     }
 }

@@ -50,7 +50,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         public IQueryable<T> GetQueryable<T>()
             where T : BaseEntity
         {
-            IQueryable<T> queryable = GetDbSet<T>(); // like DbSet in this
+            IQueryable<T> queryable = GetDbSet<T>();
             return queryable;
 
         }
@@ -67,11 +67,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
 
         #endregion
 
-        #region Check(Guid) + CheckCancellationToken(CancellationToken)
-        public async Task<bool> Check(Guid id)
-        {
-            return await DbSet.AnyAsync(t => t.Id.Equals(id));
-        }
+        #region CheckCancellationToken(CancellationToken)
 
         public virtual void CheckCancellationToken(CancellationToken cancellationToken = default)
         {
@@ -80,13 +76,13 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         }
         #endregion
 
-        #region Add(TEntity) + AddRange(IEnumerable<TEntity>)
+        #region Add(TEntity) + AddRange(List<TEntity>)
         public void Add(TEntity entity)
         {
             DbSet.Add(entity);
         }
 
-        public void AddRange(IEnumerable<TEntity> entities)
+        public void AddRange(List<TEntity> entities)
         {
             if (entities.Any())
             {
@@ -95,13 +91,13 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         }
         #endregion
 
-        #region Update(TEntity) + UpdateRange(IEnumerable<TEntity>)
+        #region Update(TEntity) + UpdateRange(List<TEntity>)
         public void Update(TEntity entity)
         {
             DbSet.Update(entity);
         }
 
-        public void UpdateRange(IEnumerable<TEntity> entities)
+        public void UpdateRange(List<TEntity> entities)
         {
             if (entities.Any())
             {
@@ -110,14 +106,14 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         }
         #endregion
 
-        #region Delete(TEntity) + DeleteRange(IEnumerable<TEntity>)
+        #region Delete(TEntity) + DeleteRange(List<TEntity>)
         public void Delete(TEntity entity)
         {
             entity.IsDeleted = true;
             DbSet.Update(entity);
         }
 
-        public void DeleteRange(IEnumerable<TEntity> entities)
+        public void DeleteRange(List<TEntity> entities)
         {
             entities.Where(e => e.IsDeleted == false ? e.IsDeleted = true : e.IsDeleted = false);
             DbSet.UpdateRange(entities);
@@ -125,31 +121,28 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         #endregion
 
         #region GetAll(CancellationToken)
-        public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<IQueryable<TEntity>> GetAll(CancellationToken cancellationToken = default)
         {
             var queryable = GetQueryable(cancellationToken);
-            var result = await queryable.Where(entity => !entity.IsDeleted).ToListAsync();
-            return result;
+            return queryable;
         }
 
 
         #endregion
 
-        #region GetById(Guid) + GetByIds(IList<Guid>)
-        public virtual async Task<TEntity> GetById(Guid id)
+        #region GetById(Guid) + GetByIds(List<Guid>)
+        public virtual async Task<IQueryable<TEntity>> GetById(Guid id)
         {
             var queryable = GetQueryable(x => x.Id == id);
-            var entity = await queryable.FirstOrDefaultAsync();
 
-            return entity;
+            return queryable;
         }
 
-        public virtual async Task<IList<TEntity>> GetByIds(IList<Guid> ids)
+        public virtual async Task<IQueryable<TEntity>> GetAllById(List<Guid> id)
         {
-            var queryable = GetQueryable(x => ids.Contains(x.Id));
-            var entity = await queryable.ToListAsync();
+            var queryable = GetQueryable(x => id.Contains(x.Id));
 
-            return entity;
+            return queryable;
         }
         #endregion
 

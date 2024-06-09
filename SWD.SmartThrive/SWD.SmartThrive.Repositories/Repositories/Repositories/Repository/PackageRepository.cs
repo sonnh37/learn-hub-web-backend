@@ -3,6 +3,7 @@ using SWD.SmartThrive.Repositories.Data;
 using SWD.SmartThrive.Repositories.Data.Table;
 using SWD.SmartThrive.Repositories.Repositories.Base;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
+using System.Linq;
 
 namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 {
@@ -19,72 +20,123 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
         public async Task<bool> AddPackage(Package package)
         {
-            var entity = await base.GetById(package.Id);
+            var queryable = await base.GetById(package.Id);
 
-            if (entity != null)
+            if (!queryable.Any())
             {
-                return false;
+                base.Add(package);
+                _context.SaveChanges();
+                return true;
             }
 
-            base.Add(package);
-            _context.SaveChanges();
-
-            return true;
+            return false;
         }
 
         public async Task<bool> DeletePackage(Guid id)
         {
-            var entity = await base.GetById(id);
+            var queryable = await base.GetById(id);
 
-            if (entity == null)
+            if (queryable.Any())
             {
-                return false;
+                queryable = queryable.Where(x => !x.IsDeleted);
             }
-            base.Delete(entity);
-            _context.SaveChanges();
 
-            return true;
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
+                if (entity != null)
+                {
+                    base.Delete(entity);
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
+
+            return false;
         }
 
-        public async Task<IEnumerable<Package>> GetAllPackages()
+        public async Task<List<Package>> GetAllPackage()
         {
-            var packages = await GetAll();
-            return packages;
+            var queryable = await GetAll();
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var results = await queryable.ToListAsync();
+
+                return results;
+            }
+
+            return null;
         }
 
-        public async Task<IEnumerable<Package>> GetAllPackagesByStudent(Guid id)
+        public async Task<List<Package>> GetAllPackageByStudent(Guid id)
         {
-            var packages = base.GetQueryable(x => x.StudentId == id);
-            Console.WriteLine(packages.ToList().Count);
-            if (packages.Any())
-            {
-                packages = packages.Where(x => !x.IsDeleted);
-            }
-            Console.WriteLine(packages.ToList().Count);
-            var results = await packages.Include(x => x.Student).ToListAsync();
+            var queryable = base.GetQueryable(x => x.StudentId == id);
 
-            return results;
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var results = await queryable.Include(x => x.Student).ToListAsync();
+
+                return results;
+            }
+
+            return null;
         }
 
         public async Task<Package> GetPackage(Guid id)
         {
-            var g = await GetById(id);  
-            return g;
+            var queryable = await base.GetById(id);
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
+
+                return entity;
+            }
+
+            return null;
         }
 
         public async Task<bool> UpdatePackage(Package package)
         {
-            var entity = await base.GetById(package.Id);
+            var queryable = await base.GetById(package.Id);
 
-            if (entity == null)
+            if (queryable.Any())
             {
-                return false;
+                queryable = queryable.Where(x => !x.IsDeleted);
             }
 
-            base.Update(entity);
-            _context.SaveChanges();
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
 
-            return true;
+                if (entity != null)
+                {
+                    _mapper.Map(package, entity);
+                    base.Update(entity);
+
+                    _context.SaveChanges();
+
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

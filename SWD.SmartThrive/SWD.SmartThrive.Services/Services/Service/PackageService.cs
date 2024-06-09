@@ -18,54 +18,69 @@ namespace SWD.SmartThrive.Services.Services.Service
 
         }
 
-        public async Task<bool> AddPackage(PackageModel package)
+        public async Task<bool> AddPackage(PackageModel packageModel)
         {
-            var s = _mapper.Map<Package>(package);
-            return await _repository.AddPackage(s);
+            var package = _mapper.Map<Package>(packageModel);
+            return await _repository.AddPackage(package);
+        }
+
+        public async Task<bool> UpdatePackage(PackageModel packageModel)
+        {
+            var package = _mapper.Map<Package>(packageModel);
+            return await _repository.UpdatePackage(package);
         }
 
         public async Task<bool> DeletePackage(Guid id)
         {
-            var s = await _repository.GetPackage(id);
-            if (s != null)
+            var package = await _repository.GetPackage(id);
+            if (package != null)
             {
-                s.IsDeleted = true;
-                var order = await _repository.UpdatePackage(s);
-                if (order)
+                package.IsDeleted = true;
+                var isPackage = await _repository.UpdatePackage(package);
+
+                if (isPackage)
                 {
                     return true;
                 }
-                return false;
             }
             return false;
         }
 
-        public async Task<IEnumerable<PackageModel>> GetAllPackages()
+        public async Task<List<PackageModel>> GetAllPackage()
         {
-            var s = await _repository.GetAllPackages();
-            return _mapper.Map<IEnumerable<PackageModel>>(s);
+            var packages = await _repository.GetAllPackage();
+
+            if (packages == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<PackageModel>>(packages);
         }
 
-        public async Task<IEnumerable<PackageModel>> GetAllPackagesByStudent(Guid id)
+        public async Task<List<PackageModel>> GetAllPackageByStudent(Guid id)
         {
+            
+            var packages = await _repository.GetAllPackageByStudent(id);
 
-            var s = await _repository.GetAllPackagesByStudent(id);
-            if (s != null)
+            if (packages == null)
             {
-                return _mapper.Map<IEnumerable<PackageModel>>(s);
+                return null;
             }
-            return null;
+
+            return _mapper.Map<List<PackageModel>>(packages);
         }
 
         public async Task<PackageModel> GetPackage(Guid id)
         {
-            return _mapper.Map<PackageModel>(await _repository.GetPackage(id));
-        }
+            var package = await _repository.GetPackage(id);
 
-        public async Task<bool> UpdatePackage(PackageModel package)
-        {
-            var s = _mapper.Map<Package>(package);
-            return await _repository.UpdatePackage(s);
+            if (package == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<PackageModel>(package);
         }
     }
 }

@@ -16,72 +16,123 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
         public async Task<bool> AddSession(Session session)
         {
-            var entity = await base.GetById(session.Id);
+            var queryable = await base.GetById(session.Id);
 
-            if (entity != null)
+            if (!queryable.Any())
             {
-                return false;
+                base.Add(session);
+                _context.SaveChanges();
+                return true;
             }
 
-            base.Add(session);
-            _context.SaveChanges();
-
-            return true;
+            return false;
         }
 
         public async Task<bool> DeleteSession(Guid id)
         {
-            var entity = await base.GetById(id);
+            var queryable = await base.GetById(id);
 
-            if (entity == null)
+            if (queryable.Any())
             {
-                return false;
-            }
-            base.Delete(entity);
-            _context.SaveChanges();
-
-            return true;
-        }
-
-        public async Task<IEnumerable<Session>> GetAllSessions()
-        {
-            var sessions = await base.GetAll();
-            return sessions;
-        }
-
-        public async Task<IEnumerable<Session>> GetAllSessionsByCouse(Guid CourseId)
-        {
-            var sessions = base.GetQueryable(x => x.CourseId == CourseId);
-
-            if (sessions.Any())
-            {
-                sessions = sessions.Where(x => !x.IsDeleted);
+                queryable = queryable.Where(x => !x.IsDeleted);
             }
 
-            var results = await sessions.Include(x => x.Course).ToListAsync();
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
+                if (entity != null)
+                {
+                    base.Delete(entity);
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
 
-            return results;
+            return false;
+        }
+
+        public async Task<List<Session>> GetAllSession()
+        {
+            var queryable = await GetAll();
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var results = await queryable.ToListAsync();
+
+                return results;
+            }
+
+            return null;
+        }
+
+        public async Task<List<Session>> GetAllSessionByCouse(Guid id)
+        {
+            var queryable = base.GetQueryable(x => x.CourseId == id);
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var results = await queryable.Include(x => x.Course).ToListAsync();
+
+                return results;
+            }
+
+            return null;
         }
 
         public async Task<Session> GetSession(Guid id)
         {
-            var session = await base.GetById(id);
-            return session;
+            var queryable = await base.GetById(id);
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
+
+                return entity;
+            }
+
+            return null;
         }
 
         public async Task<bool> UpdateSession(Session session)
         {
-            var entity = await base.GetById(session.Id);
+            var queryable = await base.GetById(session.Id);
 
-            if (entity == null)
+            if (queryable.Any())
             {
-                return false;
+                queryable = queryable.Where(x => !x.IsDeleted);
             }
 
-            base.Update(entity);
-            _context.SaveChanges();
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
 
-            return true;
+                if (entity != null)
+                {
+                    _mapper.Map(session, entity);
+                    base.Update(entity);
+
+                    _context.SaveChanges();
+
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

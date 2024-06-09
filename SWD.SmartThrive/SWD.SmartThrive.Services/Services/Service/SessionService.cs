@@ -17,56 +17,69 @@ namespace SWD.SmartThrive.Services.Services.Service
             _mapper = mapper;
 
         }
-        public async Task<bool> AddSession(SessionModel session)
+        public async Task<bool> AddSession(SessionModel sessionModel)
         {
-            var s = _mapper.Map<Session>(session);
-            return await _repository.AddSession(s);
+            var session = _mapper.Map<Session>(sessionModel);
+            return await _repository.AddSession(session);
+        }
+
+        public async Task<bool> UpdateSession(SessionModel sessionModel)
+        {
+            var session = _mapper.Map<Session>(sessionModel);
+            return await _repository.UpdateSession(session);
         }
 
         public async Task<bool> DeleteSession(Guid id)
         {
-
-            var s = await _repository.GetSession(id);
-            if (s != null)
+            var session = await _repository.GetSession(id);
+            if (session != null)
             {
-                s.IsDeleted = true;
-                var order = await _repository.UpdateSession(s);
-                if (order)
+                session.IsDeleted = true;
+                var isSession = await _repository.UpdateSession(session);
+
+                if (isSession)
                 {
                     return true;
                 }
-                return false;
             }
             return false;
         }
 
-        public async Task<IEnumerable<SessionModel>> GetAllSessionByCourse(Guid courseid)
+        public async Task<List<SessionModel>> GetAllSession()
         {
-            var s = await _repository.GetAllSessionsByCouse(courseid);
-            if (s != null)
-            {
-                return _mapper.Map<IEnumerable<SessionModel>>(s);
-            }
-            return null;
+            var sessions = await _repository.GetAllSession();
 
+            if (sessions == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<SessionModel>>(sessions);
         }
 
-        public async Task<IEnumerable<SessionModel>> GetAllSessions()
+        public async Task<List<SessionModel>> GetAllSessionByCourse(Guid id)
         {
-            var s = await _repository.GetAllSessions();
-            return _mapper.Map<List<SessionModel>>(s);
+
+            var sessions = await _repository.GetAllSessionByCouse(id);
+
+            if (sessions == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<SessionModel>>(sessions);
         }
 
         public async Task<SessionModel> GetSession(Guid id)
         {
-            var s = await _repository.GetSession(id);
-            return _mapper.Map<SessionModel>(s);
-        }
+            var session = await _repository.GetSession(id);
 
-        public async Task<bool> UpdateSession(SessionModel session)
-        {
-            var s = _mapper.Map<Session>(session);
-            return await _repository.UpdateSession(s);
+            if (session == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<SessionModel>(session);
         }
     }
 }

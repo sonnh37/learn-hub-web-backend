@@ -17,9 +17,9 @@ namespace SWD.SmartThrive.API.RequestModel
         public string? Code { get; set; }
 
         public string? CourseName { get; set; }
-        public string? CreateBy { get; set; }
+        public string? CreatedBy { get; set; }
 
-        public DateTime? CreateDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         [Required]
         public DateTime? LastUpdatedDate { get; set; }
         public string? LastUpdatedBy { get; set; }

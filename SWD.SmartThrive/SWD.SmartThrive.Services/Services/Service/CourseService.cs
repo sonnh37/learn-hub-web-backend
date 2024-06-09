@@ -16,57 +16,83 @@ namespace SWD.SmartThrive.Services.Services.Service
             _repository = repository;
             _mapper = mapper;
         }
-        public async Task<bool> AddCourse(CourseModel course)
+
+        public async Task<bool> AddCourse(CourseModel courseModel)
         {
-            return await _repository.AddCourse(_mapper.Map<Course>(course));
+            var course = _mapper.Map<Course>(courseModel);
+            return await _repository.AddCourse(course);
+        }
+
+        public async Task<bool> UpdateCourse(CourseModel courseModel)
+        {
+            var course = _mapper.Map<Course>(courseModel);
+            return await _repository.UpdateCourse(course);
         }
 
         public async Task<bool> DeleteCourse(Guid id)
         {
-            var s = await _repository.GetCourse(id);
-            if (s != null)
+            var course = await _repository.GetCourse(id);
+            if (course != null)
             {
-                s.IsDeleted = true;
-                var order = await _repository.UpdateCourse(s);
-                if (order)
+                course.IsDeleted = true;
+                var isCourse = await _repository.UpdateCourse(course);
+
+                if (isCourse)
                 {
                     return true;
                 }
-                return false;
             }
             return false;
         }
 
-        public Task<IEnumerable<CourseModel>> GetAllCourse()
+        public async Task<List<CourseModel>> GetAllCourse()
         {
-            throw new NotImplementedException();
+            var courses = await _repository.GetAllCourse();
+
+            if (courses == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<CourseModel>>(courses);
         }
 
-        public async Task<IEnumerable<CourseModel>> GetAllCoursesByProvider(Guid id)
+        public async Task<List<CourseModel>> GetAllCourseByProvider(Guid id)
         {
-            // kiem tra id provider 
 
-            var s = await _repository.GetAllCoursesByProvider(id);
-            return _mapper.Map<IEnumerable<CourseModel>>(s);
+            var courses = await _repository.GetAllCourseByProvider(id);
+
+            if (courses == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<CourseModel>>(courses);
         }
 
         public async Task<CourseModel> GetCourse(Guid id)
         {
-            return _mapper.Map<CourseModel>(await _repository.GetCourse(id));
+            var course = await _repository.GetCourse(id);
+
+            if (course == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<CourseModel>(course);
         }
 
-        public async Task<IEnumerable<CourseModel>> SearchCourse(string name)
+        public async Task<List<CourseModel>> SearchCourse(string name)
         {
-            var s = await _repository.SearchCourse(name);
-            return _mapper.Map<IEnumerable<CourseModel>>(s);
+            var courses = await _repository.SearchCourse(name);
+
+            if (courses == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<CourseModel>>(courses);
         }
-
-        public async Task<bool> UpdateCourse(CourseModel course)
-        {
-
-            return await _repository.UpdateCourse(_mapper.Map<Course>(course));
-
-
-        }
+        
     }
 }

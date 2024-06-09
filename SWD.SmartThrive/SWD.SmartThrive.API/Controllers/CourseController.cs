@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using SWD.SmartThrive.API.ResponseModel;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.API.RequestModel;
+using SWD.SmartThrive.API.Tool.Response;
+using SWD.SmartThrive.API.Tool.Constant;
 
-namespace Smart_Thrive.Controllers
+namespace SWD.SmartThrive.API.Controllers
 {
     [Route("api/controller")]
     [ApiController]
@@ -19,6 +20,7 @@ namespace Smart_Thrive.Controllers
             _service = service;
             _mapper = mapper;
         }
+
         [HttpGet("get-course")]
         public async Task<IActionResult> GetCourse(Guid id)
         {
@@ -28,13 +30,18 @@ namespace Smart_Thrive.Controllers
                 {
                     return BadRequest("Id is empty");
                 }
-                var s = await _service.GetCourse(id);
-                if (s == null)
-                {
-                    return NotFound();
-                }
-                return Ok(s);
+                var courseModel = await _service.GetCourse(id);
 
+                return courseModel switch
+                {
+                    not null => Ok(AppResponse.GetResponseResult<CourseModel>(
+                        courseModel,
+                        ConstantMessage.NotFound,
+                        ConstantHttpStatus.NOT_FOUND)),
+                    null => Ok(AppResponse.GetResponseResult<CourseModel>(
+                        courseModel,
+                        ConstantMessage.Success))
+                };
             }
             catch (Exception ex)
             {
@@ -48,19 +55,13 @@ namespace Smart_Thrive.Controllers
         {
             try
             {
-                var s = await _service.AddCourse(_mapper.Map<CourseModel>(course));
-                if (s)
+                var isCourse = await _service.AddCourse(_mapper.Map<CourseModel>(course));
+
+                return isCourse switch
                 {
-                    return Ok(new BaseReponse()
-                    {
-                        Code = 200,
-                        Data = s,
-                        Message = "Succesfuly"
-
-                    });
-                }
-                return BadRequest(s);
-
+                    true => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Success)),
+                    _ => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Fail))
+                };
             }
             catch (Exception ex)
             {
@@ -75,15 +76,13 @@ namespace Smart_Thrive.Controllers
             {
                 if (id != Guid.Empty)
                 {
-                    var sss = await _service.DeleteCourse(id);
-                    if (sss)
+                    var isCourse = await _service.DeleteCourse(id);
+
+                    return isCourse switch
                     {
-                        return Ok("Succesfuly");
-                    }
-                    else
-                    {
-                        return BadRequest("Id is not exist or wrong");
-                    }
+                        true => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Success)),
+                        _ => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Fail))
+                    };
                 }
                 else
                 {
@@ -101,33 +100,15 @@ namespace Smart_Thrive.Controllers
         {
             try
             {
-                var s = _mapper.Map<CourseModel>(course);
+                var courseModel = _mapper.Map<CourseModel>(course);
 
+                var isCourse = await _service.UpdateCourse(courseModel);
 
-                //      var exist = _service.GetOrder(order.Id);
-
-                //      if (exist != null)
-                //      {
-                var sss = await _service.UpdateCourse(s);
-                if (sss)
+                return isCourse switch
                 {
-                    return Ok(new BaseReponse()
-                    {
-                        Code = 200,
-                        Data = sss,
-                        Message = "Succesfuly"
-
-                    });
-                }
-                else
-                {
-                    return BadRequest("Faild");
-                }
-                //         }
-                //         else
-                //        {
-                //return BadRequest("It's not exist");
-                //        }
+                    true => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Success)),
+                    _ => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Fail))
+                };
             }
             catch (Exception ex)
             {
@@ -135,38 +116,30 @@ namespace Smart_Thrive.Controllers
             }
         }
 
-        [HttpGet("get-all-course-by-provider")]
-        public async Task<IActionResult> GetAllPackageByStudent(Guid provideId)
+        [HttpGet("get-all-course-by-student")]
+        public async Task<IActionResult> GetAllPackageByStudent(Guid studentid)
         {
             try
             {
-
-
-                /// nho check xem id co trong database khong o student
-                if (provideId == Guid.Empty)
+                if (studentid == Guid.Empty)
                 {
                     return BadRequest("StudentId is empty");
                 }
-                var s = await _service.GetAllCoursesByProvider(provideId);
-                if (s == null)
-                {
-                    return BadRequest("Empty");
-                }
-                return Ok(new BaseReponse()
-                {
-                    Code = 200,
-                    Data = s,
-                    Message = "Succesfuly"
 
-                });
+                var courseModels = await _service.GetAllCourseByProvider(studentid);
+
+                return courseModels switch
+                {
+                    not null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.Success)),
+                    null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                };
+
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
             }
-
-
         }
 
         [HttpGet("search-course-by-id-or-name")]
@@ -174,35 +147,24 @@ namespace Smart_Thrive.Controllers
         {
             try
             {
-
-
-                /// nho check xem id co trong database khong o student
                 if (string.IsNullOrEmpty(course))
                 {
                     return BadRequest("StudentId is empty");
                 }
-                var s = await _service.SearchCourse(course);
-                if (s == null)
-                {
-                    return BadRequest("Empty");
-                }
-                return Ok(new BaseReponse()
-                {
-                    Code = 200,
-                    Data = s,
-                    Message = "Succesfuly"
 
-                });
+                var courseModels = await _service.SearchCourse(course);
+
+                return courseModels switch
+                {
+                    not null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.Success)),
+                    null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                };
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
             }
-
-
         }
-
-
     }
 }

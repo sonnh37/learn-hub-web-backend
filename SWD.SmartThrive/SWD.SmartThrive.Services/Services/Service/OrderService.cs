@@ -9,66 +9,78 @@ namespace SWD.SmartThrive.Services.Services.Service
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderRepository _repo;
+        private readonly IOrderRepository _repository;
         private readonly IMapper _mapper;
 
         public OrderService(IOrderRepository repository, IMapper mapper)
         {
-            _repo = repository;
+            _repository = repository;
             _mapper = mapper;
         }
 
-        public async Task<bool> AddOrder(OrderModel order)
+        public async Task<bool> AddOrder(OrderModel orderModel)
         {
-            var s = _mapper.Map<Order>(order);
-            return await _repo.AddOrder(s);
+            var order = _mapper.Map<Order>(orderModel);
+            return await _repository.AddOrder(order);
+        }
+
+        public async Task<bool> UpdateOrder(OrderModel orderModel)
+        {
+            var order = _mapper.Map<Order>(orderModel);
+            return await _repository.UpdateOrder(order);
         }
 
         public async Task<bool> DeleteOrder(Guid id)
         {
-            var s = await _repo.GetOrder(id);
-            if (s != null)
+            var order = await _repository.GetOrder(id);
+            if (order != null)
             {
-                s.IsDeleted = true;
-                var order = await _repo.UpdateOrder(s);
-                if (order)
+                order.IsDeleted = true;
+                var isOrder = await _repository.UpdateOrder(order);
+
+                if (isOrder)
                 {
                     return true;
                 }
-                return false;
             }
             return false;
-
         }
 
-        public async Task<IEnumerable<OrderModel>> GetAllOrder()
+        public async Task<List<OrderModel>> GetAllOrder()
         {
-            var s = await _repo.GetAllOrder();
-            return _mapper.Map<IEnumerable<OrderModel>>(s);
+            var orders = await _repository.GetAllOrder();
 
-
-        }
-
-        public async Task<IEnumerable<OrderByStudent>> GetAllOrdersByStudent(Guid id)
-        {
-            var s = await _repo.GetAllOrdersByStudent(id);
-            if (s != null)
+            if (orders == null)
             {
-                return s;
+                return null;
             }
-            return null;
+
+            return _mapper.Map<List<OrderModel>>(orders);
+        }
+
+        public async Task<List<OrderByStudent>> GetAllOrderByStudent(Guid id)
+        {
+
+            var orders = await _repository.GetAllOrderByStudent(id);
+
+            if (orders == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<OrderByStudent>>(orders);
         }
 
         public async Task<OrderModel> GetOrder(Guid id)
         {
-            var s = await _repo.GetOrder(id);
+            var order = await _repository.GetOrder(id);
 
-            return _mapper.Map<OrderModel>(s);
-        }
+            if (order == null)
+            {
+                return null;
+            }
 
-        public async Task<bool> UpdateOrder(OrderModel order)
-        {
-            return await _repo.UpdateOrder(_mapper.Map<Order>(order));
+            return _mapper.Map<OrderModel>(order);
         }
     }
 }

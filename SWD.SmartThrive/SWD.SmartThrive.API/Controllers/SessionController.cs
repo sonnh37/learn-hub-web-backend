@@ -1,92 +1,145 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using SWD.SmartThrive.API.ResponseModel;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.API.RequestModel;
+using SWD.SmartThrive.API.Tool.Response;
+using SWD.SmartThrive.API.Tool.Constant;
 
-namespace Smart_Thrive.Controllers
+namespace SWD.SmartThrive.API.Controllers
 {
     [Route("api/controller")]
     [ApiController]
     public class SessionController : ControllerBase
     {
-        private readonly ISessionService _sessionService;
+        private readonly ISessionService _service;
         private readonly IMapper _mapper;
 
-        public SessionController(ISessionService sessionService, IMapper mapper)
+        public SessionController(ISessionService service, IMapper mapper)
         {
-            _sessionService = sessionService;
+            _service = service;
             _mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(SessionRequest session)
-        {
-            var ss = _mapper.Map<SessionModel>(session);
-            var s = await _sessionService.AddSession(ss);
-
-            return Ok(s);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetSessionById(Guid id)
-        {
-            var s = await _sessionService.GetSession(id);
-
-            return Ok(s);
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> Update(SessionRequest session)
-        {
-            var s = _mapper.Map<SessionModel>(session);
-            var exist = _sessionService.GetSession(s.Id);
-            var sss = await _sessionService.UpdateSession(s);
-
-            return Ok(sss);
-        }
-
-        [HttpPut("abc")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var exist = _sessionService.GetSession(id);
-            var sss = await _sessionService.DeleteSession(id);
-
-            return Ok(sss);
-        }
-
-        [HttpGet("get-all-session-by-course")]
-        public async Task<IActionResult> GetAllSessionByCourse(Guid CourseId)
+        [HttpGet("get-session")]
+        public async Task<IActionResult> GetSession(Guid id)
         {
             try
             {
-                // ko tra BadRequest, 
-
-                /// nho check xem id co trong database khong o student
-                if (CourseId == Guid.Empty)
+                if (id == Guid.Empty)
                 {
-                    return BadRequest("CourseId is empty");
+                    return BadRequest("Id is empty");
                 }
-                var s = await _sessionService.GetAllSessionByCourse(CourseId);
-                if (s == null)
-                {
-                    return BadRequest("Empty");
-                }
-                return Ok(new BaseReponse()
-                {
-                    Code = 200,
-                    Data = s,
-                    Message = "Succesfuly"
+                var sessionModel = await _service.GetSession(id);
 
-                });
+                return sessionModel switch
+                {
+                    not null => Ok(AppResponse.GetResponseResult<SessionModel>(
+                        sessionModel,
+                        ConstantMessage.NotFound,
+                        ConstantHttpStatus.NOT_FOUND)),
+                    null => Ok(AppResponse.GetResponseResult<SessionModel>(
+                        sessionModel,
+                        ConstantMessage.Success))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
+        }
+
+        [HttpPost("add-new-session")]
+        public async Task<IActionResult> AddSession(SessionRequest session)
+        {
+            try
+            {
+                var isSession = await _service.AddSession(_mapper.Map<SessionModel>(session));
+
+                return isSession switch
+                {
+                    true => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Success)),
+                    _ => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Fail))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("delete-session")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                if (id != Guid.Empty)
+                {
+                    var isSession = await _service.DeleteSession(id);
+
+                    return isSession switch
+                    {
+                        true => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Success)),
+                        _ => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Fail))
+                    };
+                }
+                else
+                {
+                    return BadRequest("It's not empty");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("update-session")]
+        public async Task<IActionResult> Update(SessionRequest session)
+        {
+            try
+            {
+                var sessionModel = _mapper.Map<SessionModel>(session);
+
+                var isSession = await _service.UpdateSession(sessionModel);
+
+                return isSession switch
+                {
+                    true => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Success)),
+                    _ => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Fail))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("get-all-session-by-student")]
+        public async Task<IActionResult> GetAllPackageByStudent(Guid studentid)
+        {
+            try
+            {
+                if (studentid == Guid.Empty)
+                {
+                    return BadRequest("StudentId is empty");
+                }
+
+                var sessionModels = await _service.GetAllSessionByCourse(studentid);
+
+                return sessionModels switch
+                {
+                    not null => Ok(AppResponse.GetResponseResultList(sessionModels, ConstantMessage.Success)),
+                    null => Ok(AppResponse.GetResponseResultList(sessionModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                };
+
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
             }
-
         }
     }
 }

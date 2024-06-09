@@ -6,6 +6,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SWD.SmartThrive.API.Tool.Mapping;
 using SWD.SmartThrive.Repositories.Data;
 using SWD.SmartThrive.Repositories.Repositories.Base;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
@@ -40,7 +41,7 @@ builder.Services.AddDbContext<STDbContext>(options =>
 #endregion
 
 #region Add-AutoMapper
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(Mapper));
 #endregion
 
 #region Add-Scoped
