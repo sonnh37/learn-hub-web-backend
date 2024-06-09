@@ -48,13 +48,15 @@ namespace SWD.SmartThrive.Services.Services.Service
 
         public async Task<IEnumerable<PackageModel>> GetAllPackagesByStudent(Guid id)
         {
+            
+            var packages = await _repository.GetAllPackagesByStudent(id);
 
-            var s = await _repository.GetAllPackagesByStudent(id);
-            if (s != null)
+            if (packages == null)
             {
-                return _mapper.Map<IEnumerable<PackageModel>>(s);
+                return null;
             }
-            return null;
+
+            return _mapper.Map<IList<PackageModel>>(packages.ToList());
         }
 
         public async Task<PackageModel> GetPackage(Guid id)

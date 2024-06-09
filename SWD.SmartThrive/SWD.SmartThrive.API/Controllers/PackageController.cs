@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.API.RequestModel;
-using Smart_Thrive.Tool.Response;
+using SWD.SmartThrive.API.Tool.Response;
 using SWD.SmartThrive.API.Tool.Constant;
 
-namespace Smart_Thrive.Controllers
+namespace SWD.SmartThrive.API.Controllers
 {
     [Route("api/controller")]
     [ApiController]

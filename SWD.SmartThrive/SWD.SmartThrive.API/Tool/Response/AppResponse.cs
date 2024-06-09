@@ -4,7 +4,7 @@ using SWD.SmartThrive.API.ResponseModel;
 using SWD.SmartThrive.API.Tool.Constant;
 using System.Reflection;
 
-namespace Smart_Thrive.Tool.Response
+namespace SWD.SmartThrive.API.Tool.Response
 {
     public class AppResponse
     {

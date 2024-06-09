@@ -9,19 +9,23 @@ namespace SWD.SmartThrive.Services.Model
         public string PackageName { get; set; }
 
         public DateTime? StartDate { get; set; }
-        [Required]
+
         public DateTime? EndDate { get; set; }
 
         public int? QuantityCourse { get; set; }
 
         public decimal TotalPrice { get; set; }
 
-        public string? CreateBy { get; set; }
+        public Guid Id { get; set; }
 
-        public DateTime? CreateDate { get; set; }
-        [Required]
+        public string? CreatedBy { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
         public DateTime? LastUpdatedDate { get; set; }
+
         public string? LastUpdatedBy { get; set; }
+
         public bool IsDeleted { get; set; }
 
         public bool? IsActive { get; set; }
