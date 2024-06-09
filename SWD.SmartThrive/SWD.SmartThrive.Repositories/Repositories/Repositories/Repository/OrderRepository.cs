@@ -16,27 +16,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             _context = context;
         }
 
-        public async Task<bool> AddOrder(Order order)
-        {
-            var entity = await base.GetById(order.Id);
-
-            if (entity != null)
-            {
-                return false;
-            }
-
-            base.Add(order);
-            _context.SaveChanges();
-
-            return true;
-        }
-        public async Task<List<Order>> GetAllOrder()
-        {
-            var a = await GetAll();
-            return a;
-        }
-
-        public async Task<List<OrderByStudent>> GetAllOrdersByStudent(Guid id)
+        public async Task<List<OrderByStudent>> GetAllOrderByStudent(Guid id)
         {
             var a = from c in _context.Orders
                     join t in _context.Packages on c.PackageId equals t.Id
@@ -60,27 +40,106 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return await a.Where(x => x.StudentId == id).ToListAsync();
         }
 
+        public async Task<bool> AddOrder(Order order)
+        {
+            var queryable = await base.GetById(order.Id);
+
+            if (!queryable.Any())
+            {
+                base.Add(order);
+                _context.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> DeleteOrder(Guid id)
+        {
+            var queryable = await base.GetById(id);
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
+                if (entity != null)
+                {
+                    base.Delete(entity);
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<List<Order>> GetAllOrder()
+        {
+            var queryable = await GetAll();
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var results = await queryable.ToListAsync();
+
+                return results;
+            }
+
+            return null;
+        }
+
         public async Task<Order> GetOrder(Guid id)
         {
-            var order = await GetById(id);
+            var queryable = await base.GetById(id);
 
-            return order;
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
+
+                return entity;
+            }
+
+            return null;
         }
 
         public async Task<bool> UpdateOrder(Order order)
         {
-            // Update
-            var entity = await base.GetById(order.Id);
+            var queryable = await base.GetById(order.Id);
 
-            if (entity == null)
+            if (queryable.Any())
             {
-                return false;
+                queryable = queryable.Where(x => !x.IsDeleted);
             }
 
-            base.Update(entity);
-            _context.SaveChanges();
+            if (queryable.Any())
+            {
+                var entity = queryable.FirstOrDefault();
 
-            return true;
+                if (entity != null)
+                {
+                    _mapper.Map(order, entity);
+                    base.Update(entity);
+
+                    _context.SaveChanges();
+
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

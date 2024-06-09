@@ -14,7 +14,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
 
         public Task<List<Course>> GetAllCourse();
 
-        public Task<List<Course>> GetAllCoursesByProvider(Guid id);
+        public Task<List<Course>> GetAllCourseByProvider(Guid id);
 
         public Task<List<Course>> SearchCourse(string name);
     }

@@ -126,7 +126,7 @@ namespace SWD.SmartThrive.API.Controllers
                     return BadRequest("StudentId is empty");
                 }
 
-                var packageModels = await _service.GetAllPackagesByStudent(studentid);
+                var packageModels = await _service.GetAllPackageByStudent(studentid);
 
                 return packageModels switch
                 {

@@ -6,6 +6,7 @@ namespace SWD.SmartThrive.Services.Services.Interface
     {
 
         public Task<bool> AddCourse(CourseModel course);
+
         public Task<bool> UpdateCourse(CourseModel course);
 
         public Task<bool> DeleteCourse(Guid id);
@@ -13,7 +14,8 @@ namespace SWD.SmartThrive.Services.Services.Interface
         public Task<CourseModel> GetCourse(Guid id);
 
         public Task<List<CourseModel>> GetAllCourse();
-        public Task<List<CourseModel>> GetAllCoursesByProvider(Guid id);
+
+        public Task<List<CourseModel>> GetAllCourseByProvider(Guid id);
 
         public Task<List<CourseModel>> SearchCourse(string name);
     }

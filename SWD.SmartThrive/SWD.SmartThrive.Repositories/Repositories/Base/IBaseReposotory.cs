@@ -8,17 +8,15 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
     public interface IBaseRepository<TEntity> : IBaseRepository
         where TEntity : BaseEntity
     {
-        Task<bool> Check(Guid id);
-
         IQueryable<TEntity> GetQueryable(CancellationToken cancellationToken = default);
 
         Task<long> GetTotaCount();
 
-        Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default);
+        Task<IQueryable<TEntity>> GetAll(CancellationToken cancellationToken = default);
 
-        Task<TEntity> GetById(Guid id);
+        Task<IQueryable<TEntity>> GetById(Guid id);
 
-        Task<List<TEntity>> GetByIds(List<Guid> ids);
+        Task<IQueryable<TEntity>> GetAllById(List<Guid> id);
 
         void Add(TEntity entity);
         void AddRange(List<TEntity> entities);
