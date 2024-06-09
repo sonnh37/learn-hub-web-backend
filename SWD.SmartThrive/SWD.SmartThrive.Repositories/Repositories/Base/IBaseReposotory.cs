@@ -14,11 +14,11 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
 
         Task<long> GetTotaCount();
 
-        Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default);
+        Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default);
 
         Task<TEntity> GetById(Guid id);
 
-        Task<IList<TEntity>> GetByIds(IList<Guid> ids);
+        Task<List<TEntity>> GetByIds(List<Guid> ids);
 
         void Add(TEntity entity);
         void AddRange(List<TEntity> entities);

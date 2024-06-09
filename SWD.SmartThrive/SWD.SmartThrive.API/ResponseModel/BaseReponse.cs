@@ -41,10 +41,10 @@ namespace SWD.SmartThrive.API.ResponseModel
 
     public class BaseReponseList<TResult> : BaseReponse where TResult : class
     {
-        public IList<TResult> Results { get; }
+        public List<TResult> Results { get; }
 
 
-        public BaseReponseList(IList<TResult> results, string message, int code)
+        public BaseReponseList(List<TResult> results, string message, int code)
         {
             Code = code;
             Results = results;

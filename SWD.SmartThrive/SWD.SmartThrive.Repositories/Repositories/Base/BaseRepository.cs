@@ -125,7 +125,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         #endregion
 
         #region GetAll(CancellationToken)
-        public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<List<TEntity>> GetAll(CancellationToken cancellationToken = default)
         {
             var queryable = GetQueryable(cancellationToken);
             var result = await queryable.Where(entity => !entity.IsDeleted).ToListAsync();
@@ -135,7 +135,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
 
         #endregion
 
-        #region GetById(Guid) + GetByIds(IList<Guid>)
+        #region GetById(Guid) + GetByIds(List<Guid>)
         public virtual async Task<TEntity> GetById(Guid id)
         {
             var queryable = GetQueryable(x => x.Id == id);
@@ -144,7 +144,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
             return entity;
         }
 
-        public virtual async Task<IList<TEntity>> GetByIds(IList<Guid> ids)
+        public virtual async Task<List<TEntity>> GetByIds(List<Guid> ids)
         {
             var queryable = GetQueryable(x => ids.Contains(x.Id));
             var entity = await queryable.ToListAsync();
