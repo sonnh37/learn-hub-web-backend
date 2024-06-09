@@ -11,9 +11,9 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
     {
         private readonly STDbContext _context;
 
-        public OrderRepository(STDbContext _context) : base(_context)
+        public OrderRepository(STDbContext context) : base(context)
         {
-            _context = _context;
+            _context = context;
         }
 
         public async Task<bool> AddOrder(Order order)

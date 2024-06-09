@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using SWD.SmartThrive.API.ResponseModel;
-using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
-using System.Runtime.Intrinsics.X86;
+using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.API.RequestModel;
+using Smart_Thrive.Tool.Response;
+using SWD.SmartThrive.API.Tool.Constant;
 
 namespace Smart_Thrive.Controllers
 {
@@ -30,13 +30,18 @@ namespace Smart_Thrive.Controllers
                 {
                     return BadRequest("Id is empty");
                 }
-                var s = await _service.GetPackage(id);
-                if (s == null)
-                {
-                    return NotFound();
-                }
-                return Ok(s);
+                var packageModel = await _service.GetPackage(id);
 
+                return packageModel switch
+                {
+                    not null => Ok(AppResponse.GetResponseResult<PackageModel>(
+                        packageModel,
+                        ConstantMessage.NotFound,
+                        ConstantHttpStatus.NOT_FOUND)),
+                    null => Ok(AppResponse.GetResponseResult<PackageModel>(
+                        packageModel,
+                        ConstantMessage.Success))
+                };
             }
             catch (Exception ex)
             {
@@ -50,19 +55,13 @@ namespace Smart_Thrive.Controllers
         {
             try
             {
-                var s = await _service.AddPackage(_mapper.Map<PackageModel>(package));
-                if (s)
+                var isPackage = await _service.AddPackage(_mapper.Map<PackageModel>(package));
+
+                return isPackage switch
                 {
-                    return Ok(new BaseReponse()
-                    {
-                        Code = 200,
-                        Data = s,
-                        Message = "Succesfuly"
-
-                    });
-                }
-                return BadRequest(s);
-
+                    true => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Success)),
+                    _ => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Fail))
+                };
             }
             catch (Exception ex)
             {
@@ -77,15 +76,13 @@ namespace Smart_Thrive.Controllers
             {
                 if (id != Guid.Empty)
                 {
-                    var sss = await _service.DeletePackage(id);
-                    if (sss)
+                    var isPackage = await _service.DeletePackage(id);
+
+                    return isPackage switch
                     {
-                        return Ok("Succesfuly");
-                    }
-                    else
-                    {
-                        return BadRequest("Id is not exist or wrong");
-                    }
+                        true => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Success)),
+                        _ => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Fail))
+                    };
                 }
                 else
                 {
@@ -103,32 +100,15 @@ namespace Smart_Thrive.Controllers
         {
             try
             {
-                var s = _mapper.Map<PackageModel>(package);
+                var packageModel = _mapper.Map<PackageModel>(package);
 
-                var exist = _service.GetPackage(package.Id);
+                var isPackage = await _service.UpdatePackage(packageModel);
 
-                if (exist != null)
+                return isPackage switch
                 {
-                    var sss = await _service.UpdatePackage(s);
-                    if (sss)
-                    {
-                        return Ok(new BaseReponse()
-                        {
-                            Code = 200,
-                            Data = sss,
-                            Message = "Succesfuly"
-
-                        });
-                    }
-                    else
-                    {
-                        return BadRequest("Faild");
-                    }
-                }
-                else
-                {
-                    return BadRequest("It's not exist");
-                }
+                    true => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Success)),
+                    _ => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Fail))
+                };
             }
             catch (Exception ex)
             {
@@ -141,33 +121,25 @@ namespace Smart_Thrive.Controllers
         {
             try
             {
-
-
-                /// nho check xem id co trong database khong o student
                 if (studentid == Guid.Empty)
                 {
                     return BadRequest("StudentId is empty");
                 }
-                var s = await _service.GetAllPackagesByStudent(studentid);
-                if (s == null)
-                {
-                    return BadRequest("Empty");
-                }
-                return Ok(new BaseReponse()
-                {
-                    Code = 200,
-                    Data = s,
-                    Message = "Succesfuly"
 
-                });
+                var packageModels = await _service.GetAllPackagesByStudent(studentid);
+
+                return packageModels switch
+                {
+                    not null => Ok(AppResponse.GetResponseResultList(packageModels.ToList(), ConstantMessage.Success)),
+                    null => Ok(AppResponse.GetResponseResultList(packageModels.ToList(), ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                };
+
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
             }
-
-
         }
     }
 }

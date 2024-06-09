@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using SWD.SmartThrive.API.ResponseModel;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.API.RequestModel;
+using Smart_Thrive.Tool.Response;
+using SWD.SmartThrive.API.Tool.Constant;
 
 namespace Smart_Thrive.Controllers
 {
@@ -19,6 +20,7 @@ namespace Smart_Thrive.Controllers
             _service = service;
             _mapper = mapper;
         }
+
         [HttpGet("get-order")]
         public async Task<IActionResult> GetOrder(Guid id)
         {
@@ -28,13 +30,18 @@ namespace Smart_Thrive.Controllers
                 {
                     return BadRequest("Id is empty");
                 }
-                var s = await _service.GetOrder(id);
-                if (s == null)
-                {
-                    return NotFound();
-                }
-                return Ok(s);
+                var orderModel = await _service.GetOrder(id);
 
+                return orderModel switch
+                {
+                    not null => Ok(AppResponse.GetResponseResult<OrderModel>(
+                        orderModel,
+                        ConstantMessage.NotFound,
+                        ConstantHttpStatus.NOT_FOUND)),
+                    null => Ok(AppResponse.GetResponseResult<OrderModel>(
+                        orderModel,
+                        ConstantMessage.Success))
+                };
             }
             catch (Exception ex)
             {
@@ -48,19 +55,13 @@ namespace Smart_Thrive.Controllers
         {
             try
             {
-                var s = await _service.AddOrder(_mapper.Map<OrderModel>(order));
-                if (s)
+                var isOrder = await _service.AddOrder(_mapper.Map<OrderModel>(order));
+
+                return isOrder switch
                 {
-                    return Ok(new BaseReponse()
-                    {
-                        Code = 200,
-                        Data = s,
-                        Message = "Succesfuly"
-
-                    });
-                }
-                return BadRequest(s);
-
+                    true => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Success)),
+                    _ => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Fail))
+                };
             }
             catch (Exception ex)
             {
@@ -75,15 +76,13 @@ namespace Smart_Thrive.Controllers
             {
                 if (id != Guid.Empty)
                 {
-                    var sss = await _service.DeleteOrder(id);
-                    if (sss)
+                    var isOrder = await _service.DeleteOrder(id);
+
+                    return isOrder switch
                     {
-                        return Ok("Succesfuly");
-                    }
-                    else
-                    {
-                        return BadRequest("Id is not exist or wrong");
-                    }
+                        true => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Success)),
+                        _ => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Fail))
+                    };
                 }
                 else
                 {
@@ -101,32 +100,15 @@ namespace Smart_Thrive.Controllers
         {
             try
             {
-                var s = _mapper.Map<OrderModel>(order);
+                var orderModel = _mapper.Map<OrderModel>(order);
 
-                //      var exist = _service.GetOrder(order.Id);
+                var isOrder = await _service.UpdateOrder(orderModel);
 
-                //      if (exist != null)
-                //      {
-                var sss = await _service.UpdateOrder(s);
-                if (sss)
+                return isOrder switch
                 {
-                    return Ok(new BaseReponse()
-                    {
-                        Code = 200,
-                        Data = sss,
-                        Message = "Succesfuly"
-
-                    });
-                }
-                else
-                {
-                    return BadRequest("Faild");
-                }
-                //         }
-                //         else
-                //        {
-                //return BadRequest("It's not exist");
-                //        }
+                    true => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Success)),
+                    _ => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Fail))
+                };
             }
             catch (Exception ex)
             {
@@ -139,33 +121,25 @@ namespace Smart_Thrive.Controllers
         {
             try
             {
-
-
-                /// nho check xem id co trong database khong o student
                 if (studentid == Guid.Empty)
                 {
                     return BadRequest("StudentId is empty");
                 }
-                var s = await _service.GetAllOrdersByStudent(studentid);
-                if (s == null)
-                {
-                    return BadRequest("Empty");
-                }
-                return Ok(new BaseReponse()
-                {
-                    Code = 200,
-                    Data = s,
-                    Message = "Succesfuly"
 
-                });
+                var orderModels = await _service.GetAllOrdersByStudent(studentid);
+
+                return orderModels switch
+                {
+                    not null => Ok(AppResponse.GetResponseResultList(orderModels.ToList(), ConstantMessage.Success)),
+                    null => Ok(AppResponse.GetResponseResultList(orderModels.ToList(), ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                };
+
             }
             catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
             }
-
-
         }
     }
 }
