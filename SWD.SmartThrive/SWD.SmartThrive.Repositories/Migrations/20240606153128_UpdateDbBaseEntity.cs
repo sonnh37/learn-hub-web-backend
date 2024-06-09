@@ -20,55 +20,55 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 table: "Provider");
 
             migrationBuilder.DropColumn(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Subject");
 
             migrationBuilder.DropColumn(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Student");
 
             migrationBuilder.DropColumn(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Session");
 
             migrationBuilder.DropColumn(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Package");
 
             migrationBuilder.DropColumn(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Order");
 
             migrationBuilder.DropColumn(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Course");
 
             migrationBuilder.DropColumn(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Category");
 
             migrationBuilder.RenameColumn(
-                name: "CreateBy",
+                name: "CreatedBy",
                 table: "Subject",
                 newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
-                name: "CreateBy",
+                name: "CreatedBy",
                 table: "Student",
                 newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
-                name: "CreateBy",
+                name: "CreatedBy",
                 table: "Session",
                 newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
-                name: "CreateBy",
+                name: "CreatedBy",
                 table: "Package",
                 newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
-                name: "CreateBy",
+                name: "CreatedBy",
                 table: "Order",
                 newName: "CreatedBy");
 
@@ -78,12 +78,12 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 newName: "IsDeleted");
 
             migrationBuilder.RenameColumn(
-                name: "CreateBy",
+                name: "CreatedBy",
                 table: "Course",
                 newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
-                name: "CreateBy",
+                name: "CreatedBy",
                 table: "Category",
                 newName: "CreatedBy");
 
@@ -544,27 +544,27 @@ namespace SWD.SmartThrive.Repositories.Migrations
             migrationBuilder.RenameColumn(
                 name: "CreatedBy",
                 table: "Subject",
-                newName: "CreateBy");
+                newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
                 name: "CreatedBy",
                 table: "Student",
-                newName: "CreateBy");
+                newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
                 name: "CreatedBy",
                 table: "Session",
-                newName: "CreateBy");
+                newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
                 name: "CreatedBy",
                 table: "Package",
-                newName: "CreateBy");
+                newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
                 name: "CreatedBy",
                 table: "Order",
-                newName: "CreateBy");
+                newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
                 name: "IsDeleted",
@@ -574,12 +574,12 @@ namespace SWD.SmartThrive.Repositories.Migrations
             migrationBuilder.RenameColumn(
                 name: "CreatedBy",
                 table: "Course",
-                newName: "CreateBy");
+                newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
                 name: "CreatedBy",
                 table: "Category",
-                newName: "CreateBy");
+                newName: "CreatedBy");
 
             migrationBuilder.RenameColumn(
                 name: "CategoryName",
@@ -597,7 +597,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Subject",
                 type: "datetime2",
                 nullable: true);
@@ -621,7 +621,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Student",
                 type: "datetime2",
                 nullable: true);
@@ -637,7 +637,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Session",
                 type: "datetime2",
                 nullable: true);
@@ -661,7 +661,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Package",
                 type: "datetime2",
                 nullable: true);
@@ -677,7 +677,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Order",
                 type: "datetime2",
                 nullable: true);
@@ -701,7 +701,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 oldType: "bit");
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Course",
                 type: "datetime2",
                 nullable: true);
@@ -717,7 +717,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
-                name: "CreateDate",
+                name: "CreatedDate",
                 table: "Category",
                 type: "datetime2",
                 nullable: true);
