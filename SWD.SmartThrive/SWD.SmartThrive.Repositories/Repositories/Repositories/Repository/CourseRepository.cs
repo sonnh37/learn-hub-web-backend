@@ -44,13 +44,13 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return true;
         }
 
-        public async Task<IEnumerable<Course>> GetAllCourse()
+        public async Task<List<Course>> GetAllCourse()
         {
             var courses = await base.GetAll();
             return courses;
         }
 
-        public async Task<IEnumerable<Course>> GetAllCoursesByProvider(Guid id)
+        public async Task<List<Course>> GetAllCoursesByProvider(Guid id)
         {
             var courses = base.GetQueryable(x => x.ProviderId == id);
 
@@ -70,7 +70,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return course;
         }
 
-        public async Task<IEnumerable<Course>> SearchCourse(string name)
+        public async Task<List<Course>> SearchCourse(string name)
         {
             var course = await _context.Courses.Where(x => x.CourseName.StartsWith(name) || x.Id.Equals(name)).ToListAsync();
             return course;

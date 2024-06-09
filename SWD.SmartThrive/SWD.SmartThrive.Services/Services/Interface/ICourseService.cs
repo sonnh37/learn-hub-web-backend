@@ -12,9 +12,9 @@ namespace SWD.SmartThrive.Services.Services.Interface
 
         public Task<CourseModel> GetCourse(Guid id);
 
-        public Task<IEnumerable<CourseModel>> GetAllCourse();
-        public Task<IEnumerable<CourseModel>> GetAllCoursesByProvider(Guid id);
+        public Task<List<CourseModel>> GetAllCourse();
+        public Task<List<CourseModel>> GetAllCoursesByProvider(Guid id);
 
-        public Task<IEnumerable<CourseModel>> SearchCourse(string name);
+        public Task<List<CourseModel>> SearchCourse(string name);
     }
 }

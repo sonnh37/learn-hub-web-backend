@@ -130,8 +130,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return orderModels switch
                 {
-                    not null => Ok(AppResponse.GetResponseResultList(orderModels.ToList(), ConstantMessage.Success)),
-                    null => Ok(AppResponse.GetResponseResultList(orderModels.ToList(), ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(AppResponse.GetResponseResultList(orderModels, ConstantMessage.Success)),
+                    null => Ok(AppResponse.GetResponseResultList(orderModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
 
             }

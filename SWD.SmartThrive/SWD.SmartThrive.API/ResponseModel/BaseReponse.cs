@@ -48,7 +48,7 @@ namespace SWD.SmartThrive.API.ResponseModel
         {
             Code = code;
             Results = results;
-            TotalRecords = results?.Count ?? 0;
+            TotalRecords = results != null ? results.Count : 0;
             IsSuccess = results != null;
             Message = message;
         }

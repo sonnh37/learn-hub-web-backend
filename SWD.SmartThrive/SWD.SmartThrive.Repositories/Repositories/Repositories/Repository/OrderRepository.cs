@@ -30,13 +30,13 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
             return true;
         }
-        public async Task<IEnumerable<Order>> GetAllOrder()
+        public async Task<List<Order>> GetAllOrder()
         {
             var a = await GetAll();
             return a;
         }
 
-        public async Task<IEnumerable<OrderByStudent>> GetAllOrdersByStudent(Guid id)
+        public async Task<List<OrderByStudent>> GetAllOrdersByStudent(Guid id)
         {
             var a = from c in _context.Orders
                     join t in _context.Packages on c.PackageId equals t.Id

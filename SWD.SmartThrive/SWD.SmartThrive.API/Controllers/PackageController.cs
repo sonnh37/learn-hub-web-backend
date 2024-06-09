@@ -130,8 +130,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return packageModels switch
                 {
-                    not null => Ok(AppResponse.GetResponseResultList(packageModels.ToList(), ConstantMessage.Success)),
-                    null => Ok(AppResponse.GetResponseResultList(packageModels.ToList(), ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(AppResponse.GetResponseResultList(packageModels, ConstantMessage.Success)),
+                    _ => Ok(AppResponse.GetResponseResultList(packageModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
 
             }

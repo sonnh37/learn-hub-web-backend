@@ -43,13 +43,13 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return true;
         }
 
-        public async Task<IEnumerable<Session>> GetAllSessions()
+        public async Task<List<Session>> GetAllSessions()
         {
             var sessions = await base.GetAll();
             return sessions;
         }
 
-        public async Task<IEnumerable<Session>> GetAllSessionsByCouse(Guid CourseId)
+        public async Task<List<Session>> GetAllSessionsByCouse(Guid CourseId)
         {
             var sessions = base.GetQueryable(x => x.CourseId == CourseId);
 

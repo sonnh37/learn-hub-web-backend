@@ -130,8 +130,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return sessionModels switch
                 {
-                    not null => Ok(AppResponse.GetResponseResultList(sessionModels.ToList(), ConstantMessage.Success)),
-                    null => Ok(AppResponse.GetResponseResultList(sessionModels.ToList(), ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(AppResponse.GetResponseResultList(sessionModels, ConstantMessage.Success)),
+                    null => Ok(AppResponse.GetResponseResultList(sessionModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
 
             }

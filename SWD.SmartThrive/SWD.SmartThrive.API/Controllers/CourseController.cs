@@ -130,8 +130,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return courseModels switch
                 {
-                    not null => Ok(AppResponse.GetResponseResultList(courseModels.ToList(), ConstantMessage.Success)),
-                    null => Ok(AppResponse.GetResponseResultList(courseModels.ToList(), ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.Success)),
+                    null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
 
             }
@@ -156,8 +156,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return courseModels switch
                 {
-                    not null => Ok(AppResponse.GetResponseResultList(courseModels.ToList(), ConstantMessage.Success)),
-                    null => Ok(AppResponse.GetResponseResultList(courseModels.ToList(), ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.Success)),
+                    null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)

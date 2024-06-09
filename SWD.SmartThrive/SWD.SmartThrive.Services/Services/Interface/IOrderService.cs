@@ -12,9 +12,9 @@ namespace SWD.SmartThrive.Services.Services.Interface
 
         public Task<OrderModel> GetOrder(Guid id);
 
-        public Task<IEnumerable<OrderByStudent>> GetAllOrdersByStudent(Guid id);
+        public Task<List<OrderByStudent>> GetAllOrdersByStudent(Guid id);
 
-        public Task<IEnumerable<OrderModel>> GetAllOrder();
+        public Task<List<OrderModel>> GetAllOrder();
 
     }
 }

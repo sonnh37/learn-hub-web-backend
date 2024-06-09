@@ -41,22 +41,24 @@ namespace SWD.SmartThrive.Services.Services.Service
 
         }
 
-        public async Task<IEnumerable<OrderModel>> GetAllOrder()
+        public async Task<List<OrderModel>> GetAllOrder()
         {
             var s = await _repo.GetAllOrder();
-            return _mapper.Map<IEnumerable<OrderModel>>(s);
+            return _mapper.Map<List<OrderModel>>(s);
 
 
         }
 
-        public async Task<IEnumerable<OrderByStudent>> GetAllOrdersByStudent(Guid id)
+        public async Task<List<OrderByStudent>> GetAllOrdersByStudent(Guid id)
         {
-            var s = await _repo.GetAllOrdersByStudent(id);
-            if (s != null)
+            var orders = await _repo.GetAllOrdersByStudent(id);
+
+            if (!orders.Any())
             {
-                return s;
+                return null;
             }
-            return null;
+
+            return orders;
         }
 
         public async Task<OrderModel> GetOrder(Guid id)

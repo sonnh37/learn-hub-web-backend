@@ -12,9 +12,9 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
 
         public Task<Package> GetPackage(Guid id);
 
-        public Task<IEnumerable<Package>> GetAllPackagesByStudent(Guid id);
+        public Task<List<Package>> GetAllPackagesByStudent(Guid id);
 
-        public Task<IEnumerable<Package>> GetAllPackages();
+        public Task<List<Package>> GetAllPackages();
 
     }
 }

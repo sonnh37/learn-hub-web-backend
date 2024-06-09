@@ -12,10 +12,10 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
 
         public Task<Course> GetCourse(Guid id);
 
-        public Task<IEnumerable<Course>> GetAllCourse();
+        public Task<List<Course>> GetAllCourse();
 
-        public Task<IEnumerable<Course>> GetAllCoursesByProvider(Guid id);
+        public Task<List<Course>> GetAllCoursesByProvider(Guid id);
 
-        public Task<IEnumerable<Course>> SearchCourse(string name);
+        public Task<List<Course>> SearchCourse(string name);
     }
 }

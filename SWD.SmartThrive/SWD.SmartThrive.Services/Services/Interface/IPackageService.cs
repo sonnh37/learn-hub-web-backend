@@ -11,8 +11,8 @@ namespace SWD.SmartThrive.Services.Services.Interface
 
         public Task<PackageModel> GetPackage(Guid id);
 
-        public Task<IEnumerable<PackageModel>> GetAllPackagesByStudent(Guid id);
+        public Task<List<PackageModel>> GetAllPackagesByStudent(Guid id);
 
-        public Task<IEnumerable<PackageModel>> GetAllPackages();
+        public Task<List<PackageModel>> GetAllPackages();
     }
 }

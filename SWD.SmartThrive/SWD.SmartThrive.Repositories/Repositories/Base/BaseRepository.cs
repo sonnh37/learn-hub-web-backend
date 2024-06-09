@@ -80,13 +80,13 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         }
         #endregion
 
-        #region Add(TEntity) + AddRange(IEnumerable<TEntity>)
+        #region Add(TEntity) + AddRange(List<TEntity>)
         public void Add(TEntity entity)
         {
             DbSet.Add(entity);
         }
 
-        public void AddRange(IEnumerable<TEntity> entities)
+        public void AddRange(List<TEntity> entities)
         {
             if (entities.Any())
             {
@@ -95,13 +95,13 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         }
         #endregion
 
-        #region Update(TEntity) + UpdateRange(IEnumerable<TEntity>)
+        #region Update(TEntity) + UpdateRange(List<TEntity>)
         public void Update(TEntity entity)
         {
             DbSet.Update(entity);
         }
 
-        public void UpdateRange(IEnumerable<TEntity> entities)
+        public void UpdateRange(List<TEntity> entities)
         {
             if (entities.Any())
             {
@@ -110,14 +110,14 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         }
         #endregion
 
-        #region Delete(TEntity) + DeleteRange(IEnumerable<TEntity>)
+        #region Delete(TEntity) + DeleteRange(List<TEntity>)
         public void Delete(TEntity entity)
         {
             entity.IsDeleted = true;
             DbSet.Update(entity);
         }
 
-        public void DeleteRange(IEnumerable<TEntity> entities)
+        public void DeleteRange(List<TEntity> entities)
         {
             entities.Where(e => e.IsDeleted == false ? e.IsDeleted = true : e.IsDeleted = false);
             DbSet.UpdateRange(entities);

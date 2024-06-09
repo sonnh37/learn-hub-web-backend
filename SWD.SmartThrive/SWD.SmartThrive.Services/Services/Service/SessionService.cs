@@ -40,18 +40,20 @@ namespace SWD.SmartThrive.Services.Services.Service
             return false;
         }
 
-        public async Task<IEnumerable<SessionModel>> GetAllSessionByCourse(Guid courseid)
+        public async Task<List<SessionModel>> GetAllSessionByCourse(Guid courseid)
         {
-            var s = await _repository.GetAllSessionsByCouse(courseid);
-            if (s != null)
+            var sessions = await _repository.GetAllSessionsByCouse(courseid);
+
+            if (!sessions.Any())
             {
-                return _mapper.Map<IEnumerable<SessionModel>>(s);
+                return null;
             }
-            return null;
+
+            return _mapper.Map<List<SessionModel>>(sessions.ToList());
 
         }
 
-        public async Task<IEnumerable<SessionModel>> GetAllSessions()
+        public async Task<List<SessionModel>> GetAllSessions()
         {
             var s = await _repository.GetAllSessions();
             return _mapper.Map<List<SessionModel>>(s);

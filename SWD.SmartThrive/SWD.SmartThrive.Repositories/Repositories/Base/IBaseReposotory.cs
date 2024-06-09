@@ -21,11 +21,11 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         Task<IList<TEntity>> GetByIds(IList<Guid> ids);
 
         void Add(TEntity entity);
-        void AddRange(IEnumerable<TEntity> entities);
+        void AddRange(List<TEntity> entities);
         void Update(TEntity entity);
-        void UpdateRange(IEnumerable<TEntity> entities);
+        void UpdateRange(List<TEntity> entities);
         void Delete(TEntity entity);
-        void DeleteRange(IEnumerable<TEntity> entities);
+        void DeleteRange(List<TEntity> entities);
         void CheckCancellationToken(CancellationToken cancellationToken = default);
 
     }

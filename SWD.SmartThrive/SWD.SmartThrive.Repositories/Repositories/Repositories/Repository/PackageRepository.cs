@@ -46,21 +46,21 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return true;
         }
 
-        public async Task<IEnumerable<Package>> GetAllPackages()
+        public async Task<List<Package>> GetAllPackages()
         {
             var packages = await GetAll();
             return packages;
         }
 
-        public async Task<IEnumerable<Package>> GetAllPackagesByStudent(Guid id)
+        public async Task<List<Package>> GetAllPackagesByStudent(Guid id)
         {
             var packages = base.GetQueryable(x => x.StudentId == id);
-            Console.WriteLine(packages.ToList().Count);
+           
             if (packages.Any())
             {
                 packages = packages.Where(x => !x.IsDeleted);
             }
-            Console.WriteLine(packages.ToList().Count);
+            
             var results = await packages.Include(x => x.Student).ToListAsync();
 
             return results;

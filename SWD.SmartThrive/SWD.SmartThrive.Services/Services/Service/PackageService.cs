@@ -40,23 +40,23 @@ namespace SWD.SmartThrive.Services.Services.Service
             return false;
         }
 
-        public async Task<IEnumerable<PackageModel>> GetAllPackages()
+        public async Task<List<PackageModel>> GetAllPackages()
         {
             var s = await _repository.GetAllPackages();
-            return _mapper.Map<IEnumerable<PackageModel>>(s);
+            return _mapper.Map<List<PackageModel>>(s);
         }
 
-        public async Task<IEnumerable<PackageModel>> GetAllPackagesByStudent(Guid id)
+        public async Task<List<PackageModel>> GetAllPackagesByStudent(Guid id)
         {
             
             var packages = await _repository.GetAllPackagesByStudent(id);
 
-            if (packages == null)
+            if (!packages.Any())
             {
                 return null;
             }
 
-            return _mapper.Map<IList<PackageModel>>(packages.ToList());
+            return _mapper.Map<List<PackageModel>>(packages.ToList());
         }
 
         public async Task<PackageModel> GetPackage(Guid id)

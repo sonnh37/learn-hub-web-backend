@@ -11,9 +11,9 @@ namespace SWD.SmartThrive.Services.Services.Interface
 
         public Task<SessionModel> GetSession(Guid id);
 
-        public Task<IEnumerable<SessionModel>> GetAllSessionByCourse(Guid courseid);
+        public Task<List<SessionModel>> GetAllSessionByCourse(Guid courseid);
 
-        public Task<IEnumerable<SessionModel>> GetAllSessions();
+        public Task<List<SessionModel>> GetAllSessions();
 
 
     }

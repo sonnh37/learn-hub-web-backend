@@ -37,17 +37,23 @@ namespace SWD.SmartThrive.Services.Services.Service
             return false;
         }
 
-        public Task<IEnumerable<CourseModel>> GetAllCourse()
+        public Task<List<CourseModel>> GetAllCourse()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<CourseModel>> GetAllCoursesByProvider(Guid id)
+        public async Task<List<CourseModel>> GetAllCoursesByProvider(Guid id)
         {
             // kiem tra id provider 
 
-            var s = await _repository.GetAllCoursesByProvider(id);
-            return _mapper.Map<IEnumerable<CourseModel>>(s);
+            var courses = await _repository.GetAllCoursesByProvider(id);
+
+            if (!courses.Any())
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<CourseModel>>(courses);
         }
 
         public async Task<CourseModel> GetCourse(Guid id)
@@ -55,10 +61,16 @@ namespace SWD.SmartThrive.Services.Services.Service
             return _mapper.Map<CourseModel>(await _repository.GetCourse(id));
         }
 
-        public async Task<IEnumerable<CourseModel>> SearchCourse(string name)
+        public async Task<List<CourseModel>> SearchCourse(string name)
         {
-            var s = await _repository.SearchCourse(name);
-            return _mapper.Map<IEnumerable<CourseModel>>(s);
+            var courses = await _repository.SearchCourse(name);
+
+            if (!courses.Any())
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<CourseModel>>(courses);
         }
 
         public async Task<bool> UpdateCourse(CourseModel course)
