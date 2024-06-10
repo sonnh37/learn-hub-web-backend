@@ -42,7 +42,8 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
                 var entity = queryable.FirstOrDefault();
                 if (entity != null)
                 {
-                    base.Delete(entity);
+                    entity.IsDeleted = true;
+                    base.Update(entity);
                     _context.SaveChanges();
                     return true;
                 }
