@@ -14,6 +14,8 @@ namespace SWD.SmartThrive.Services.Model
 
         public string? CourseName { get; set; }
 
+        public Guid Id { get; set; }
+
         public string? CreatedBy { get; set; }
 
         public DateTime? CreatedDate { get; set; }

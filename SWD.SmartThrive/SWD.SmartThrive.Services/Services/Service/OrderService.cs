@@ -20,31 +20,50 @@ namespace SWD.SmartThrive.Services.Services.Service
 
         public async Task<bool> AddOrder(OrderModel orderModel)
         {
-            var order = _mapper.Map<Order>(orderModel);
-            order.Id = Guid.NewGuid();
-            return await _repository.AddOrder(order);
+            var order = await _repository.GetOrder(orderModel.Id);
+
+            if (order != null)
+            {
+                return false;
+            }
+
+            var _order = _mapper.Map<Order>(orderModel);
+            _order.Id = Guid.NewGuid();
+            _repository.Add(_order);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<bool> UpdateOrder(OrderModel orderModel)
         {
-            var order = _mapper.Map<Order>(orderModel);
-            return await _repository.UpdateOrder(order);
+            var order = await _repository.GetOrder(orderModel.Id);
+
+            if (order == null)
+            {
+                return false;
+            }
+
+            _mapper.Map(orderModel, order);
+            _repository.Update(order);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<bool> DeleteOrder(Guid id)
         {
             var order = await _repository.GetOrder(id);
-            if (order != null)
-            {
-                order.IsDeleted = true;
-                var isOrder = await _repository.UpdateOrder(order);
 
-                if (isOrder)
-                {
-                    return true;
-                }
+            if (order == null)
+            {
+                return false;
             }
-            return false;
+
+            _repository.Delete(order);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<List<OrderModel>> GetAllOrder()

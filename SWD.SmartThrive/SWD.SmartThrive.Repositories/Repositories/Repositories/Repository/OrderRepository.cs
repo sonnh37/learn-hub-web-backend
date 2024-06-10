@@ -40,44 +40,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return await a.Where(x => x.StudentId == id).ToListAsync();
         }
 
-        public async Task<bool> AddOrder(Order order)
-        {
-            var queryable = await base.GetById(order.Id);
-
-            if (!queryable.Any())
-            {
-                base.Add(order);
-                _context.SaveChanges();
-                return true;
-            }
-
-            return false;
-        }
-
-        public async Task<bool> DeleteOrder(Guid id)
-        {
-            var queryable = await base.GetById(id);
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var entity = queryable.FirstOrDefault();
-                if (entity != null)
-                {
-                    entity.IsDeleted = true;
-                    base.Update(entity);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public async Task<List<Order>> GetAllOrder()
         {
             var queryable = await GetAll();
@@ -114,33 +76,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             }
 
             return null;
-        }
-
-        public async Task<bool> UpdateOrder(Order order)
-        {
-            var queryable = await base.GetById(order.Id);
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var entity = queryable.FirstOrDefault();
-
-                if (entity != null)
-                {
-                    _mapper.Map(order, entity);
-                    base.Update(entity);
-
-                    _context.SaveChanges();
-
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

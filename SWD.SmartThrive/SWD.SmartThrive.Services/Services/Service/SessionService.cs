@@ -17,33 +17,52 @@ namespace SWD.SmartThrive.Services.Services.Service
             _repository = unitOfWork.SessionRepository;
         }
 
-        public async Task<bool> AddSession(SessionModel sessionModel)
+        public async Task<bool> AddSession(SessionModel packageModel)
         {
-            var session = _mapper.Map<Session>(sessionModel);
-            session.Id = Guid.NewGuid();
-            return await _repository.AddSession(session);
+            var package = await _repository.GetSession(packageModel.Id);
+
+            if (package != null)
+            {
+                return false;
+            }
+
+            var _package = _mapper.Map<Session>(packageModel);
+            _package.Id = Guid.NewGuid();
+            _repository.Add(_package);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
-        public async Task<bool> UpdateSession(SessionModel sessionModel)
+        public async Task<bool> UpdateSession(SessionModel packageModel)
         {
-            var session = _mapper.Map<Session>(sessionModel);
-            return await _repository.UpdateSession(session);
+            var package = await _repository.GetSession(packageModel.Id);
+
+            if (package == null)
+            {
+                return false;
+            }
+
+            _mapper.Map(packageModel, package);
+            _repository.Update(package);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<bool> DeleteSession(Guid id)
         {
-            var session = await _repository.GetSession(id);
-            if (session != null)
-            {
-                session.IsDeleted = true;
-                var isSession = await _repository.UpdateSession(session);
+            var package = await _repository.GetSession(id);
 
-                if (isSession)
-                {
-                    return true;
-                }
+            if (package == null)
+            {
+                return false;
             }
-            return false;
+
+            _repository.Delete(package);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<List<SessionModel>> GetAllSession()
