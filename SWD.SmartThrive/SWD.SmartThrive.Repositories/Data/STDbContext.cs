@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Data.Entities;
 
 namespace SWD.SmartThrive.Repositories.Data
 {

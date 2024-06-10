@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Repositories.Repositories.Base;
 using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWD.SmartThrive.Services.Services.Service
+namespace SWD.SmartThrive.Services.Base
 {
     public abstract class BaseService
     {

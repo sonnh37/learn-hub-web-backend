@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SWD.SmartThrive.Repositories.Data.Table;
 using SWD.SmartThrive.Repositories.Data;
 using SWD.SmartThrive.Repositories.Repositories.Base;
 using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using SWD.SmartThrive.Repositories.Data.Entities;
 
 namespace SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Repository
 {

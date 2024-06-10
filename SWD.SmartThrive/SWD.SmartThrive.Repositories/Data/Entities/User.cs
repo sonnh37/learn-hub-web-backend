@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SWD.SmartThrive.Repositories.Data.Table
+namespace SWD.SmartThrive.Repositories.Data.Entities
 {
     [Table("User")]
     public class User : BaseEntity
@@ -30,9 +30,9 @@ namespace SWD.SmartThrive.Repositories.Data.Table
 
         public Guid LocationID { get; set; }
 
-        public virtual Role Role { get; set; } 
+        public virtual Role Role { get; set; }
 
-        public virtual Location? Location { get; set; } 
+        public virtual Location? Location { get; set; }
 
         public virtual Provider? Provider { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SWD.SmartThrive.Repositories.Data.Table
+namespace SWD.SmartThrive.Repositories.Data.Entities
 {
     [Table("Role")]
     public class Role : BaseEntity

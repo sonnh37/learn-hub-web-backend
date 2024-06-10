@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Model;
 using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
+using SWD.SmartThrive.Services.Base;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
 

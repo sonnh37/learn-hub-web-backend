@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SWD.SmartThrive.API.RequestModel;
-using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Services.Model;
 
 namespace SWD.SmartThrive.API.Tool.Mapping

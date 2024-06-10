@@ -25,7 +25,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Category", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -57,7 +57,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("Category", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Course", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Course", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,7 +135,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("Course", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.CourseXPackage", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.CourseXPackage", b =>
                 {
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
@@ -150,7 +150,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("CoursePackage", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Location", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Location", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -176,7 +176,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("Location", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Order", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -224,7 +224,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("Order", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Package", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Package", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -277,7 +277,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("Package", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Provider", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Provider", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -304,7 +304,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("Provider", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Role", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -319,7 +319,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("Role", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Session", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Session", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -365,7 +365,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("Session", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Student", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Student", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -407,7 +407,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("Student", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Subject", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Subject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -444,7 +444,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("Subject", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.User", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -497,22 +497,22 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Course", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Course", b =>
                 {
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Location", "Location")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Location", "Location")
                         .WithMany("Courses")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Location_Course");
 
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Provider", "Provider")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Provider", "Provider")
                         .WithMany("Courses")
                         .HasForeignKey("ProviderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("FK_Provider_Course");
 
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Subject", "Subject")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Subject", "Subject")
                         .WithMany("Courses")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -526,15 +526,15 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.CourseXPackage", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.CourseXPackage", b =>
                 {
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Course", "Course")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Course", "Course")
                         .WithMany("CourseXPackages")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Package", "Package")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Package", "Package")
                         .WithMany("CourseXPackages")
                         .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -545,9 +545,9 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Navigation("Package");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Order", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Order", b =>
                 {
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Package", "Package")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Package", "Package")
                         .WithMany("Orders")
                         .HasForeignKey("PackageId")
                         .HasConstraintName("FK_Package_Order");
@@ -555,9 +555,9 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Navigation("Package");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Package", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Package", b =>
                 {
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Student", "Student")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Student", "Student")
                         .WithMany("Packages")
                         .HasForeignKey("StudentId")
                         .HasConstraintName("FK_Student_Packages");
@@ -565,19 +565,19 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Provider", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Provider", b =>
                 {
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.User", "User")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.User", "User")
                         .WithOne("Provider")
-                        .HasForeignKey("SWD.SmartThrive.Repositories.Data.Table.Provider", "UserId")
+                        .HasForeignKey("SWD.SmartThrive.Repositories.Data.Entities.Provider", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Session", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Session", b =>
                 {
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Course", "Course")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Course", "Course")
                         .WithMany("Sessions")
                         .HasForeignKey("CourseId")
                         .HasConstraintName("FK_Course_Session");
@@ -585,9 +585,9 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Student", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Student", b =>
                 {
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.User", "User")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.User", "User")
                         .WithMany("Students")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_User_Student");
@@ -595,9 +595,9 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Subject", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Subject", b =>
                 {
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Category", "Category")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Category", "Category")
                         .WithMany("Subjects")
                         .HasForeignKey("CategoryID")
                         .HasConstraintName("FK_Category_Subject");
@@ -605,16 +605,16 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.User", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.User", b =>
                 {
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Location", "Location")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Location", "Location")
                         .WithMany("Users")
                         .HasForeignKey("LocationID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_User_Location");
 
-                    b.HasOne("SWD.SmartThrive.Repositories.Data.Table.Role", "Role")
+                    b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -626,53 +626,53 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Category", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Category", b =>
                 {
                     b.Navigation("Subjects");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Course", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Course", b =>
                 {
                     b.Navigation("CourseXPackages");
 
                     b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Location", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Location", b =>
                 {
                     b.Navigation("Courses");
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Package", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Package", b =>
                 {
                     b.Navigation("CourseXPackages");
 
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Provider", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Provider", b =>
                 {
                     b.Navigation("Courses");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Role", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Role", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Student", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Student", b =>
                 {
                     b.Navigation("Packages");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.Subject", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.Subject", b =>
                 {
                     b.Navigation("Courses");
                 });
 
-            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Table.User", b =>
+            modelBuilder.Entity("SWD.SmartThrive.Repositories.Data.Entities.User", b =>
                 {
                     b.Navigation("Provider");
 
