@@ -20,6 +20,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> AddSession(SessionModel sessionModel)
         {
             var session = _mapper.Map<Session>(sessionModel);
+            session.Id = Guid.NewGuid();
             return await _repository.AddSession(session);
         }
 

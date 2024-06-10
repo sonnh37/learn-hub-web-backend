@@ -15,7 +15,7 @@ namespace SWD.SmartThrive.API.ResponseModel
     {
         public TResult Result { get; }
 
-        public BaseReponse(TResult result, string message, int code)
+        public BaseReponse(TResult result, string message, int code = 200)
         {
             Code = code;
             Result = result;
@@ -31,7 +31,7 @@ namespace SWD.SmartThrive.API.ResponseModel
         public int Code { get; protected set; }
         public string Message { get; protected set; }
 
-        public BaseReponseBool(bool isData, string message, int code)
+        public BaseReponseBool(bool isData, string message, int code = 200)
         {
             Code = code;
             IsData = isData;
@@ -44,7 +44,7 @@ namespace SWD.SmartThrive.API.ResponseModel
         public List<TResult> Results { get; }
 
 
-        public BaseReponseList(List<TResult> results, string message, int code)
+        public BaseReponseList(List<TResult> results, string message, int code = 200)
         {
             Code = code;
             Results = results;
@@ -59,9 +59,8 @@ namespace SWD.SmartThrive.API.ResponseModel
         public TResult Result { get; }
         public string Token { get; }
         public string Expiration { get; }
-        public string message { get; }
 
-        public LoginResponse(TResult result, string token, string expiration, string message, int code)
+        public LoginResponse(TResult result, string token, string expiration, string message, int code = 200)
         {
             Code = code;
             Result = result;

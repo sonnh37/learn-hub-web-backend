@@ -3,13 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.API.RequestModel;
-using SWD.SmartThrive.API.Tool.Response;
 using SWD.SmartThrive.API.Tool.Constant;
+using SWD.SmartThrive.API.ResponseModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWD.SmartThrive.API.Controllers
 {
     [Route("api/controller")]
     [ApiController]
+    [Authorize]
     public class SessionController : ControllerBase
     {
         private readonly ISessionService _service;
@@ -34,13 +36,12 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return sessionModel switch
                 {
-                    not null => Ok(AppResponse.GetResponseResult<SessionModel>(
-                        sessionModel,
+                    not null => Ok(new BaseReponse<SessionModel>(sessionModel, ConstantMessage.Success)),
+                    null => Ok(new BaseReponse<SessionModel>(
+                        null,
                         ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND)),
-                    null => Ok(AppResponse.GetResponseResult<SessionModel>(
-                        sessionModel,
-                        ConstantMessage.Success))
+                        ConstantHttpStatus.NOT_FOUND))
+                    
                 };
             }
             catch (Exception ex)
@@ -59,8 +60,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isSession switch
                 {
-                    true => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Success)),
-                    _ => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Fail))
+                    true => Ok(new BaseReponseBool(isSession, ConstantMessage.Success)),
+                    _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)
@@ -80,8 +81,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                     return isSession switch
                     {
-                        true => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Success)),
-                        _ => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Fail))
+                        true => Ok(new BaseReponseBool(isSession, ConstantMessage.Success)),
+                        _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                     };
                 }
                 else
@@ -106,8 +107,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isSession switch
                 {
-                    true => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Success)),
-                    _ => Ok(AppResponse.GetResponseBool(isSession, ConstantMessage.Fail))
+                    true => Ok(new BaseReponseBool(isSession, ConstantMessage.Success)),
+                    _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)
@@ -116,7 +117,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpGet("get-all-session-by-student")]
+        [HttpGet("get-all-session-by-course")]
         public async Task<IActionResult> GetAllPackageByStudent(Guid studentid)
         {
             try
@@ -130,8 +131,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return sessionModels switch
                 {
-                    not null => Ok(AppResponse.GetResponseResultList(sessionModels, ConstantMessage.Success)),
-                    null => Ok(AppResponse.GetResponseResultList(sessionModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(new BaseReponseList<SessionModel>(sessionModels, ConstantMessage.Success)),
+                    null => Ok(new BaseReponseList<SessionModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
 
             }

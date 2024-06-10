@@ -20,6 +20,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> AddCourse(CourseModel courseModel)
         {
             var course = _mapper.Map<Course>(courseModel);
+            course.Id = Guid.NewGuid();
             return await _repository.AddCourse(course);
         }
 

@@ -20,6 +20,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> AddPackage(PackageModel packageModel)
         {
             var package = _mapper.Map<Package>(packageModel);
+            package.Id = Guid.NewGuid();
             return await _repository.AddPackage(package);
         }
 

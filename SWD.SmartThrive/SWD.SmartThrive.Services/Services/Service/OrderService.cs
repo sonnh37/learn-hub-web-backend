@@ -21,6 +21,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> AddOrder(OrderModel orderModel)
         {
             var order = _mapper.Map<Order>(orderModel);
+            order.Id = Guid.NewGuid();
             return await _repository.AddOrder(order);
         }
 

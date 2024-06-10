@@ -3,13 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.API.RequestModel;
-using SWD.SmartThrive.API.Tool.Response;
 using SWD.SmartThrive.API.Tool.Constant;
+using SWD.SmartThrive.API.ResponseModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWD.SmartThrive.API.Controllers
 {
     [Route("api/controller")]
     [ApiController]
+    [Authorize]
     public class CourseController : Controller
     {
         private readonly ICourseService _service;
@@ -34,13 +36,11 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return courseModel switch
                 {
-                    not null => Ok(AppResponse.GetResponseResult<CourseModel>(
-                        courseModel,
+                    not null => Ok(new BaseReponse<CourseModel>(courseModel, ConstantMessage.Success)),
+                    null => Ok(new BaseReponse<CourseModel>(
+                        null,
                         ConstantMessage.NotFound,
                         ConstantHttpStatus.NOT_FOUND)),
-                    null => Ok(AppResponse.GetResponseResult<CourseModel>(
-                        courseModel,
-                        ConstantMessage.Success))
                 };
             }
             catch (Exception ex)
@@ -59,8 +59,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isCourse switch
                 {
-                    true => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Success)),
-                    _ => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Fail))
+                    true => Ok(new BaseReponseBool(isCourse, ConstantMessage.Success)),
+                    _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)
@@ -80,8 +80,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                     return isCourse switch
                     {
-                        true => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Success)),
-                        _ => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Fail))
+                        true => Ok(new BaseReponseBool(isCourse, ConstantMessage.Success)),
+                        _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                     };
                 }
                 else
@@ -106,8 +106,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isCourse switch
                 {
-                    true => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Success)),
-                    _ => Ok(AppResponse.GetResponseBool(isCourse, ConstantMessage.Fail))
+                    true => Ok(new BaseReponseBool(isCourse, ConstantMessage.Success)),
+                    _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)
@@ -116,8 +116,8 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpGet("get-all-course-by-student")]
-        public async Task<IActionResult> GetAllPackageByStudent(Guid studentid)
+        [HttpGet("get-all-course-by-provider")]
+        public async Task<IActionResult> GetAllPackageByProvider(Guid studentid)
         {
             try
             {
@@ -130,8 +130,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return courseModels switch
                 {
-                    not null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.Success)),
-                    null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(new BaseReponseList<CourseModel>(courseModels, ConstantMessage.Success)),
+                    null => Ok(new BaseReponseList<CourseModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
 
             }
@@ -156,8 +156,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return courseModels switch
                 {
-                    not null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.Success)),
-                    null => Ok(AppResponse.GetResponseResultList(courseModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(new BaseReponseList<CourseModel>(courseModels, ConstantMessage.Success)),
+                    null => Ok(new BaseReponseList<CourseModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)
