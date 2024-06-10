@@ -1,20 +1,19 @@
 ﻿using AutoMapper;
 using SWD.SmartThrive.Repositories.Data.Table;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
+using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
 
 namespace SWD.SmartThrive.Services.Services.Service
 {
-    public class CourseService : ICourseService
+    public class CourseService : BaseService<Course>, ICourseService
     {
         private readonly ICourseRepository _repository;
-        private readonly IMapper _mapper;
 
-        public CourseService(ICourseRepository repository, IMapper mapper)
+        public CourseService(IUnitOfWork unitOfWork, IMapper mapper) : base(mapper, unitOfWork)
         {
-            _repository = repository;
-            _mapper = mapper;
+            _repository = unitOfWork.CourseRepository;
         }
 
         public async Task<bool> AddCourse(CourseModel courseModel)

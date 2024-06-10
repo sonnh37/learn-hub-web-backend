@@ -1,6 +1,8 @@
-﻿namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
+﻿using SWD.SmartThrive.Repositories.Repositories.Base;
+
+namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IBaseRepository
     {
     }
 }

@@ -11,6 +11,8 @@ using SWD.SmartThrive.Repositories.Data;
 using SWD.SmartThrive.Repositories.Repositories.Base;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Repository;
+using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
+using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Repository;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Services.Service;
 using System.Text;
@@ -23,7 +25,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-#region
+#region Add-Cors
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy 
     => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
@@ -45,9 +47,8 @@ builder.Services.AddAutoMapper(typeof(Mapper));
 #endregion
 
 #region Add-Scoped
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();

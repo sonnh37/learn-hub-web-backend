@@ -1,8 +1,9 @@
 ﻿using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Repositories.Base;
 
 namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
 {
-    public interface ICourseRepository
+    public interface ICourseRepository : IBaseRepository
     {
         public Task<bool> AddCourse(Course course);
 

@@ -1,9 +1,10 @@
 ﻿using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Repositories.Base;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Model;
 
 namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
 {
-    public interface IOrderRepository
+    public interface IOrderRepository : IBaseRepository
     {
         public Task<bool> AddOrder(Order order);
 

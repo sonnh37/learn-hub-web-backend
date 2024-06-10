@@ -1,8 +1,9 @@
 ﻿using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Repositories.Base;
 
 namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
 {
-    public interface ISessionRepository
+    public interface ISessionRepository : IBaseRepository
     {
         public Task<bool> AddSession(Session session);
 
