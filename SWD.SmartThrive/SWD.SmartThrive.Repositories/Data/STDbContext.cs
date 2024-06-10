@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Data.Entities;
 
 namespace SWD.SmartThrive.Repositories.Data
 {
@@ -54,7 +54,7 @@ namespace SWD.SmartThrive.Repositories.Data
                 e.ToTable("User");
                 e.HasKey(x => x.Id);
                 e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-                e.Property(x => x.UserName).IsRequired();
+                e.Property(x => x.Username).IsRequired();
                 e.Property(x => x.Email).IsRequired();
                 e.Property(x => x.Password).IsRequired();
                 e.Property(x => x.Status);

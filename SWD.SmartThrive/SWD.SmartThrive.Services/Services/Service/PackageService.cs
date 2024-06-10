@@ -1,26 +1,26 @@
 ﻿using AutoMapper;
-using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
+using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
+using SWD.SmartThrive.Services.Base;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
 
 namespace SWD.SmartThrive.Services.Services.Service
 {
-    public class PackageService : IPackageService
+    public class PackageService : BaseService<Package>, IPackageService
     {
         private readonly IPackageRepository _repository;
-        private readonly IMapper _mapper;
 
-        public PackageService(IPackageRepository repository, IMapper mapper)
+        public PackageService(IUnitOfWork unitOfWork, IMapper mapper) : base(mapper, unitOfWork)
         {
-            _repository = repository;
-            _mapper = mapper;
-
+            _repository = unitOfWork.PackageRepository;
         }
 
         public async Task<bool> AddPackage(PackageModel packageModel)
         {
             var package = _mapper.Map<Package>(packageModel);
+            package.Id = Guid.NewGuid();
             return await _repository.AddPackage(package);
         }
 

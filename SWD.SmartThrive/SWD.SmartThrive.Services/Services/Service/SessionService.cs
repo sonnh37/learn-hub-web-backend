@@ -1,25 +1,26 @@
 ﻿using AutoMapper;
-using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
+using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
+using SWD.SmartThrive.Services.Base;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
 
 namespace SWD.SmartThrive.Services.Services.Service
 {
-    public class SessionService : ISessionService
+    public class SessionService : BaseService<Session>, ISessionService
     {
         private readonly ISessionRepository _repository;
-        private readonly IMapper _mapper;
 
-        public SessionService(ISessionRepository repository, IMapper mapper)
+        public SessionService(IUnitOfWork unitOfWork, IMapper mapper) : base(mapper, unitOfWork)
         {
-            _repository = repository;
-            _mapper = mapper;
-
+            _repository = unitOfWork.SessionRepository;
         }
+
         public async Task<bool> AddSession(SessionModel sessionModel)
         {
             var session = _mapper.Map<Session>(sessionModel);
+            session.Id = Guid.NewGuid();
             return await _repository.AddSession(session);
         }
 

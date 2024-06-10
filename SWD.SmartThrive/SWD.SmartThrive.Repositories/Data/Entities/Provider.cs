@@ -1,4 +1,4 @@
-﻿namespace SWD.SmartThrive.Repositories.Data.Table
+﻿namespace SWD.SmartThrive.Repositories.Data.Entities
 {
     public class Provider : BaseEntity
     {

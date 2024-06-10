@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SWD.SmartThrive.Repositories.Data;
-using SWD.SmartThrive.Repositories.Data.Table;
+using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Repositories.Repositories.Base;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Model;
@@ -68,7 +68,8 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
                 var entity = queryable.FirstOrDefault();
                 if (entity != null)
                 {
-                    base.Delete(entity);
+                    entity.IsDeleted = true;
+                    base.Update(entity);
                     _context.SaveChanges();
                     return true;
                 }

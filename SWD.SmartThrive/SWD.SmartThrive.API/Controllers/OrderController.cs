@@ -3,13 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.API.RequestModel;
-using SWD.SmartThrive.API.Tool.Response;
 using SWD.SmartThrive.API.Tool.Constant;
+using SWD.SmartThrive.API.ResponseModel;
+using SWD.SmartThrive.Repositories.Repositories.Repositories.Model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWD.SmartThrive.API.Controllers
 {
     [Route("api/controller")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _service;
@@ -34,13 +37,11 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return orderModel switch
                 {
-                    not null => Ok(AppResponse.GetResponseResult<OrderModel>(
-                        orderModel,
+                    not null => Ok(new BaseReponse<OrderModel>(orderModel, ConstantMessage.Success)),
+                    null => Ok(new BaseReponse<OrderModel>(
+                        null,
                         ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND)),
-                    null => Ok(AppResponse.GetResponseResult<OrderModel>(
-                        orderModel,
-                        ConstantMessage.Success))
+                        ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)
@@ -59,8 +60,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isOrder switch
                 {
-                    true => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Success)),
-                    _ => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Fail))
+                    true => Ok(new BaseReponseBool(isOrder, ConstantMessage.Success)),
+                    _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)
@@ -80,8 +81,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                     return isOrder switch
                     {
-                        true => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Success)),
-                        _ => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Fail))
+                        true => Ok(new BaseReponseBool(isOrder, ConstantMessage.Success)),
+                        _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                     };
                 }
                 else
@@ -106,8 +107,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isOrder switch
                 {
-                    true => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Success)),
-                    _ => Ok(AppResponse.GetResponseBool(isOrder, ConstantMessage.Fail))
+                    true => Ok(new BaseReponseBool(isOrder, ConstantMessage.Success)),
+                    _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)
@@ -130,8 +131,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return orderModels switch
                 {
-                    not null => Ok(AppResponse.GetResponseResultList(orderModels, ConstantMessage.Success)),
-                    null => Ok(AppResponse.GetResponseResultList(orderModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(new BaseReponseList<OrderByStudent>(orderModels, ConstantMessage.Success)),
+                    null => Ok(new BaseReponseList<OrderByStudent>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
 
             }

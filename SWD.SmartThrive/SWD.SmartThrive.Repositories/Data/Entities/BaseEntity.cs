@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace SWD.SmartThrive.Repositories.Data.Table
+namespace SWD.SmartThrive.Repositories.Data.Entities
 {
     public abstract class BaseEntity
     {

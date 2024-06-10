@@ -3,13 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.API.RequestModel;
-using SWD.SmartThrive.API.Tool.Response;
 using SWD.SmartThrive.API.Tool.Constant;
+using SWD.SmartThrive.API.ResponseModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWD.SmartThrive.API.Controllers
 {
     [Route("api/controller")]
     [ApiController]
+    [Authorize]
     public class PackageController : ControllerBase
     {
         private readonly IPackageService _service;
@@ -34,13 +36,12 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return packageModel switch
                 {
-                    not null => Ok(AppResponse.GetResponseResult<PackageModel>(
-                        packageModel,
+                    not null => Ok(new BaseReponse<PackageModel>(packageModel, ConstantMessage.Success)),
+                    null => Ok(new BaseReponse<PackageModel>(
+                        null,
                         ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND)),
-                    null => Ok(AppResponse.GetResponseResult<PackageModel>(
-                        packageModel,
-                        ConstantMessage.Success))
+                        ConstantHttpStatus.NOT_FOUND))
+                    
                 };
             }
             catch (Exception ex)
@@ -59,8 +60,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isPackage switch
                 {
-                    true => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Success)),
-                    _ => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Fail))
+                    true => Ok(new BaseReponseBool(isPackage, ConstantMessage.Success)),
+                    _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)
@@ -80,8 +81,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                     return isPackage switch
                     {
-                        true => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Success)),
-                        _ => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Fail))
+                        true => Ok(new BaseReponseBool(isPackage, ConstantMessage.Success)),
+                        _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                     };
                 }
                 else
@@ -106,8 +107,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isPackage switch
                 {
-                    true => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Success)),
-                    _ => Ok(AppResponse.GetResponseBool(isPackage, ConstantMessage.Fail))
+                    true => Ok(new BaseReponseBool(isPackage, ConstantMessage.Success)),
+                    _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
                 };
             }
             catch (Exception ex)
@@ -130,8 +131,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return packageModels switch
                 {
-                    not null => Ok(AppResponse.GetResponseResultList(packageModels, ConstantMessage.Success)),
-                    _ => Ok(AppResponse.GetResponseResultList(packageModels, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(new BaseReponseList<PackageModel>(packageModels, ConstantMessage.Success)),
+                    null => Ok(new BaseReponseList<PackageModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
 
             }
