@@ -19,31 +19,50 @@ namespace SWD.SmartThrive.Services.Services.Service
 
         public async Task<bool> AddPackage(PackageModel packageModel)
         {
-            var package = _mapper.Map<Package>(packageModel);
-            package.Id = Guid.NewGuid();
-            return await _repository.AddPackage(package);
+            var package = await _repository.GetPackage(packageModel.Id);
+
+            if (package != null)
+            {
+                return false;
+            }
+
+            var _package = _mapper.Map<Package>(packageModel);
+            _package.Id = Guid.NewGuid();
+            _repository.Add(_package);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<bool> UpdatePackage(PackageModel packageModel)
         {
-            var package = _mapper.Map<Package>(packageModel);
-            return await _repository.UpdatePackage(package);
+            var package = await _repository.GetPackage(packageModel.Id);
+
+            if (package == null)
+            {
+                return false;
+            }
+
+            _mapper.Map(packageModel, package);
+            _repository.Update(package);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<bool> DeletePackage(Guid id)
         {
             var package = await _repository.GetPackage(id);
-            if (package != null)
-            {
-                package.IsDeleted = true;
-                var isPackage = await _repository.UpdatePackage(package);
 
-                if (isPackage)
-                {
-                    return true;
-                }
+            if (package == null)
+            {
+                return false;
             }
-            return false;
+
+            _repository.Delete(package);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<List<PackageModel>> GetAllPackage()

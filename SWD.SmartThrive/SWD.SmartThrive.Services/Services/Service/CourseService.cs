@@ -19,31 +19,50 @@ namespace SWD.SmartThrive.Services.Services.Service
 
         public async Task<bool> AddCourse(CourseModel courseModel)
         {
-            var course = _mapper.Map<Course>(courseModel);
-            course.Id = Guid.NewGuid();
-            return await _repository.AddCourse(course);
+            var course = await _repository.GetCourse(courseModel.Id);
+
+            if (course != null)
+            {
+                return false;
+            }
+
+            var _course = _mapper.Map<Course>(courseModel);
+            _course.Id = Guid.NewGuid();
+            _repository.Add(_course);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<bool> UpdateCourse(CourseModel courseModel)
         {
-            var course = _mapper.Map<Course>(courseModel);
-            return await _repository.UpdateCourse(course);
+            var course = await _repository.GetCourse(courseModel.Id);
+
+            if (course == null)
+            {
+                return false;
+            }
+
+            _mapper.Map(courseModel, course);
+            _repository.Update(course);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<bool> DeleteCourse(Guid id)
         {
             var course = await _repository.GetCourse(id);
-            if (course != null)
-            {
-                course.IsDeleted = true;
-                var isCourse = await _repository.UpdateCourse(course);
 
-                if (isCourse)
-                {
-                    return true;
-                }
+            if (course == null)
+            {
+                return false;
             }
-            return false;
+
+            _repository.Delete(course);
+            var saveChanges = await _unitOfWork.SaveChanges();
+
+            return saveChanges ? true : false;
         }
 
         public async Task<List<CourseModel>> GetAllCourse()

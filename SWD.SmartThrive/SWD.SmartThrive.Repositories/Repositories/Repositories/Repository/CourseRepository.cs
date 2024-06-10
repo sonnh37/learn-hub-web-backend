@@ -15,45 +15,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             _context = context;
         }
 
-        public async Task<bool> AddCourse(Course course)
-        {
-            var queryable = await base.GetById(course.Id);
-
-            if (!queryable.Any())
-            {
-                base.Add(course);
-                _context.SaveChanges();
-                return true;
-            }
-
-            return false;
-        }
-
-        public async Task<bool> DeleteCourse(Guid id)
-        {
-            var queryable = await base.GetById(id);
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var entity = queryable.FirstOrDefault();
-                if (entity != null)
-                {
-                    entity.IsDeleted = true;
-                    base.Update(entity);
-                    _context.SaveChanges();
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public async Task<List<Course>> GetAllCourse()
         {
             var queryable = await GetAll();
@@ -109,33 +70,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             }
 
             return null;
-        }
-
-        public async Task<bool> UpdateCourse(Course course)
-        {
-            var queryable = await base.GetById(course.Id);
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var entity = queryable.FirstOrDefault();
-
-                if (entity != null)
-                {
-                    _mapper.Map(course, entity);
-                    base.Update(entity);
-
-                    _context.SaveChanges();
-
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         public async Task<List<Course>> SearchCourse(string name)
