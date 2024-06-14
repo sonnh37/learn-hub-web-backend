@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SWD.SmartThrive.Repositories.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace SWD.SmartThrive.Services.Model
 {
@@ -20,13 +21,15 @@ namespace SWD.SmartThrive.Services.Model
 
         public string? CreatedBy { get; set; }
 
-        public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         
         public DateTime? LastUpdatedDate { get; set; }
 
         public string? LastUpdatedBy { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public PackageModel? Package { get; set; }
 
     }
 }

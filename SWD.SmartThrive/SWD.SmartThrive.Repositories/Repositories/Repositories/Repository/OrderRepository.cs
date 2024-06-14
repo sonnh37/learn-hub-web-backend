@@ -16,28 +16,45 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             _context = context;
         }
 
-        public async Task<List<OrderByStudent>> GetAllOrderByStudent(Guid id)
+        public async Task<List<Order>> GetAllOrderByStudent(Guid id)
         {
-            var a = from c in _context.Orders
-                    join t in _context.Packages on c.PackageId equals t.Id
-                    join s in _context.Students on t.StudentId equals s.Id
-                    select new OrderByStudent
-                    {
-                        Id = c.Id,
-                        PackageId = c.Id,
-                        PackageName = t.PackageName,
-                        PaymentMethod = c.PaymentMethod,
-                        Amount = c.Amount,
-                        TotalPrice = c.TotalPrice,
-                        Description = c.Description,
-                        Status = c.Status,
-                        CreatedBy = c.CreatedBy,
-                        CreatedDate = c.CreatedDate,
-                        LastUpdatedDate = c.LastUpdatedDate,
-                        LastUpdatedBy = c.LastUpdatedBy,
-                        IsDeleted = c.IsDeleted
-                    };
-            return await a.Where(x => x.StudentId == id).ToListAsync();
+            //var a = from c in _context.Orders
+            //        join t in _context.Packages on c.PackageId equals t.Id
+            //        join s in _context.Students on t.StudentId equals s.Id
+            //        select new OrderByStudent
+            //        {
+            //            Id = c.Id,
+            //            PackageId = c.Id,
+            //            PackageName = t.PackageName,
+            //            PaymentMethod = c.PaymentMethod,
+            //            Amount = c.Amount,
+            //            TotalPrice = c.TotalPrice,
+            //            Description = c.Description,
+            //            Status = c.Status,
+            //            CreatedBy = c.CreatedBy,
+            //            CreatedDate = c.CreatedDate,
+            //            LastUpdatedDate = c.LastUpdatedDate,
+            //            LastUpdatedBy = c.LastUpdatedBy,
+            //            IsDeleted = c.IsDeleted
+            //        };
+            //return await a.Where(x => x.StudentId == id).ToListAsync();
+
+            var queryable = base.GetQueryable(x => x.Package!.StudentId == id);
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+            if (queryable.Any())
+            {
+                var results = await queryable.Include(x => x.Package)
+                    .ToListAsync();
+
+                return results;
+            }
+
+            return null;
         }
 
         public async Task<List<Order>> GetAllOrder()

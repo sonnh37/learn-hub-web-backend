@@ -8,7 +8,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
     {
         public Task<Order> GetOrder(Guid id);
 
-        public Task<List<OrderByStudent>> GetAllOrderByStudent(Guid id);
+        public Task<List<Order>> GetAllOrderByStudent(Guid id);
 
         public Task<List<Order>> GetAllOrder();
     }

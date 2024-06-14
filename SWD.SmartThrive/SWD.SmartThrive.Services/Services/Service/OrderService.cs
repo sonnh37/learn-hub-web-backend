@@ -78,7 +78,7 @@ namespace SWD.SmartThrive.Services.Services.Service
             return _mapper.Map<List<OrderModel>>(orders);
         }
 
-        public async Task<List<OrderByStudent>> GetAllOrderByStudent(Guid id)
+        public async Task<List<OrderModel>> GetAllOrderByStudent(Guid id)
         {
 
             var orders = await _repository.GetAllOrderByStudent(id);
@@ -88,7 +88,7 @@ namespace SWD.SmartThrive.Services.Services.Service
                 return null;
             }
 
-            return _mapper.Map<List<OrderByStudent>>(orders);
+            return _mapper.Map<List<OrderModel>>(orders);
         }
 
         public async Task<OrderModel> GetOrder(Guid id)

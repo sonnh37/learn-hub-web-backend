@@ -46,7 +46,8 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
             if (queryable.Any())
             {
-                var results = await queryable.Include(x => x.Student).ToListAsync();
+                var results = await queryable.Include(x => x.Student)
+                    .ToListAsync();
 
                 return results;
             }
