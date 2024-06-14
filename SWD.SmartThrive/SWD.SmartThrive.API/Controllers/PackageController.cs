@@ -34,6 +34,7 @@ namespace SWD.SmartThrive.API.Controllers
                 }
                 var packageModel = await _service.GetPackage(id);
 
+
                 return packageModel switch
                 {
                     not null => Ok(new BaseReponse<PackageModel>(packageModel, ConstantMessage.Success)),

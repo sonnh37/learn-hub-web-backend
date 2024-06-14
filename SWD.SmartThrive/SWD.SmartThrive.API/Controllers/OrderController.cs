@@ -118,7 +118,7 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpGet("get-all-order-by-student")]
-        public async Task<IActionResult> GetAllPackageByStudent(Guid studentid)
+        public async Task<IActionResult> GetAllOrderByStudent(Guid studentid)
         {
             try
             {
@@ -131,8 +131,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return orderModels switch
                 {
-                    not null => Ok(new BaseReponseList<OrderByStudent>(orderModels, ConstantMessage.Success)),
-                    null => Ok(new BaseReponseList<OrderByStudent>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                    not null => Ok(new BaseReponseList<OrderModel>(orderModels, ConstantMessage.Success)),
+                    null => Ok(new BaseReponseList<OrderModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
                 };
 
             }

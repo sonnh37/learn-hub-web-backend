@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SWD.SmartThrive.Repositories.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace SWD.SmartThrive.Services.Model
 {
@@ -29,5 +30,11 @@ namespace SWD.SmartThrive.Services.Model
         public bool IsDeleted { get; set; }
 
         public bool? IsActive { get; set; }
+
+        public StudentModel? Student { get; set; }
+
+        //public IList<CourseXPackage>? CourseXPackages { get; set; }
+
+        public IList<OrderModel>? Orders { get; set; }
     }
 }
