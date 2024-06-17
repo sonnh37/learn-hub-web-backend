@@ -58,9 +58,14 @@ builder.Services.AddSwaggerGen(options =>
 
 #region Add-Cors
 
-builder.Services.AddCors(options => options.AddDefaultPolicy(policy 
-    => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials());
+});
 #endregion
 
 #region Add-DbContext
@@ -139,6 +144,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication();
 

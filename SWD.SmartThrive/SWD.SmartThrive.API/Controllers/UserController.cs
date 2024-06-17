@@ -27,6 +27,29 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("get-all-user")]
+        public async Task<IActionResult> GetAllUser()
+        {
+            try
+            {
+                var users = await _service.GetAllUser();
+
+                return users switch
+                {
+                    null => Ok(new BaseReponseList<UserModel>(
+                        users,
+                        ConstantMessage.NotFound,
+                        ConstantHttpStatus.NOT_FOUND)),
+                    not null => Ok(new BaseReponseList<UserModel>(users, ConstantMessage.Success))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
+        }
+
         [HttpGet("get-user")]
         public async Task<IActionResult> GetUser(Guid id)
         {

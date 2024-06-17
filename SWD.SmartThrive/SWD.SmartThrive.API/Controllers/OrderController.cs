@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SWD.SmartThrive.API.Controllers
 {
-    [Route("api/controller")]
+    [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public class OrderController : ControllerBase
