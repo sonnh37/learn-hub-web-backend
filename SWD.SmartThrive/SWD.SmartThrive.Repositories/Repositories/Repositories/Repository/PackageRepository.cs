@@ -73,5 +73,19 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
             return null;
         }
+
+        public  async Task<List<Package>> SearchPackByIdOrName(string search)
+        {
+            var queryable =  base.GetQueryable(x => x.Id.Equals(search) || x.PackageName.StartsWith(search));
+            if (queryable.Any())
+            {
+                queryable =  queryable.Where(x => x.IsDeleted!);
+            }
+            if (queryable.Any())
+            {
+                return await queryable.ToListAsync();
+            }
+            return null;
+        }
     }
 }

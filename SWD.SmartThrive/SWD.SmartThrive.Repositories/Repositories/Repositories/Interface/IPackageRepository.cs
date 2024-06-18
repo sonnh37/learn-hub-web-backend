@@ -11,5 +11,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
 
         public Task<List<Package>> GetAllPackage();
 
+
+        public Task<List<Package>> SearchPackByIdOrName(string search);
     }
 }

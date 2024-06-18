@@ -70,5 +70,20 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
             return null;
         }
+
+        public async Task<List<Session>> SearchSessionByIdOrName(string search)
+        {
+          var queryable =  base.GetQueryable(x=> x.SessionName.StartsWith(search) || x.Id.Equals(search));
+            if (queryable.Any())
+            {
+                queryable =  queryable.Where(x=> x.IsDeleted!);
+
+            }
+            if (queryable.Any())
+            {
+                return await queryable.ToListAsync();
+            }
+            return null;
+        }
     }
 }

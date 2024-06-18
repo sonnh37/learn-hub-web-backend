@@ -17,5 +17,7 @@ namespace SWD.SmartThrive.Services.Services.Interface
 
         public Task<List<OrderModel>> GetAllOrder();
 
+        public Task<List<OrderModel>> SearchOrderById(string id);
+
     }
 }
