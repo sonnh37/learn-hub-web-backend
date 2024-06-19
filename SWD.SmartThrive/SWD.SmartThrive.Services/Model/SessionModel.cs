@@ -1,4 +1,6 @@
-﻿namespace SWD.SmartThrive.Services.Model
+﻿using SWD.SmartThrive.Repositories.Data.Entities;
+
+namespace SWD.SmartThrive.Services.Model
 {
     public class SessionModel : BaseModel
     {
@@ -11,5 +13,7 @@
         public string? Description { get; set; }
 
         public DateTime? LearnDate { get; set; }
+
+        public CourseModel? Course { get; set; }
     }
 }

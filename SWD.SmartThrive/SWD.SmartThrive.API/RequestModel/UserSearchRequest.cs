@@ -1,14 +1,12 @@
-﻿namespace SWD.SmartThrive.Services.Model
+﻿namespace SWD.SmartThrive.API.RequestModel
 {
-    public class UserModel : BaseModel
+    public class UserSearchRequest 
     {
         public string? Username { get; set; }
 
-        public string? Password { get; set; }
+        public string? FullName { get; set; }
 
-        public string FullName { get; set; }
-
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         public DateTime? DOB { get; set; }
 
@@ -20,7 +18,7 @@
 
         public bool? Status { get; set; }
 
-        public Guid RoleId { get; set; }
+        public Guid? RoleId { get; set; }
 
         public Guid? LocationId { get; set; }
     }

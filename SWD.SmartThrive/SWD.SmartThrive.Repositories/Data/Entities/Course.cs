@@ -34,9 +34,9 @@ namespace SWD.SmartThrive.Repositories.Data.Entities
 
         public DateTime? EndDate { get; set; }
 
-        public virtual Location Location { get; set; }
+        public virtual Location? Location { get; set; }
 
-        public virtual Subject Subject { get; set; }
+        public virtual Subject? Subject { get; set; }
 
         public virtual Provider? Provider { get; set; }
 

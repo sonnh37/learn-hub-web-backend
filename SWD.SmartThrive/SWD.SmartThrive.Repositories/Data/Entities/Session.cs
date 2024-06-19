@@ -6,7 +6,7 @@ namespace SWD.SmartThrive.Repositories.Data.Entities
     [Table("Session")]
     public class Session : BaseEntity
     {
-        public Guid? CourseId { get; set; }
+        public Guid CourseId { get; set; }
 
         public string SessionName { get; set; }
 

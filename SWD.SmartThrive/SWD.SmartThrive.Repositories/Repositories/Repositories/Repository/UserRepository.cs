@@ -14,7 +14,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
         {
             _context = context;
         }
-        
+
         public async Task<User> FindUsernameOrEmail(User user)
         {
             var queryable = base.GetQueryable();
@@ -37,6 +37,34 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
             return result;
         }
-        
+
+        public async Task<List<User>> GetAllUserSearch(User user)
+        {
+            var queryable = base.GetQueryable(m => m.IsDeleted == user.IsDeleted);
+
+            if (!queryable.Any())
+            {
+                return null;
+            }
+
+            queryable = queryable.Where(m =>
+            (
+            (string.IsNullOrEmpty(user.Username) || m.Username.ToLower().Trim() == user.Username.ToLower().Trim()) &&
+            (string.IsNullOrEmpty(user.FullName) || m.FullName.ToLower().Trim().Contains(user.FullName.ToLower().Trim())) &&
+            (string.IsNullOrEmpty(user.Email) || m.Email.ToLower().Trim() == user.Email.ToLower().Trim()) &&
+            (!user.DOB.HasValue || m.DOB.Value.Date == user.DOB.Value.Date) &&
+            (string.IsNullOrEmpty(user.Address) || m.Address.ToLower().Trim().Contains(user.Address.ToLower().Trim())) &&
+            (string.IsNullOrEmpty(user.Gender) || m.Gender.ToLower().Trim() == user.Gender.ToLower().Trim()) &&
+            (string.IsNullOrEmpty(user.Phone) || m.Phone.ToLower().Trim().Contains(user.Phone.ToLower().Trim())) &&
+            (!user.Status.HasValue || m.Status == user.Status) &&
+            (user.RoleId == Guid.Empty || m.RoleId == user.RoleId) &&
+            (user.LocationId == Guid.Empty || m.LocationId == user.LocationId)
+            ));
+
+            var users = await queryable.ToListAsync();
+
+            return users;
+        }
+
     }
 }

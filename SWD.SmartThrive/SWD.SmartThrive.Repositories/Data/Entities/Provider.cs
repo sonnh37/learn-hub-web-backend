@@ -8,7 +8,7 @@
 
         public string Website { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
 
         public virtual ICollection<Course>? Courses { get; set; }
 

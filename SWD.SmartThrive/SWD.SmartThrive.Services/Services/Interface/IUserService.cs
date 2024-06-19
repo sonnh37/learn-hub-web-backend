@@ -15,6 +15,8 @@ namespace SWD.SmartThrive.Services.Services.Interface
 
         public Task<List<UserModel>> GetAllUser();
 
+        public Task<List<UserModel>> GetAllUserSearch(UserModel userModel);
+
         Task<UserModel> Login(AuthModel authModel);
 
         Task<UserModel> Register(UserModel userModel);

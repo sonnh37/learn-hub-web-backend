@@ -5,7 +5,7 @@ namespace SWD.SmartThrive.Services.Model
 {
     public class PackageModel : BaseModel
     {
-        public Guid? StudentId { get; set; }
+        public Guid StudentId { get; set; }
 
         public string PackageName { get; set; }
 
@@ -21,7 +21,7 @@ namespace SWD.SmartThrive.Services.Model
 
         public StudentModel? Student { get; set; }
 
-        //public IList<CourseXPackage>? CourseXPackages { get; set; }
+        public IList<CourseXPackageModel>? CourseXPackages { get; set; }
 
         public IList<OrderModel>? Orders { get; set; }
     }
