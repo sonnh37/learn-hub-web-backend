@@ -9,12 +9,12 @@ namespace SWD.SmartThrive.API.RequestModel
 {
     public class PackageRequest : BaseRequest
     {
-        public Guid? StudentId { get; set; }
+        public Guid StudentId { get; set; }
 
         public string PackageName { get; set; }
 
         public DateTime? StartDate { get; set; }
-        
+
         public DateTime? EndDate { get; set; }
 
         public int? QuantityCourse { get; set; }

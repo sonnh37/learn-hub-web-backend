@@ -4,6 +4,6 @@
     {
         public string SubjectName { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
     }
 }
