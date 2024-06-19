@@ -1,4 +1,6 @@
-﻿namespace SWD.SmartThrive.Services.Model
+﻿using SWD.SmartThrive.Repositories.Data.Entities;
+
+namespace SWD.SmartThrive.Services.Model
 {
     public class UserModel : BaseModel
     {
@@ -23,5 +25,13 @@
         public Guid RoleId { get; set; }
 
         public Guid? LocationId { get; set; }
+
+        public RoleModel? Role { get; set; }
+
+        public LocationModel? Location { get; set; }
+
+        public ProviderModel? Provider { get; set; }
+
+        public IList<StudentModel>? Students { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace SWD.SmartThrive.API.RequestModel
 {
     public class OrderRequest : BaseRequest
     {
-        public Guid? PackageId { get; set; }
+        public Guid PackageId { get; set; }
 
         public string? PaymentMethod { get; set; }
 
