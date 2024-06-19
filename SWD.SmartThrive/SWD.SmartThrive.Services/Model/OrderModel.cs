@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SWD.SmartThrive.Services.Model
 {
-    public class OrderModel
+    public class OrderModel : BaseModel
     {
         public Guid? PackageId { get; set; }
 
@@ -16,18 +16,6 @@ namespace SWD.SmartThrive.Services.Model
         public string? Description { get; set; }
 
         public bool? Status { get; set; }
-
-        public Guid Id { get; set; }
-
-        public string? CreatedBy { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-        
-        public DateTime? LastUpdatedDate { get; set; }
-
-        public string? LastUpdatedBy { get; set; }
-
-        public bool IsDeleted { get; set; }
 
         public PackageModel? Package { get; set; }
 

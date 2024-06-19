@@ -26,9 +26,9 @@ namespace SWD.SmartThrive.Repositories.Data.Entities
 
         public bool Status { get; set; }
 
-        public Guid RoleID { get; set; }
+        public Guid RoleId { get; set; }
 
-        public Guid LocationID { get; set; }
+        public Guid LocationId { get; set; }
 
         public virtual Role Role { get; set; }
 
