@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SWD.SmartThrive.Repositories.Data.Entities;
@@ -25,7 +26,7 @@ namespace SWD.SmartThrive.Services.Services.Service
 
         private DateTime countDown = DateTime.Now.AddMinutes(30);
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration) : base(mapper, unitOfWork)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, IHttpContextAccessor _httpContextAccessor) : base(mapper, unitOfWork, _httpContextAccessor)
         {
             _repository = unitOfWork.UserRepository;
             _configuration = configuration;
@@ -34,6 +35,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> AddUser(UserModel userModel)
         {
             var user = _mapper.Map<User>(userModel);
+            
             return await _repository.Add(user);
         }
 
@@ -64,7 +66,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<List<UserModel>> GetAllUser()
         {
             var users = await _repository.GetAll();
-
+            
             if (users == null)
             {
                 return null;

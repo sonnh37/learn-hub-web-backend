@@ -106,7 +106,7 @@ builder.Services.AddScoped<IPackageService, PackageService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 
 builder.Services.AddScoped(typeof(UserService));
-
+builder.Services.AddHttpContextAccessor();
 #endregion
 
 #region Config-Authentication_Authorization

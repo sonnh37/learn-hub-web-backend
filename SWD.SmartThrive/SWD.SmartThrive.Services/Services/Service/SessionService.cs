@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
 using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
@@ -12,7 +13,7 @@ namespace SWD.SmartThrive.Services.Services.Service
     {
         private readonly ISessionRepository _repository;
 
-        public SessionService(IUnitOfWork unitOfWork, IMapper mapper) : base(mapper, unitOfWork)
+        public SessionService(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(mapper, unitOfWork, httpContextAccessor)
         {
             _repository = unitOfWork.SessionRepository;
         }
@@ -20,7 +21,8 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> AddSession(SessionModel SessionModel)
         {
             var Session = _mapper.Map<Session>(SessionModel);
-            return await _repository.Add(Session);
+            var session = await SetBaseEntityToCreateFunc(Session);
+            return await _repository.Add(session);
         }
 
         public async Task<bool> UpdateSession(SessionModel SessionModel)
@@ -32,7 +34,8 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
 
             var Session = _mapper.Map<Session>(SessionModel);
-            return await _repository.Update(Session);
+            var session = await SetBaseEntityToUpdateFunc(Session);
+            return await _repository.Update(session);
         }
 
         public async Task<bool> DeleteSession(Guid id)

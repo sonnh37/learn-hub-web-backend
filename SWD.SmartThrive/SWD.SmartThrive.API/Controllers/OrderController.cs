@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿    using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Model;
@@ -22,6 +22,29 @@ namespace SWD.SmartThrive.API.Controllers
         {
             _service = service;
             _mapper = mapper;
+        }
+
+        [HttpGet("get-all-order")]
+        public async Task<IActionResult> GetAllOrder()
+        {
+            try
+            {
+                var orders = await _service.GetAllOrder();
+
+                return orders switch
+                {
+                    null => Ok(new BaseReponseList<OrderModel>(
+                        null,
+                        ConstantMessage.NotFound,
+                        ConstantHttpStatus.NOT_FOUND)),
+                    not null => Ok(new BaseReponseList<OrderModel>(orders, ConstantMessage.Success))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
         }
 
         [HttpGet("get-order")]
