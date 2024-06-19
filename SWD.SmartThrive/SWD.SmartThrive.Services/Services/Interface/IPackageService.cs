@@ -15,5 +15,7 @@ namespace SWD.SmartThrive.Services.Services.Interface
         public Task<List<PackageModel>> GetAllPackageByStudent(Guid id);
 
         public Task<List<PackageModel>> GetAllPackage();
+
+        public Task<List<PackageModel>> SearchPackage(string name);
     }
 }

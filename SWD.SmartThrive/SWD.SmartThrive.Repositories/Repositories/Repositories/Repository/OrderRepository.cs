@@ -94,5 +94,26 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
             return null;
         }
+
+        public async Task<List<Order>> SearchOrderByIdOrName(string id)
+        {
+
+            var queryable = base.GetQueryable(x => x.Id.Equals(id));
+
+            if (queryable.Any())
+            {
+                queryable = queryable.Where(x => !x.IsDeleted);
+            }
+
+
+            //if (queryable.Any())
+            //{
+            //    var results = await queryable.Include(x => x.Provider).ToListAsync();
+
+            //    return results;
+            //}
+
+            return queryable.ToList();
+        }
     }
 }

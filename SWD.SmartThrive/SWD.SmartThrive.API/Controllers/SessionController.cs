@@ -142,5 +142,30 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("search-session-by-id-or-name")]
+        public async Task<IActionResult> SearchSession(string search)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(search))
+                {
+                    return BadRequest("search is empty");
+                }
+
+                var sessionModel = await _service.SearchModel(search);
+
+                return sessionModel switch
+                {
+                    not null => Ok(new BaseReponseList<SessionModel>(sessionModel, ConstantMessage.Success)),
+                    null => Ok(new BaseReponseList<CourseModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

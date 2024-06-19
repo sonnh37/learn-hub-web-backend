@@ -10,5 +10,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
         public Task<List<Session>> GetAllSession();
 
         public Task<List<Session>> GetAllSessionByCouse(Guid CourseId);
+
+        public Task<List<Session>> SearchSessionByIdOrName(string search);
     }
 }

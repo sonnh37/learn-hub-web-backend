@@ -143,5 +143,32 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+
+        [HttpGet("search-package-by-id-or-name")]
+        public async Task<IActionResult> SearchPackage(string search)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(search))
+                {
+                    return BadRequest("search is empty");
+                }
+
+                var packageModel = await _service.SearchPackage(search);
+
+                return packageModel switch
+                {
+                    not null => Ok(new BaseReponseList<PackageModel>(packageModel, ConstantMessage.Success)),
+                    null => Ok(new BaseReponseList<CourseModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

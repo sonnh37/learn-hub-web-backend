@@ -7,6 +7,7 @@ using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.API.ResponseModel;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SWD.SmartThrive.API.Controllers
 {
@@ -128,6 +129,32 @@ namespace SWD.SmartThrive.API.Controllers
                 }
 
                 var orderModels = await _service.GetAllOrderByStudent(studentid);
+
+                return orderModels switch
+                {
+                    not null => Ok(new BaseReponseList<OrderModel>(orderModels, ConstantMessage.Success)),
+                    null => Ok(new BaseReponseList<OrderModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+                };
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("search-all-order-by-id")]
+        public async Task<IActionResult> SearchAllOrderById(string orderid)
+        {
+            try
+            {
+                if (orderid.IsNullOrEmpty())
+                {
+                    return BadRequest("search order is empty");
+                }
+
+                var orderModels = await _service.SearchOrderById(orderid);
 
                 return orderModels switch
                 {

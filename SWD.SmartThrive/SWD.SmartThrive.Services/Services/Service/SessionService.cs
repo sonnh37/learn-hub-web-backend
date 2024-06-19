@@ -101,5 +101,16 @@ namespace SWD.SmartThrive.Services.Services.Service
 
             return _mapper.Map<SessionModel>(session);
         }
+
+        public async Task<List<SessionModel>> SearchModel(string search)
+        {
+            var queryable = await _repository.SearchSessionByIdOrName(search);
+
+            if (queryable == null)
+            {
+                return null;
+            }
+            return _mapper.Map<List<SessionModel>>(queryable);
+        }
     }
 }

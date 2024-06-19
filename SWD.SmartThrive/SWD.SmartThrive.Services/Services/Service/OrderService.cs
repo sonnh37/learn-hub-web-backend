@@ -102,5 +102,17 @@ namespace SWD.SmartThrive.Services.Services.Service
 
             return _mapper.Map<OrderModel>(order);
         }
+
+        public async Task<List<OrderModel>> SearchOrderById(string id)
+        {
+            var search = await _repository.SearchOrderByIdOrName(id);
+
+            if(search == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<OrderModel>>(search);
+        }
     }
 }

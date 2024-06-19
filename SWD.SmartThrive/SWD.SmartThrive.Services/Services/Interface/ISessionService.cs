@@ -17,6 +17,6 @@ namespace SWD.SmartThrive.Services.Services.Interface
 
         public Task<List<SessionModel>> GetAllSession();
 
-
+        public Task<List<SessionModel>> SearchModel(string search);
     }
 }

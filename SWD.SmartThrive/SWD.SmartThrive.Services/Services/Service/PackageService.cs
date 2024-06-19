@@ -101,5 +101,16 @@ namespace SWD.SmartThrive.Services.Services.Service
 
             return _mapper.Map<PackageModel>(package);
         }
+
+        public async Task<List<PackageModel>> SearchPackage(string name)
+        {
+          var queryable = await _repository.SearchPackByIdOrName(name);
+
+            if(queryable == null)
+            {
+                return null;
+            }
+            return _mapper.Map<List<PackageModel>>(queryable);
+        }
     }
 }
