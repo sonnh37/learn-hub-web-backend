@@ -13,17 +13,5 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
         {
             context = _context;
         }
-
-        public async Task<bool> AddCourseToPackage(CourseXPackage newcourse)
-        {
-            await context.CourseXPackages.AddAsync(newcourse);
-            await context.SaveChangesAsync();
-            return true;
-        }
-
-        public Task<bool> DeleteCourseToPackage(CourseXPackage courseid)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

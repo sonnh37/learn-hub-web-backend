@@ -116,55 +116,55 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpGet("get-all-course-by-provider")]
-        public async Task<IActionResult> GetAllPackageByProvider(Guid studentid)
-        {
-            try
-            {
-                if (studentid == Guid.Empty)
-                {
-                    return BadRequest("StudentId is empty");
-                }
+        //[HttpGet("get-all-course-by-provider")]
+        //public async Task<IActionResult> GetAllPackageByProvider(Guid studentid)
+        //{
+        //    try
+        //    {
+        //        if (studentid == Guid.Empty)
+        //        {
+        //            return BadRequest("StudentId is empty");
+        //        }
 
-                var courseModels = await _service.GetAllCourseByProvider(studentid);
+        //        var courseModels = await _service.GetAllCourseByProvider(studentid);
 
-                return courseModels switch
-                {
-                    not null => Ok(new BaseReponseList<CourseModel>(courseModels, ConstantMessage.Success)),
-                    null => Ok(new BaseReponseList<CourseModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
-                };
+        //        return courseModels switch
+        //        {
+        //            not null => Ok(new BaseReponseList<CourseModel>(courseModels, ConstantMessage.Success)),
+        //            null => Ok(new BaseReponseList<CourseModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+        //        };
 
-            }
-            catch (Exception ex)
-            {
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
-        [HttpGet("search-course-by-id-or-name")]
-        public async Task<IActionResult> SearchCourse(string course)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(course))
-                {
-                    return BadRequest("StudentId is empty");
-                }
+        //[HttpGet("search-course-by-id-or-name")]
+        //public async Task<IActionResult> SearchCourse(string course)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(course))
+        //        {
+        //            return BadRequest("StudentId is empty");
+        //        }
 
-                var courseModels = await _service.SearchCourse(course);
+        //        var courseModels = await _service.SearchCourse(course);
 
-                return courseModels switch
-                {
-                    not null => Ok(new BaseReponseList<CourseModel>(courseModels, ConstantMessage.Success)),
-                    null => Ok(new BaseReponseList<CourseModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
-                };
-            }
-            catch (Exception ex)
-            {
+        //        return courseModels switch
+        //        {
+        //            not null => Ok(new BaseReponseList<CourseModel>(courseModels, ConstantMessage.Success)),
+        //            null => Ok(new BaseReponseList<CourseModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }

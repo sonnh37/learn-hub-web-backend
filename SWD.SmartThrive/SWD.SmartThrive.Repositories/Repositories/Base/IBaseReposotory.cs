@@ -12,18 +12,18 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
 
         Task<long> GetTotaCount();
 
-        Task<IQueryable<TEntity>> GetAll(CancellationToken cancellationToken = default);
+        Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default);
 
-        Task<IQueryable<TEntity>> GetById(Guid id);
+        Task<TEntity> GetById(Guid id);
 
-        Task<IQueryable<TEntity>> GetAllById(List<Guid> id);
+        Task<IList<TEntity>> GetAllById(List<Guid> id);
 
-        void Add(TEntity entity);
-        void AddRange(List<TEntity> entities);
-        void Update(TEntity entity);
-        void UpdateRange(List<TEntity> entities);
-        void Delete(TEntity entity);
-        void DeleteRange(List<TEntity> entities);
+        Task<bool> Add(TEntity entity);
+        Task<bool> AddRange(List<TEntity> entities);
+        Task<bool> Update(TEntity entity);
+        Task<bool> UpdateRange(List<TEntity> entities);
+        Task<bool> Delete(TEntity entity);
+        Task<bool> DeleteRange(List<TEntity> entities);
         void CheckCancellationToken(CancellationToken cancellationToken = default);
 
     }

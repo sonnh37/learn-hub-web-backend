@@ -34,35 +34,36 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> AddUser(UserModel userModel)
         {
             var user = _mapper.Map<User>(userModel);
-            user.Id = Guid.NewGuid();
-            return await _repository.AddUser(user);
+            return await _repository.Add(user);
         }
 
         public async Task<bool> UpdateUser(UserModel userModel)
         {
+            var entity = await _repository.GetById(userModel.Id);
+            if (entity == null)
+            {
+                return false;
+            }
+
             var user = _mapper.Map<User>(userModel);
-            return await _repository.UpdateUser(user);
+            return await _repository.Update(user);
         }
 
         public async Task<bool> DeleteUser(Guid id)
         {
-            var user = await _repository.GetUser(id);
-            if (user != null)
+            var entity = await _repository.GetById(id);
+            if (entity == null)
             {
-                user.IsDeleted = true;
-                var isUser = await _repository.UpdateUser(user);
-
-                if (isUser)
-                {
-                    return true;
-                }
+                return false;
             }
-            return false;
+
+            var user = _mapper.Map<User>(entity);
+            return await _repository.Delete(user);
         }
 
         public async Task<List<UserModel>> GetAllUser()
         {
-            var users = await _repository.GetAllUser();
+            var users = await _repository.GetAll();
 
             if (users == null)
             {
@@ -74,7 +75,7 @@ namespace SWD.SmartThrive.Services.Services.Service
 
         public async Task<UserModel> GetUser(Guid id)
         {
-            var user = await _repository.GetUser(id);
+            var user = await _repository.GetById(id);
 
             if (user == null)
             {

@@ -118,30 +118,30 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpGet("get-all-package-by-student")]
-        public async Task<IActionResult> GetAllPackageByStudent(Guid studentid)
-        {
-            try
-            {
-                if (studentid == Guid.Empty)
-                {
-                    return BadRequest("StudentId is empty");
-                }
+        //[HttpGet("get-all-package-by-student")]
+        //public async Task<IActionResult> GetAllPackageByStudent(Guid studentid)
+        //{
+        //    try
+        //    {
+        //        if (studentid == Guid.Empty)
+        //        {
+        //            return BadRequest("StudentId is empty");
+        //        }
 
-                var packageModels = await _service.GetAllPackageByStudent(studentid);
+        //        var packageModels = await _service.GetAllPackageByStudent(studentid);
 
-                return packageModels switch
-                {
-                    not null => Ok(new BaseReponseList<PackageModel>(packageModels, ConstantMessage.Success)),
-                    null => Ok(new BaseReponseList<PackageModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
-                };
+        //        return packageModels switch
+        //        {
+        //            not null => Ok(new BaseReponseList<PackageModel>(packageModels, ConstantMessage.Success)),
+        //            null => Ok(new BaseReponseList<PackageModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+        //        };
 
-            }
-            catch (Exception ex)
-            {
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }

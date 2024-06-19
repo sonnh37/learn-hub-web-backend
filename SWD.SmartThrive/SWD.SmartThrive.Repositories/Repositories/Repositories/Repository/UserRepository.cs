@@ -14,45 +14,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
         {
             _context = context;
         }
-
-        public async Task<bool> AddUser(User user)
-        {
-            var queryable = await base.GetById(user.Id);
-
-            if (!queryable.Any())
-            {
-                base.Add(user);
-                _context.SaveChanges();
-                return true; 
-            }
-
-            return false;
-        }
-
-        public async Task<bool> DeleteUser(Guid id)
-        {
-            var queryable = await base.GetById(id);
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var entity = queryable.FirstOrDefault();
-                if (entity != null)
-                {
-                    entity.IsDeleted = true;
-                    base.Update(entity);
-                    _context.SaveChanges();
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
+        
         public async Task<User> FindUsernameOrEmail(User user)
         {
             var queryable = base.GetQueryable();
@@ -75,70 +37,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
             return result;
         }
-
-        public async Task<List<User>> GetAllUser()
-        {
-            var queryable = await GetAll();
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var results = await queryable.ToListAsync();
-
-                return results;
-            }
-
-            return null;
-        }
-
-        public async Task<User> GetUser(Guid id)
-        {
-            var queryable = await base.GetById(id);
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var entity = queryable.FirstOrDefault();
-
-                return entity;
-            }
-
-            return null;
-        }
-
-        public async Task<bool> UpdateUser(User user)
-        {
-            var queryable = await base.GetById(user.Id);
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var entity = queryable.FirstOrDefault();
-
-                if (entity != null)
-                {
-                    _mapper.Map(user, entity);
-                    base.Update(entity);
-
-                    _context.SaveChanges();
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
+        
     }
 }

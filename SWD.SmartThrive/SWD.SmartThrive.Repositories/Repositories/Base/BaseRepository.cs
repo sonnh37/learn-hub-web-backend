@@ -77,72 +77,110 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         #endregion
 
         #region Add(TEntity) + AddRange(List<TEntity>)
-        public void Add(TEntity entity)
+        public async Task<bool> Add(TEntity entity)
         {
             DbSet.Add(entity);
+
+            var result = await _context.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public void AddRange(List<TEntity> entities)
+        public async Task<bool> AddRange(List<TEntity> entities)
         {
             if (entities.Any())
             {
                 DbSet.AddRange(entities);
             }
+            var result = await _context.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
         #endregion
 
         #region Update(TEntity) + UpdateRange(List<TEntity>)
-        public void Update(TEntity entity)
+        public async Task<bool> Update(TEntity entity)
         {
             DbSet.Update(entity);
+            var result = await _context.SaveChangesAsync();
+
+            if ( result > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public void UpdateRange(List<TEntity> entities)
+        public async Task<bool> UpdateRange(List<TEntity> entities)
         {
             if (entities.Any())
             {
                 DbSet.UpdateRange(entities);
             }
+            var result = await _context.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
         #endregion
 
         #region Delete(TEntity) + DeleteRange(List<TEntity>)
-        public void Delete(TEntity entity)
+        public async Task<bool> Delete(TEntity entity)
         {
             entity.IsDeleted = true;
-            DbSet.Update(entity);
+            return await Update(entity);
         }
 
-        public void DeleteRange(List<TEntity> entities)
+        public async Task<bool> DeleteRange(List<TEntity> entities)
         {
             entities.Where(e => e.IsDeleted == false ? e.IsDeleted = true : e.IsDeleted = false);
             DbSet.UpdateRange(entities);
+
+            return await UpdateRange(entities);
         }
         #endregion
 
         #region GetAll(CancellationToken)
-        public async Task<IQueryable<TEntity>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
         {
             var queryable = GetQueryable(cancellationToken);
-            return queryable;
+            var result = await queryable.Where(entity => !entity.IsDeleted).ToListAsync();
+            return result;
         }
 
 
         #endregion
 
         #region GetById(Guid) + GetByIds(List<Guid>)
-        public virtual async Task<IQueryable<TEntity>> GetById(Guid id)
+        public virtual async Task<TEntity> GetById(Guid id)
         {
             var queryable = GetQueryable(x => x.Id == id);
+            var entity = await queryable.FirstOrDefaultAsync();
 
-            return queryable;
+            return entity;
         }
 
-        public virtual async Task<IQueryable<TEntity>> GetAllById(List<Guid> id)
+        public virtual async Task<IList<TEntity>> GetAllById(List<Guid> id)
         {
             var queryable = GetQueryable(x => id.Contains(x.Id));
+            var entity = await queryable.ToListAsync();
 
-            return queryable;
+            return entity;
         }
         #endregion
 
