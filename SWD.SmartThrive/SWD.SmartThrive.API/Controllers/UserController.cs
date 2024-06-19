@@ -37,7 +37,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return users switch
                 {
                     null => Ok(new BaseReponseList<UserModel>(
-                        users,
+                        null,
                         ConstantMessage.NotFound,
                         ConstantHttpStatus.NOT_FOUND)),
                     not null => Ok(new BaseReponseList<UserModel>(users, ConstantMessage.Success))
@@ -64,7 +64,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return userModel switch
                 {
                     null => Ok(new BaseReponse<UserModel>(
-                        userModel,
+                        null,
                         ConstantMessage.NotFound,
                         ConstantHttpStatus.NOT_FOUND)),
                     not null => Ok(new BaseReponse<UserModel>(userModel, ConstantMessage.Success))

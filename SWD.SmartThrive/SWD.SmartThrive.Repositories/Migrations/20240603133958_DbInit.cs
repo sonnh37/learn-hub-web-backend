@@ -60,7 +60,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     SubjectName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastUpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -72,7 +72,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     table.PrimaryKey("PK_Subject", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Category_Subject",
-                        column: x => x.CategoryID,
+                        column: x => x.CategoryId,
                         principalTable: "Category",
                         principalColumn: "Id");
                 });
@@ -91,21 +91,21 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<bool>(type: "bit", nullable: false),
-                    RoleID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LocationID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
                         name: "FK_User_Location",
-                        column: x => x.LocationID,
+                        column: x => x.LocationId,
                         principalTable: "Location",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_User_Role",
-                        column: x => x.RoleID,
+                        column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -357,19 +357,19 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subject_CategoryID",
+                name: "IX_Subject_CategoryId",
                 table: "Subject",
-                column: "CategoryID");
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_LocationID",
+                name: "IX_User_LocationId",
                 table: "User",
-                column: "LocationID");
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_RoleID",
+                name: "IX_User_RoleId",
                 table: "User",
-                column: "RoleID");
+                column: "RoleId");
         }
 
         /// <inheritdoc />

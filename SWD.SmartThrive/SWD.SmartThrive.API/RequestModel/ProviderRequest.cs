@@ -1,8 +1,7 @@
 ﻿namespace SWD.SmartThrive.API.RequestModel
 {
-    public class ProviderRequest
+    public class ProviderRequest : BaseRequest
     {
-        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public string CompanyName { get; set; }
         public string Website { get; set; }

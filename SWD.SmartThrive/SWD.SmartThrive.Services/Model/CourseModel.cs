@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SWD.SmartThrive.Services.Model
 {
-    public class CourseModel
+    public class CourseModel : BaseModel
     {
         public Guid SubjectId { get; set; }
 
@@ -14,16 +14,6 @@ namespace SWD.SmartThrive.Services.Model
         public string? Code { get; set; }
 
         public string? CourseName { get; set; }
-
-        public Guid Id { get; set; }
-
-        public string? CreatedBy { get; set; }
-
-        public DateTime? CreatedDate { get; set; }
-
-        public DateTime? LastUpdatedDate { get; set; }
-        
-        public string? LastUpdatedBy { get; set; }
 
         public string? Description { get; set; }
 
@@ -42,10 +32,6 @@ namespace SWD.SmartThrive.Services.Model
         public bool? IsApproved { get; set; }
 
         public bool? IsActive { get; set; }
-
-        public bool? IsDeleted { get; set; }
-
-        //public virtual LocationModel Location { get; set; }
 
         public SubjectModel Subject { get; set; }
 

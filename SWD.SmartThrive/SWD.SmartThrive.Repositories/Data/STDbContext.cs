@@ -53,7 +53,7 @@ namespace SWD.SmartThrive.Repositories.Data
             {
                 e.ToTable("User");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
                 e.Property(x => x.Username).IsRequired();
                 e.Property(x => x.Email).IsRequired();
                 e.Property(x => x.Password).IsRequired();
@@ -66,19 +66,19 @@ namespace SWD.SmartThrive.Repositories.Data
 
                 e.HasOne(x => x.Role)
                 .WithMany(x => x.Users)
-                .HasForeignKey(x => x.RoleID)
+                .HasForeignKey(x => x.RoleId)
                 .HasConstraintName("FK_User_Role");
 
                 e.HasOne(x => x.Location)
                .WithMany(x => x.Users)
-               .HasForeignKey(x => x.LocationID)
+               .HasForeignKey(x => x.LocationId)
                .HasConstraintName("FK_User_Location");
             });
             modelBuilder.Entity<Provider>(e =>
             {
                 e.ToTable("Provider");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
                 e.Property(x => x.CompanyName);
                 e.Property(x => x.Website);
 
@@ -114,7 +114,7 @@ namespace SWD.SmartThrive.Repositories.Data
             {
                 e.ToTable("Student");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
                 e.Property(x => x.StudentName);
                 e.Property(x => x.CreatedBy);
                 e.Property(x => x.CreatedDate);
@@ -135,7 +135,7 @@ namespace SWD.SmartThrive.Repositories.Data
             {
                 e.ToTable("Category");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
                 e.Property(x => x.CategoryName);
                 e.Property(x => x.CreatedBy);
                 e.Property(x => x.CreatedDate);
@@ -148,7 +148,7 @@ namespace SWD.SmartThrive.Repositories.Data
             {
                 e.ToTable("Subject");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
                 e.Property(x => x.SubjectName);
                 e.Property(x => x.CreatedBy);
                 e.Property(x => x.CreatedDate);
@@ -159,7 +159,7 @@ namespace SWD.SmartThrive.Repositories.Data
 
                 e.HasOne(x => x.Category)
             .WithMany(x => x.Subjects)
-            .HasForeignKey(x => x.CategoryID)
+            .HasForeignKey(x => x.CategoryId)
             .HasConstraintName("FK_Category_Subject");
             });
 
@@ -167,7 +167,7 @@ namespace SWD.SmartThrive.Repositories.Data
             {
                 e.ToTable("Course");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
                 e.Property(x => x.Code);
                 e.Property(x => x.CourseName);
                 e.Property(x => x.CreatedDate);
@@ -208,7 +208,7 @@ namespace SWD.SmartThrive.Repositories.Data
             {
                 e.ToTable("Session");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
                 e.Property(x => x.SessionName);
                 e.Property(x => x.LearnDate);
                 e.Property(x => x.CreatedBy);
@@ -230,7 +230,7 @@ namespace SWD.SmartThrive.Repositories.Data
             {
                 e.ToTable("Package");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
                 e.Property(x => x.PackageName);
                 e.Property(x => x.CreatedDate);
                 e.Property(x => x.LastUpdatedBy);
@@ -274,7 +274,7 @@ namespace SWD.SmartThrive.Repositories.Data
             {
                 e.ToTable("Order");
                 e.HasKey(x => x.Id);
-                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+                e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
                 e.Property(x => x.CreatedDate);
                 e.Property(x => x.LastUpdatedBy);
                 e.Property(x => x.LastUpdatedDate);

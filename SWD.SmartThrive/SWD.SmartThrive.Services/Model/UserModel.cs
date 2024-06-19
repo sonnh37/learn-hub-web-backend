@@ -1,9 +1,7 @@
 ﻿namespace SWD.SmartThrive.Services.Model
 {
-    public class UserModel
+    public class UserModel : BaseModel
     {
-        public Guid Id { get; set; }
-
         public string? Username { get; set; }
 
         public string? Password { get; set; }
@@ -22,8 +20,8 @@
 
         public bool Status { get; set; }
 
-        public Guid RoleID { get; set; }
+        public Guid RoleId { get; set; }
 
-        public Guid LocationID { get; set; }
+        public Guid LocationId { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("NEWId()");
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
@@ -61,7 +61,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("NEWId()");
 
                     b.Property<Guid?>("Code")
                         .HasColumnType("uniqueidentifier");
@@ -209,7 +209,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("NEWId()");
 
                     b.Property<int?>("Amount")
                         .HasColumnType("int");
@@ -256,7 +256,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("NEWId()");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -308,7 +308,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("NEWId()");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
@@ -379,7 +379,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("NEWId()");
 
                     b.Property<Guid?>("CourseId")
                         .HasColumnType("uniqueidentifier");
@@ -424,7 +424,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("NEWId()");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -465,9 +465,9 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("NEWId()");
 
-                    b.Property<Guid?>("CategoryID")
+                    b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
@@ -491,7 +491,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryID");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Subject", (string)null);
                 });
@@ -501,7 +501,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
+                        .HasDefaultValueSql("NEWId()");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -535,7 +535,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<DateTime?>("LastUpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("LocationID")
+                    b.Property<Guid>("LocationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
@@ -545,7 +545,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RoleID")
+                    b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Status")
@@ -557,9 +557,9 @@ namespace SWD.SmartThrive.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationID");
+                    b.HasIndex("LocationId");
 
-                    b.HasIndex("RoleID");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("User", (string)null);
                 });
@@ -669,7 +669,7 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 {
                     b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Category", "Category")
                         .WithMany("Subjects")
-                        .HasForeignKey("CategoryID")
+                        .HasForeignKey("CategoryId")
                         .HasConstraintName("FK_Category_Subject");
 
                     b.Navigation("Category");
@@ -679,14 +679,14 @@ namespace SWD.SmartThrive.Repositories.Migrations
                 {
                     b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Location", "Location")
                         .WithMany("Users")
-                        .HasForeignKey("LocationID")
+                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_User_Location");
 
                     b.HasOne("SWD.SmartThrive.Repositories.Data.Entities.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleID")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_User_Role");
