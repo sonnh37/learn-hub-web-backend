@@ -14,7 +14,7 @@ namespace SWD.SmartThrive.Repositories.Data.Entities
 
         public DateTime? DOB { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
 
         public virtual ICollection<Package>? Packages { get; set; }
 

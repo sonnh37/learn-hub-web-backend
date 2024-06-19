@@ -152,5 +152,18 @@ namespace SWD.SmartThrive.Services.Services.Service
 
             return token;
         }
+
+        public async Task<List<UserModel>> GetAllUserSearch(UserModel userModel)
+        {
+            var user = _mapper.Map<User>(userModel);
+            var users = await _repository.GetAllUserSearch(user);
+
+            if (users == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<UserModel>>(users);
+        }
     }
 }

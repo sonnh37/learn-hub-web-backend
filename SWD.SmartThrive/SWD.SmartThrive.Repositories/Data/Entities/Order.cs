@@ -6,7 +6,7 @@ namespace SWD.SmartThrive.Repositories.Data.Entities
     [Table("Order")]
     public class Order : BaseEntity
     {
-        public Guid? PackageId { get; set; }
+        public Guid PackageId { get; set; }
 
         public string? PaymentMethod { get; set; }
 

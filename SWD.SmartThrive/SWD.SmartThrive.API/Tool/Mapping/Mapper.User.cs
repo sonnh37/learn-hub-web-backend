@@ -11,6 +11,7 @@ namespace SWD.SmartThrive.API.Tool.Mapping
         {
             CreateMap<User, UserModel>().ReverseMap();
             CreateMap<UserModel, UserRequest>().ReverseMap();
+            CreateMap<UserModel, UserSearchRequest>().ReverseMap();
         }
     }
 }

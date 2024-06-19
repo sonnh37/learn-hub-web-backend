@@ -49,6 +49,30 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             };
         }
+        
+        [HttpPost("get-all-user-search")]
+        public async Task<IActionResult> GetAllUserSearch(UserSearchRequest userRequest)
+        {
+            try
+            {
+                var user = _mapper.Map<UserModel>(userRequest);
+                var users = await _service.GetAllUserSearch(user);
+
+                return users switch
+                {
+                    null => Ok(new BaseReponseList<UserModel>(
+                        null,
+                        ConstantMessage.NotFound,
+                        ConstantHttpStatus.NOT_FOUND)),
+                    not null => Ok(new BaseReponseList<UserModel>(users, ConstantMessage.Success))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
+        }
 
         [HttpGet("get-user")]
         public async Task<IActionResult> GetUser(Guid id)
@@ -170,11 +194,11 @@ namespace SWD.SmartThrive.API.Controllers
         [AllowAnonymous]
         // POST api/<AuthController>
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserModel _userModel)
+        public async Task<IActionResult> Register([FromBody] UserRequest userRequest)
         {
             try
             {
-                UserModel userModel = await _service.Register(_userModel);
+                UserModel userModel = await _service.Register(_mapper.Map<UserModel>(userRequest));
 
                 return userModel switch
                 {

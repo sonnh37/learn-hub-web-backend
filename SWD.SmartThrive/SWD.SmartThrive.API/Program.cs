@@ -17,6 +17,7 @@ using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Repository;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Services.Service;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,7 +55,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-
+var options = new JsonSerializerOptions()
+{
+    AllowTrailingCommas = true
+};
 
 #region Add-Cors
 

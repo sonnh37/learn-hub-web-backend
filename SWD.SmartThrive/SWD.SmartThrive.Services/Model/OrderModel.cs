@@ -5,7 +5,7 @@ namespace SWD.SmartThrive.Services.Model
 {
     public class OrderModel : BaseModel
     {
-        public Guid? PackageId { get; set; }
+        public Guid PackageId { get; set; }
 
         public string? PaymentMethod { get; set; }
 

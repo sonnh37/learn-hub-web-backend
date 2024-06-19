@@ -6,7 +6,7 @@ namespace SWD.SmartThrive.Repositories.Data.Entities
     [Table("Package")]
     public class Package : BaseEntity
     {
-        public Guid? StudentId { get; set; }
+        public Guid StudentId { get; set; }
 
         public string PackageName { get; set; }
 

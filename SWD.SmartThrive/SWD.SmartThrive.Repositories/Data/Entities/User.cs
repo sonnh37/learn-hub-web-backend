@@ -24,13 +24,13 @@ namespace SWD.SmartThrive.Repositories.Data.Entities
 
         public string? Phone { get; set; }
 
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
 
         public Guid RoleId { get; set; }
 
-        public Guid LocationId { get; set; }
+        public Guid? LocationId { get; set; }
 
-        public virtual Role Role { get; set; }
+        public virtual Role? Role { get; set; }
 
         public virtual Location? Location { get; set; }
 
