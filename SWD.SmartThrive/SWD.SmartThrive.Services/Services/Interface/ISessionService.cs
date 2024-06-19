@@ -4,19 +4,10 @@ namespace SWD.SmartThrive.Services.Services.Interface
 {
     public interface ISessionService
     {
-
-        public Task<bool> AddSession(SessionModel session);
-
-        public Task<bool> UpdateSession(SessionModel session);
-
-        public Task<bool> DeleteSession(Guid id);
-
-        public Task<SessionModel> GetSession(Guid id);
-
-        public Task<List<SessionModel>> GetAllSessionByCourse(Guid courseid);
-
-        public Task<List<SessionModel>> GetAllSession();
-
-
+        Task<bool> AddSession(SessionModel SessionModel);
+        Task<bool> DeleteSession(Guid id);
+        Task<List<SessionModel>> GetAllSession();
+        Task<SessionModel> GetSession(Guid id);
+        Task<bool> UpdateSession(SessionModel SessionModel);
     }
 }

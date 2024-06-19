@@ -17,89 +17,58 @@ namespace SWD.SmartThrive.Services.Services.Service
             _repository = unitOfWork.SessionRepository;
         }
 
-        public async Task<bool> AddSession(SessionModel packageModel)
+        public async Task<bool> AddSession(SessionModel SessionModel)
         {
-            var package = await _repository.GetSession(packageModel.Id);
-
-            if (package != null)
-            {
-                return false;
-            }
-
-            var _package = _mapper.Map<Session>(packageModel);
-            _package.Id = Guid.NewGuid();
-            _repository.Add(_package);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Session = _mapper.Map<Session>(SessionModel);
+            return await _repository.Add(Session);
         }
 
-        public async Task<bool> UpdateSession(SessionModel packageModel)
+        public async Task<bool> UpdateSession(SessionModel SessionModel)
         {
-            var package = await _repository.GetSession(packageModel.Id);
-
-            if (package == null)
+            var entity = await _repository.GetById(SessionModel.Id);
+            if (entity == null)
             {
                 return false;
             }
 
-            _mapper.Map(packageModel, package);
-            _repository.Update(package);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Session = _mapper.Map<Session>(SessionModel);
+            return await _repository.Update(Session);
         }
 
         public async Task<bool> DeleteSession(Guid id)
         {
-            var package = await _repository.GetSession(id);
-
-            if (package == null)
+            var entity = await _repository.GetById(id);
+            if (entity == null)
             {
                 return false;
             }
 
-            _repository.Delete(package);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Session = _mapper.Map<Session>(entity);
+            return await _repository.Delete(Session);
         }
 
         public async Task<List<SessionModel>> GetAllSession()
         {
-            var sessions = await _repository.GetAllSession();
+            var Sessions = await _repository.GetAll();
 
-            if (sessions == null)
+            if (Sessions == null)
             {
                 return null;
             }
 
-            return _mapper.Map<List<SessionModel>>(sessions);
-        }
-
-        public async Task<List<SessionModel>> GetAllSessionByCourse(Guid id)
-        {
-
-            var sessions = await _repository.GetAllSessionByCouse(id);
-
-            if (sessions == null)
-            {
-                return null;
-            }
-
-            return _mapper.Map<List<SessionModel>>(sessions);
+            return _mapper.Map<List<SessionModel>>(Sessions);
         }
 
         public async Task<SessionModel> GetSession(Guid id)
         {
-            var session = await _repository.GetSession(id);
+            var Session = await _repository.GetById(id);
 
-            if (session == null)
+            if (Session == null)
             {
                 return null;
             }
 
-            return _mapper.Map<SessionModel>(session);
+            return _mapper.Map<SessionModel>(Session);
         }
     }
 }

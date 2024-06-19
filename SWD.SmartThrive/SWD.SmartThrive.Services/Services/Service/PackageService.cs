@@ -17,89 +17,58 @@ namespace SWD.SmartThrive.Services.Services.Service
             _repository = unitOfWork.PackageRepository;
         }
 
-        public async Task<bool> AddPackage(PackageModel packageModel)
+        public async Task<bool> AddPackage(PackageModel PackageModel)
         {
-            var package = await _repository.GetPackage(packageModel.Id);
-
-            if (package != null)
-            {
-                return false;
-            }
-
-            var _package = _mapper.Map<Package>(packageModel);
-            _package.Id = Guid.NewGuid();
-            _repository.Add(_package);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Package = _mapper.Map<Package>(PackageModel);
+            return await _repository.Add(Package);
         }
 
-        public async Task<bool> UpdatePackage(PackageModel packageModel)
+        public async Task<bool> UpdatePackage(PackageModel PackageModel)
         {
-            var package = await _repository.GetPackage(packageModel.Id);
-
-            if (package == null)
+            var entity = await _repository.GetById(PackageModel.Id);
+            if (entity == null)
             {
                 return false;
             }
 
-            _mapper.Map(packageModel, package);
-            _repository.Update(package);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Package = _mapper.Map<Package>(PackageModel);
+            return await _repository.Update(Package);
         }
 
         public async Task<bool> DeletePackage(Guid id)
         {
-            var package = await _repository.GetPackage(id);
-
-            if (package == null)
+            var entity = await _repository.GetById(id);
+            if (entity == null)
             {
                 return false;
             }
 
-            _repository.Delete(package);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Package = _mapper.Map<Package>(entity);
+            return await _repository.Delete(Package);
         }
 
         public async Task<List<PackageModel>> GetAllPackage()
         {
-            var packages = await _repository.GetAllPackage();
+            var Packages = await _repository.GetAll();
 
-            if (packages == null)
+            if (Packages == null)
             {
                 return null;
             }
 
-            return _mapper.Map<List<PackageModel>>(packages);
-        }
-
-        public async Task<List<PackageModel>> GetAllPackageByStudent(Guid id)
-        {
-            
-            var packages = await _repository.GetAllPackageByStudent(id);
-
-            if (packages == null)
-            {
-                return null;
-            }
-
-            return _mapper.Map<List<PackageModel>>(packages);
+            return _mapper.Map<List<PackageModel>>(Packages);
         }
 
         public async Task<PackageModel> GetPackage(Guid id)
         {
-            var package = await _repository.GetPackage(id);
+            var Package = await _repository.GetById(id);
 
-            if (package == null)
+            if (Package == null)
             {
                 return null;
             }
 
-            return _mapper.Map<PackageModel>(package);
+            return _mapper.Map<PackageModel>(Package);
         }
     }
 }

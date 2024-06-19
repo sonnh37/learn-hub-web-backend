@@ -14,61 +14,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             _context = context;
         }
 
-        public async Task<List<Session>> GetAllSession()
-        {
-            var queryable = await base.GetAll();
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var results = await queryable.ToListAsync();
-
-                return results;
-            }
-
-            return null;
-        }
-
-        public async Task<List<Session>> GetAllSessionByCouse(Guid id)
-        {
-            var queryable = base.GetQueryable(x => x.CourseId == id);
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var results = await queryable.Include(x => x.Course).ToListAsync();
-
-                return results;
-            }
-
-            return null;
-        }
-
-        public async Task<Session> GetSession(Guid id)
-        {
-            var queryable = await base.GetById(id);
-
-            if (queryable.Any())
-            {
-                queryable = queryable.Where(x => !x.IsDeleted);
-            }
-
-            if (queryable.Any())
-            {
-                var entity = queryable.FirstOrDefault();
-
-                return entity;
-            }
-
-            return null;
-        }
+        
     }
 }

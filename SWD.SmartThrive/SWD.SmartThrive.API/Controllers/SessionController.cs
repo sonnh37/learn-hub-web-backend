@@ -117,30 +117,30 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpGet("get-all-session-by-course")]
-        public async Task<IActionResult> GetAllPackageByStudent(Guid studentid)
-        {
-            try
-            {
-                if (studentid == Guid.Empty)
-                {
-                    return BadRequest("StudentId is empty");
-                }
+        //[HttpGet("get-all-session-by-course")]
+        //public async Task<IActionResult> GetAllPackageByStudent(Guid studentid)
+        //{
+        //    try
+        //    {
+        //        if (studentid == Guid.Empty)
+        //        {
+        //            return BadRequest("StudentId is empty");
+        //        }
 
-                var sessionModels = await _service.GetAllSessionByCourse(studentid);
+        //        var sessionModels = await _service.GetAllSessionByCourse(studentid);
 
-                return sessionModels switch
-                {
-                    not null => Ok(new BaseReponseList<SessionModel>(sessionModels, ConstantMessage.Success)),
-                    null => Ok(new BaseReponseList<SessionModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
-                };
+        //        return sessionModels switch
+        //        {
+        //            not null => Ok(new BaseReponseList<SessionModel>(sessionModels, ConstantMessage.Success)),
+        //            null => Ok(new BaseReponseList<SessionModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+        //        };
 
-            }
-            catch (Exception ex)
-            {
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }

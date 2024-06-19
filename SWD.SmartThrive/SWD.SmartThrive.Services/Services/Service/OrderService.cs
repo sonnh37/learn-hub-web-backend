@@ -18,89 +18,58 @@ namespace SWD.SmartThrive.Services.Services.Service
             _repository = unitOfWork.OrderRepository;
         }
 
-        public async Task<bool> AddOrder(OrderModel orderModel)
+        public async Task<bool> AddOrder(OrderModel OrderModel)
         {
-            var order = await _repository.GetOrder(orderModel.Id);
-
-            if (order != null)
-            {
-                return false;
-            }
-
-            var _order = _mapper.Map<Order>(orderModel);
-            _order.Id = Guid.NewGuid();
-            _repository.Add(_order);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Order = _mapper.Map<Order>(OrderModel);
+            return await _repository.Add(Order);
         }
 
-        public async Task<bool> UpdateOrder(OrderModel orderModel)
+        public async Task<bool> UpdateOrder(OrderModel OrderModel)
         {
-            var order = await _repository.GetOrder(orderModel.Id);
-
-            if (order == null)
+            var entity = await _repository.GetById(OrderModel.Id);
+            if (entity == null)
             {
                 return false;
             }
 
-            _mapper.Map(orderModel, order);
-            _repository.Update(order);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Order = _mapper.Map<Order>(OrderModel);
+            return await _repository.Update(Order);
         }
 
         public async Task<bool> DeleteOrder(Guid id)
         {
-            var order = await _repository.GetOrder(id);
-
-            if (order == null)
+            var entity = await _repository.GetById(id);
+            if (entity == null)
             {
                 return false;
             }
 
-            _repository.Delete(order);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Order = _mapper.Map<Order>(entity);
+            return await _repository.Delete(Order);
         }
 
         public async Task<List<OrderModel>> GetAllOrder()
         {
-            var orders = await _repository.GetAllOrder();
+            var Orders = await _repository.GetAll();
 
-            if (orders == null)
+            if (Orders == null)
             {
                 return null;
             }
 
-            return _mapper.Map<List<OrderModel>>(orders);
-        }
-
-        public async Task<List<OrderModel>> GetAllOrderByStudent(Guid id)
-        {
-
-            var orders = await _repository.GetAllOrderByStudent(id);
-
-            if (orders == null)
-            {
-                return null;
-            }
-
-            return _mapper.Map<List<OrderModel>>(orders);
+            return _mapper.Map<List<OrderModel>>(Orders);
         }
 
         public async Task<OrderModel> GetOrder(Guid id)
         {
-            var order = await _repository.GetOrder(id);
+            var Order = await _repository.GetById(id);
 
-            if (order == null)
+            if (Order == null)
             {
                 return null;
             }
 
-            return _mapper.Map<OrderModel>(order);
+            return _mapper.Map<OrderModel>(Order);
         }
     }
 }

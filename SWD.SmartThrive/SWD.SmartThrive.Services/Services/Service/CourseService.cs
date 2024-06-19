@@ -17,102 +17,60 @@ namespace SWD.SmartThrive.Services.Services.Service
             _repository = unitOfWork.CourseRepository;
         }
 
-        public async Task<bool> AddCourse(CourseModel courseModel)
+        public async Task<bool> AddCourse(CourseModel CourseModel)
         {
-            var course = await _repository.GetCourse(courseModel.Id);
-
-            if (course != null)
-            {
-                return false;
-            }
-
-            var _course = _mapper.Map<Course>(courseModel);
-            _course.Id = Guid.NewGuid();
-            _repository.Add(_course);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Course = _mapper.Map<Course>(CourseModel);
+            return await _repository.Add(Course);
         }
 
-        public async Task<bool> UpdateCourse(CourseModel courseModel)
+        public async Task<bool> UpdateCourse(CourseModel CourseModel)
         {
-            var course = await _repository.GetCourse(courseModel.Id);
-
-            if (course == null)
+            var entity = await _repository.GetById(CourseModel.Id);
+            if (entity == null)
             {
                 return false;
             }
 
-            _mapper.Map(courseModel, course);
-            _repository.Update(course);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Course = _mapper.Map<Course>(CourseModel);
+            return await _repository.Update(Course);
         }
 
         public async Task<bool> DeleteCourse(Guid id)
         {
-            var course = await _repository.GetCourse(id);
-
-            if (course == null)
+            var entity = await _repository.GetById(id);
+            if (entity == null)
             {
                 return false;
             }
 
-            _repository.Delete(course);
-            var saveChanges = await _unitOfWork.SaveChanges();
-
-            return saveChanges ? true : false;
+            var Course = _mapper.Map<Course>(entity);
+            return await _repository.Delete(Course);
         }
 
         public async Task<List<CourseModel>> GetAllCourse()
         {
-            var courses = await _repository.GetAllCourse();
+            var Courses = await _repository.GetAll();
 
-            if (courses == null)
+            if (Courses == null)
             {
                 return null;
             }
 
-            return _mapper.Map<List<CourseModel>>(courses);
-        }
-
-        public async Task<List<CourseModel>> GetAllCourseByProvider(Guid id)
-        {
-
-            var courses = await _repository.GetAllCourseByProvider(id);
-
-            if (courses == null)
-            {
-                return null;
-            }
-
-            return _mapper.Map<List<CourseModel>>(courses);
+            return _mapper.Map<List<CourseModel>>(Courses);
         }
 
         public async Task<CourseModel> GetCourse(Guid id)
         {
-            var course = await _repository.GetCourse(id);
+            var Course = await _repository.GetById(id);
 
-            if (course == null)
+            if (Course == null)
             {
                 return null;
             }
 
-            return _mapper.Map<CourseModel>(course);
+            return _mapper.Map<CourseModel>(Course);
         }
 
-        public async Task<List<CourseModel>> SearchCourse(string name)
-        {
-            var courses = await _repository.SearchCourse(name);
-
-            if (courses == null)
-            {
-                return null;
-            }
-
-            return _mapper.Map<List<CourseModel>>(courses);
-        }
         
     }
 }

@@ -117,30 +117,30 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpGet("get-all-order-by-student")]
-        public async Task<IActionResult> GetAllOrderByStudent(Guid studentid)
-        {
-            try
-            {
-                if (studentid == Guid.Empty)
-                {
-                    return BadRequest("StudentId is empty");
-                }
+        //[HttpGet("get-all-order-by-student")]
+        //public async Task<IActionResult> GetAllOrderByStudent(Guid studentid)
+        //{
+        //    try
+        //    {
+        //        if (studentid == Guid.Empty)
+        //        {
+        //            return BadRequest("StudentId is empty");
+        //        }
 
-                var orderModels = await _service.GetAllOrderByStudent(studentid);
+        //        var orderModels = await _service.GetAllOrderByStudent(studentid);
 
-                return orderModels switch
-                {
-                    not null => Ok(new BaseReponseList<OrderModel>(orderModels, ConstantMessage.Success)),
-                    null => Ok(new BaseReponseList<OrderModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
-                };
+        //        return orderModels switch
+        //        {
+        //            not null => Ok(new BaseReponseList<OrderModel>(orderModels, ConstantMessage.Success)),
+        //            null => Ok(new BaseReponseList<OrderModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
+        //        };
 
-            }
-            catch (Exception ex)
-            {
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }

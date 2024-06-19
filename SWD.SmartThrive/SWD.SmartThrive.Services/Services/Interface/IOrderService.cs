@@ -5,17 +5,10 @@ namespace SWD.SmartThrive.Services.Services.Interface
 {
     public interface IOrderService
     {
-        public Task<bool> AddOrder(OrderModel order);
-
-        public Task<bool> UpdateOrder(OrderModel order);
-
-        public Task<bool> DeleteOrder(Guid id);
-
-        public Task<OrderModel> GetOrder(Guid id);
-
-        public Task<List<OrderModel>> GetAllOrderByStudent(Guid id);
-
-        public Task<List<OrderModel>> GetAllOrder();
-
+        Task<bool> AddOrder(OrderModel OrderModel);
+        Task<bool> DeleteOrder(Guid id);
+        Task<List<OrderModel>> GetAllOrder();
+        Task<OrderModel> GetOrder(Guid id);
+        Task<bool> UpdateOrder(OrderModel OrderModel);
     }
 }
