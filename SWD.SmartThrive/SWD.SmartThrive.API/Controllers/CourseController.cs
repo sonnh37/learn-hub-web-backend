@@ -23,6 +23,29 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("get-all-course")]
+        public async Task<IActionResult> GetAllCourse()
+        {
+            try
+            {
+                var courses = await _service.GetAllCourse();
+
+                return courses switch
+                {
+                    null => Ok(new BaseReponseList<CourseModel>(
+                        null,
+                        ConstantMessage.NotFound,
+                        ConstantHttpStatus.NOT_FOUND)),
+                    not null => Ok(new BaseReponseList<CourseModel>(courses, ConstantMessage.Success))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
+        }
+
         [HttpGet("get-course")]
         public async Task<IActionResult> GetCourse(Guid id)
         {

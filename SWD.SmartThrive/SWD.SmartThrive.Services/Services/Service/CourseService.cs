@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
 using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
@@ -12,7 +13,7 @@ namespace SWD.SmartThrive.Services.Services.Service
     {
         private readonly ICourseRepository _repository;
 
-        public CourseService(IUnitOfWork unitOfWork, IMapper mapper) : base(mapper, unitOfWork)
+        public CourseService(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(mapper, unitOfWork, httpContextAccessor)
         {
             _repository = unitOfWork.CourseRepository;
         }
@@ -20,7 +21,8 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> AddCourse(CourseModel CourseModel)
         {
             var Course = _mapper.Map<Course>(CourseModel);
-            return await _repository.Add(Course);
+            var course = await SetBaseEntityToCreateFunc(Course);
+            return await _repository.Add(course);
         }
 
         public async Task<bool> UpdateCourse(CourseModel CourseModel)
@@ -32,7 +34,8 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
 
             var Course = _mapper.Map<Course>(CourseModel);
-            return await _repository.Update(Course);
+            var course = await SetBaseEntityToUpdateFunc(Course);
+            return await _repository.Update(course);
         }
 
         public async Task<bool> DeleteCourse(Guid id)

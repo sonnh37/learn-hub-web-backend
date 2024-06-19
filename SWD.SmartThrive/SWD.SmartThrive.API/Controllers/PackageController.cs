@@ -23,6 +23,29 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("get-all-package")]
+        public async Task<IActionResult> GetAllPackage()
+        {
+            try
+            {
+                var packages = await _service.GetAllPackage();
+
+                return packages switch
+                {
+                    null => Ok(new BaseReponseList<PackageModel>(
+                        null,
+                        ConstantMessage.NotFound,
+                        ConstantHttpStatus.NOT_FOUND)),
+                    not null => Ok(new BaseReponseList<PackageModel>(packages, ConstantMessage.Success))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
+        }
+
         [HttpGet("get-package")]
         public async Task<IActionResult> GetPackage(Guid id)
         {

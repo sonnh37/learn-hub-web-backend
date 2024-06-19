@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Model;
@@ -13,7 +14,7 @@ namespace SWD.SmartThrive.Services.Services.Service
     {
         private readonly IOrderRepository _repository;
 
-        public OrderService(IUnitOfWork unitOfWork, IMapper mapper) : base(mapper, unitOfWork)
+        public OrderService(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(mapper, unitOfWork, httpContextAccessor)
         {
             _repository = unitOfWork.OrderRepository;
         }
@@ -21,7 +22,8 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> AddOrder(OrderModel OrderModel)
         {
             var Order = _mapper.Map<Order>(OrderModel);
-            return await _repository.Add(Order);
+            var order = await SetBaseEntityToCreateFunc(Order);
+            return await _repository.Add(order);
         }
 
         public async Task<bool> UpdateOrder(OrderModel OrderModel)
@@ -33,7 +35,8 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
 
             var Order = _mapper.Map<Order>(OrderModel);
-            return await _repository.Update(Order);
+            var order = await SetBaseEntityToUpdateFunc(Order);
+            return await _repository.Update(order);
         }
 
         public async Task<bool> DeleteOrder(Guid id)
