@@ -23,28 +23,27 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all-session")]
-        public async Task<IActionResult> GetAllSession()
-        {
-            try
-            {
-                var sessions = await _service.GetAllSession();
+        //[HttpPost("get-all-session")]
+        //public async Task<IActionResult> GetAllSession(PaginatedRequest<SessionRequest> paginatedRequest)
+        //{
+        //    try
+        //    {
+        //        var sessions = await _service.GetAllSession(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
 
-                return sessions switch
-                {
-                    null => Ok(new BaseReponseList<SessionModel>(
-                        null,
-                        ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND)),
-                    not null => Ok(new BaseReponseList<SessionModel>(sessions, ConstantMessage.Success))
-                };
-            }
-            catch (Exception ex)
-            {
+        //        return sessions switch
+        //        {
+        //            null => Ok(new PaginatedResponseList<SessionModel>(
+        //                null,
+        //                ConstantMessage.NotFound)),
+        //            not null => Ok(new PaginatedResponseList<SessionModel>(sessions, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return BadRequest(ex.Message);
-            };
-        }
+        //        return BadRequest(ex.Message);
+        //    };
+        //}
 
         [HttpGet("get-session")]
         public async Task<IActionResult> GetSession(Guid id)
@@ -59,12 +58,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return sessionModel switch
                 {
-                    not null => Ok(new BaseReponse<SessionModel>(sessionModel, ConstantMessage.Success)),
-                    null => Ok(new BaseReponse<SessionModel>(
-                        null,
-                        ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND))
-                    
+                    null => Ok(new PaginatedResponse<SessionModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<SessionModel>(ConstantMessage.Success, sessionModel))
                 };
             }
             catch (Exception ex)
@@ -84,7 +79,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return isSession switch
                 {
                     true => Ok(new BaseReponseBool(isSession, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                    _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -105,7 +100,7 @@ namespace SWD.SmartThrive.API.Controllers
                     return isSession switch
                     {
                         true => Ok(new BaseReponseBool(isSession, ConstantMessage.Success)),
-                        _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                        _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail))
                     };
                 }
                 else
@@ -131,7 +126,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return isSession switch
                 {
                     true => Ok(new BaseReponseBool(isSession, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                    _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)

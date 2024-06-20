@@ -46,6 +46,13 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
             IQueryable<TEntity> queryable = GetQueryable<TEntity>();
             return queryable;
         }
+        
+        public IQueryable<TEntity> GetQueryablePagination(IQueryable<TEntity> queryable,int pageNumber, int pageSize)
+        {
+            queryable = queryable.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+            return queryable;
+        }
 
         public IQueryable<T> GetQueryable<T>()
             where T : BaseEntity
@@ -159,7 +166,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
         {
             var queryable = GetQueryable(cancellationToken);
-            var result = await queryable.Where(entity => !entity.IsDeleted).ToListAsync();
+            var result = await queryable.ToListAsync();
             return result;
         }
 
@@ -185,11 +192,12 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         #endregion
 
         #region GetTotalCount()
-        public async Task<long> GetTotaCount()
+        public async Task<long> GetTotalCount()
         {
             var result = await GetQueryable().LongCountAsync();
             return result;
         }
+
         #endregion
     }
 }

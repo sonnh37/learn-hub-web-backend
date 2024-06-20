@@ -24,28 +24,27 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all-order")]
-        public async Task<IActionResult> GetAllOrder()
-        {
-            try
-            {
-                var orders = await _service.GetAllOrder();
+        //[HttpPost("get-all-order")]
+        //public async Task<IActionResult> GetAllOrder(PaginatedRequest<OrderRequest> paginatedRequest)
+        //{
+        //    try
+        //    {
+        //        var orders = await _service.GetAllOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
 
-                return orders switch
-                {
-                    null => Ok(new BaseReponseList<OrderModel>(
-                        null,
-                        ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND)),
-                    not null => Ok(new BaseReponseList<OrderModel>(orders, ConstantMessage.Success))
-                };
-            }
-            catch (Exception ex)
-            {
+        //        return orders switch
+        //        {
+        //            null => Ok(new PaginatedResponseList<OrderModel>(
+        //                null,
+        //                ConstantMessage.NotFound)),
+        //            not null => Ok(new PaginatedResponseList<OrderModel>(orders, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return BadRequest(ex.Message);
-            };
-        }
+        //        return BadRequest(ex.Message);
+        //    };
+        //}
 
         [HttpGet("get-order")]
         public async Task<IActionResult> GetOrder(Guid id)
@@ -60,11 +59,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return orderModel switch
                 {
-                    not null => Ok(new BaseReponse<OrderModel>(orderModel, ConstantMessage.Success)),
-                    null => Ok(new BaseReponse<OrderModel>(
-                        null,
-                        ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND))
+                    null => Ok(new PaginatedResponse<OrderModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<OrderModel>(ConstantMessage.Success, orderModel))
                 };
             }
             catch (Exception ex)
@@ -84,7 +80,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return isOrder switch
                 {
                     true => Ok(new BaseReponseBool(isOrder, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                    _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -105,7 +101,7 @@ namespace SWD.SmartThrive.API.Controllers
                     return isOrder switch
                     {
                         true => Ok(new BaseReponseBool(isOrder, ConstantMessage.Success)),
-                        _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                        _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail))
                     };
                 }
                 else
@@ -131,7 +127,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return isOrder switch
                 {
                     true => Ok(new BaseReponseBool(isOrder, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                    _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)

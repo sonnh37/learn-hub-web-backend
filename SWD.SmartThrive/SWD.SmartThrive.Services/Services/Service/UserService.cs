@@ -42,6 +42,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> UpdateUser(UserModel userModel)
         {
             var entity = await _repository.GetById(userModel.Id);
+
             if (entity == null)
             {
                 return false;
@@ -54,6 +55,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> DeleteUser(Guid id)
         {
             var entity = await _repository.GetById(id);
+
             if (entity == null)
             {
                 return false;
@@ -63,16 +65,43 @@ namespace SWD.SmartThrive.Services.Services.Service
             return await _repository.Delete(user);
         }
 
-        public async Task<List<UserModel>> GetAllUser()
+        public async Task<List<UserModel>?> GetAllUser(int pageNumber, int pageSize, string orderBy)
         {
-            var users = await _repository.GetAll();
+            var users = await _repository.GetAllUser(pageNumber, pageSize, orderBy);
             
-            if (users == null)
+            if (!users.Any())
             {
                 return null;
             }
 
             return _mapper.Map<List<UserModel>>(users);
+        }
+        
+        public async Task<List<UserModel>?> GetAllUser()
+        {
+            var users = await _repository.GetAll();
+            
+            if (!users.Any())
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<UserModel>>(users);
+        }
+
+        public async Task<(List<UserModel>?, long)> GetAllUserSearch(UserModel userModel, int pageNumber, int pageSize, string orderBy)
+        {
+            var user = _mapper.Map<User>(userModel);
+            var usersWithTotalOrigin = await _repository.GetAllUserSearch(user, pageNumber, pageSize, orderBy);
+
+            if (!usersWithTotalOrigin.Item1.Any())
+            {
+                return (null, usersWithTotalOrigin.Item2);
+            }
+
+            var userModels = _mapper.Map<List<UserModel>>(usersWithTotalOrigin.Item1);
+
+            return (userModels, usersWithTotalOrigin.Item2);
         }
 
         public async Task<UserModel> GetUser(Guid id)
@@ -97,6 +126,7 @@ namespace SWD.SmartThrive.Services.Services.Service
             };
             // check username or email
             User user = await _repository.FindUsernameOrEmail(userHasUsernameOrEmail);
+
             if (user == null)
             {
                 return null;
@@ -153,17 +183,6 @@ namespace SWD.SmartThrive.Services.Services.Service
             return token;
         }
 
-        public async Task<List<UserModel>> GetAllUserSearch(UserModel userModel)
-        {
-            var user = _mapper.Map<User>(userModel);
-            var users = await _repository.GetAllUserSearch(user);
-
-            if (users == null)
-            {
-                return null;
-            }
-
-            return _mapper.Map<List<UserModel>>(users);
-        }
+        
     }
 }

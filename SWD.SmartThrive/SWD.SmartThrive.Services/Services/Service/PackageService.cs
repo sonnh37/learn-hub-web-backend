@@ -54,7 +54,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         {
             var Packages = await _repository.GetAll();
 
-            if (Packages == null)
+            if (!Packages.Any())
             {
                 return null;
             }
