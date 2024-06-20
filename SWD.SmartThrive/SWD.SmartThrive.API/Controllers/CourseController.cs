@@ -23,28 +23,27 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all-course")]
-        public async Task<IActionResult> GetAllCourse()
-        {
-            try
-            {
-                var courses = await _service.GetAllCourse();
+        //[HttpPost("get-all-course")]
+        //public async Task<IActionResult> GetAllCourse(PaginatedRequest<CourseRequest> paginatedRequest)
+        //{
+        //    try
+        //    {
+        //        var courses = await _service.GetAllCourse(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
 
-                return courses switch
-                {
-                    null => Ok(new BaseReponseList<CourseModel>(
-                        null,
-                        ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND)),
-                    not null => Ok(new BaseReponseList<CourseModel>(courses, ConstantMessage.Success))
-                };
-            }
-            catch (Exception ex)
-            {
+        //        return courses switch
+        //        {
+        //            null => Ok(new PaginatedResponseList<CourseModel>(
+        //                null,
+        //                ConstantMessage.NotFound)),
+        //            not null => Ok(new PaginatedResponseList<CourseModel>(courses, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return BadRequest(ex.Message);
-            };
-        }
+        //        return BadRequest(ex.Message);
+        //    };
+        //}
 
         [HttpGet("get-course")]
         public async Task<IActionResult> GetCourse(Guid id)
@@ -59,11 +58,10 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return courseModel switch
                 {
-                    not null => Ok(new BaseReponse<CourseModel>(courseModel, ConstantMessage.Success)),
-                    null => Ok(new BaseReponse<CourseModel>(
+                    null => Ok(new PaginatedResponse<CourseModel>(
                         null,
-                        ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND)),
+                        ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<CourseModel>(courseModel, ConstantMessage.Success))
                 };
             }
             catch (Exception ex)
@@ -83,7 +81,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return isCourse switch
                 {
                     true => Ok(new BaseReponseBool(isCourse, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                    _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -104,7 +102,7 @@ namespace SWD.SmartThrive.API.Controllers
                     return isCourse switch
                     {
                         true => Ok(new BaseReponseBool(isCourse, ConstantMessage.Success)),
-                        _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                        _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail))
                     };
                 }
                 else
@@ -130,7 +128,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return isCourse switch
                 {
                     true => Ok(new BaseReponseBool(isCourse, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                    _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)

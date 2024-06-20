@@ -46,6 +46,18 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
             IQueryable<TEntity> queryable = GetQueryable<TEntity>();
             return queryable;
         }
+        
+        public IQueryable<TEntity> GetQueryablePagination(IQueryable<TEntity> queryable,int pageNumber, int pageSize)
+        {
+            if (!queryable.Any())
+            {
+                return null;
+            }
+
+            queryable = queryable.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+            return queryable;
+        }
 
         public IQueryable<T> GetQueryable<T>()
             where T : BaseEntity

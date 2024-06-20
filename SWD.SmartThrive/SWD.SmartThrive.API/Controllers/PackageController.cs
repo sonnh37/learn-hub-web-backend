@@ -23,28 +23,27 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("get-all-package")]
-        public async Task<IActionResult> GetAllPackage()
-        {
-            try
-            {
-                var packages = await _service.GetAllPackage();
+        //[HttpPost("get-all-package")]
+        //public async Task<IActionResult> GetAllPackage(PaginatedRequest<PackageRequest> paginatedRequest)
+        //{
+        //    try
+        //    {
+        //        var packages = await _service.GetAllPackage(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
 
-                return packages switch
-                {
-                    null => Ok(new BaseReponseList<PackageModel>(
-                        null,
-                        ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND)),
-                    not null => Ok(new BaseReponseList<PackageModel>(packages, ConstantMessage.Success))
-                };
-            }
-            catch (Exception ex)
-            {
+        //        return packages switch
+        //        {
+        //            null => Ok(new PaginatedResponseList<PackageModel>(
+        //                null,
+        //                ConstantMessage.NotFound)),
+        //            not null => Ok(new PaginatedResponseList<PackageModel>(packages, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return BadRequest(ex.Message);
-            };
-        }
+        //        return BadRequest(ex.Message);
+        //    };
+        //}
 
         [HttpGet("get-package")]
         public async Task<IActionResult> GetPackage(Guid id)
@@ -57,15 +56,12 @@ namespace SWD.SmartThrive.API.Controllers
                 }
                 var packageModel = await _service.GetPackage(id);
 
-
                 return packageModel switch
                 {
-                    not null => Ok(new BaseReponse<PackageModel>(packageModel, ConstantMessage.Success)),
-                    null => Ok(new BaseReponse<PackageModel>(
+                    null => Ok(new PaginatedResponse<PackageModel>(
                         null,
-                        ConstantMessage.NotFound,
-                        ConstantHttpStatus.NOT_FOUND))
-                    
+                        ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<PackageModel>(packageModel, ConstantMessage.Success))
                 };
             }
             catch (Exception ex)
@@ -85,7 +81,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return isPackage switch
                 {
                     true => Ok(new BaseReponseBool(isPackage, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                    _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -106,7 +102,7 @@ namespace SWD.SmartThrive.API.Controllers
                     return isPackage switch
                     {
                         true => Ok(new BaseReponseBool(isPackage, ConstantMessage.Success)),
-                        _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                        _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail))
                     };
                 }
                 else
@@ -132,7 +128,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return isPackage switch
                 {
                     true => Ok(new BaseReponseBool(isPackage, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail, ConstantHttpStatus.NOT_FOUND))
+                    _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)

@@ -54,7 +54,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         {
             var Courses = await _repository.GetAll();
 
-            if (Courses == null)
+            if (!Courses.Any())
             {
                 return null;
             }

@@ -52,14 +52,14 @@ namespace SWD.SmartThrive.Services.Services.Service
 
         public async Task<List<SessionModel>> GetAllSession()
         {
-            var Sessions = await _repository.GetAll();
+            var sessions = await _repository.GetAll();
 
-            if (Sessions == null)
+            if (!sessions.Any())
             {
                 return null;
             }
 
-            return _mapper.Map<List<SessionModel>>(Sessions);
+            return _mapper.Map<List<SessionModel>>(sessions);
         }
 
         public async Task<SessionModel> GetSession(Guid id)

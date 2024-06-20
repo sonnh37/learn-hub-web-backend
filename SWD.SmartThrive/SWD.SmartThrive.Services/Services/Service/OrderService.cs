@@ -55,7 +55,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         {
             var Orders = await _repository.GetAll();
 
-            if (Orders == null)
+            if (!Orders.Any())
             {
                 return null;
             }
