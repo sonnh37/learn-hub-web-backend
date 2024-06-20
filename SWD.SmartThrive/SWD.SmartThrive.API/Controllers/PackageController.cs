@@ -58,10 +58,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return packageModel switch
                 {
-                    null => Ok(new PaginatedResponse<PackageModel>(
-                        null,
-                        ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<PackageModel>(packageModel, ConstantMessage.Success))
+                    null => Ok(new PaginatedResponse<PackageModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<PackageModel>(ConstantMessage.Success, packageModel))
                 };
             }
             catch (Exception ex)

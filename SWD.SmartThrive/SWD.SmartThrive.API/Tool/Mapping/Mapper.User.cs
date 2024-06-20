@@ -10,6 +10,7 @@ namespace SWD.SmartThrive.API.Tool.Mapping
         public void UserMapping()
         {
             CreateMap<User, UserModel>().ReverseMap();
+            CreateMap<Role, RoleModel>().ReverseMap();
             CreateMap<UserModel, UserRequest>().ReverseMap();
             CreateMap<UserModel, UserSearchRequest>().ReverseMap();
         }

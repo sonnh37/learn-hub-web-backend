@@ -10,7 +10,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
     {
         IQueryable<TEntity> GetQueryable(CancellationToken cancellationToken = default);
 
-        Task<long> GetTotaCount();
+        Task<long> GetTotalCount();
 
         Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default);
 

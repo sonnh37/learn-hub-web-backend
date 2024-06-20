@@ -58,10 +58,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return courseModel switch
                 {
-                    null => Ok(new PaginatedResponse<CourseModel>(
-                        null,
-                        ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<CourseModel>(courseModel, ConstantMessage.Success))
+                    null => Ok(new PaginatedResponse<CourseModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<CourseModel>(ConstantMessage.Success, courseModel))
                 };
             }
             catch (Exception ex)

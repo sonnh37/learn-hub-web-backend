@@ -30,11 +30,15 @@ namespace SWD.SmartThrive.Services.Base
 
         private readonly IUserRepository __userRepository;
 
+        private readonly IBaseRepository<TEntity> __repository;
+
         protected BaseService(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            __repository = _unitOfWork.GetRepositoryByEntity<TEntity>();
             __userRepository = _unitOfWork.UserRepository;
+
         }
 
         protected BaseService(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) : this(mapper, unitOfWork)
@@ -98,6 +102,11 @@ namespace SWD.SmartThrive.Services.Base
 
             return null;
 
+        }
+
+        public Task<long> GetTotalCount()
+        {
+            return __repository.GetTotalCount();
         }
 
         private (string, string) GetUserEmailWithUserenameFromToken(string token)

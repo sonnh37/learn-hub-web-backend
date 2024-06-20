@@ -28,19 +28,17 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPost("get-all-user-search")]
-        public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<UserSearchRequest?> paginatedRequest)
+        public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<UserSearchRequest> paginatedRequest)
         {
             try
             {
                 var user = _mapper.Map<UserModel>(paginatedRequest.Result);
                 var users = await _service.GetAllUserSearch(user, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
 
-                return users switch
+                return users.Item1 switch
                 {
-                    null => Ok(new PaginatedResponseList<UserModel>(
-                        null,
-                        ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponseList<UserModel>(users, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedResponseList<UserModel>(ConstantMessage.NotFound, users.Item1, users.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedResponseList<UserModel>(ConstantMessage.Success, users.Item1, users.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)
@@ -51,18 +49,16 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPost("get-all-user")]
-        public async Task<IActionResult> GetAllUser(PaginatedRequest<UserRequest> paginatedRequest)
+        public async Task<IActionResult> GetAllUser(PaginatedRequest paginatedRequest)
         {
             try
             {
                 var users = await _service.GetAllUser(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
-
+                long totalOrigin = await _service.GetTotalCount();
                 return users switch
                 {
-                    null => Ok(new PaginatedResponseList<UserModel>(
-                        null,
-                        ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponseList<UserModel>(users, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedResponseList<UserModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponseList<UserModel>(ConstantMessage.Success, users, totalOrigin, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)
@@ -85,10 +81,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return userModel switch
                 {
-                    null => Ok(new PaginatedResponse<UserModel>(
-                        null,
-                        ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<UserModel>(userModel, ConstantMessage.Success))
+                    null => Ok(new PaginatedResponse<UserModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<UserModel>(ConstantMessage.Success, userModel))
                 };
             }
             catch (Exception ex)
@@ -199,10 +193,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return userModel switch
                 {
-                    null => Ok(new PaginatedResponse<UserModel>(
-                        null,
-                        ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<UserModel>(userModel, ConstantMessage.Success))
+                    null => Ok(new PaginatedResponse<UserModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<UserModel>(ConstantMessage.Success, userModel))
                 };
             }
             catch (Exception ex)

@@ -14,9 +14,9 @@ namespace SWD.SmartThrive.API.ResponseModel
 
     public class PaginatedResponse<TResult> : PaginatedResponse where TResult : class
     {
-        public TResult Result { get; }
+        public TResult? Result { get; }
 
-        public PaginatedResponse(TResult result, string message)
+        public PaginatedResponse(string message, TResult? result = null )
         {
             Result = result;
             TotalRecords = result != null ? 1 : 0;
@@ -27,7 +27,7 @@ namespace SWD.SmartThrive.API.ResponseModel
 
     public class PaginatedResponseList<TResult> : PaginatedResponse where TResult : class
     {
-        public List<TResult> Results { get; }
+        public List<TResult>? Results { get; }
 
         public int TotalPages { get; protected set; }
 
@@ -37,16 +37,14 @@ namespace SWD.SmartThrive.API.ResponseModel
 
         public string? OrderBy { get; protected set; }
 
-        public PaginatedResponseList(List<TResult> results, string message, int pageNumber = 1, int pageSize = 1, string? orderBy = null)
+        public PaginatedResponseList(string message, List<TResult>? results = null, long totalOrigin = 0, int pageNumber = 1, int pageSize = 1, string? orderBy = null)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
             OrderBy = orderBy;
-
             Results = results;
             TotalRecords = results != null ? results.Count : 0;
-            TotalPages = (int)Math.Ceiling(TotalRecords / (double)PageSize);
-
+            TotalPages = (int)Math.Ceiling(totalOrigin / (double)PageSize);
             IsSuccess = results != null;
             Message = message;
         }

@@ -19,11 +19,8 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
         public async Task<User> FindUsernameOrEmail(User user)
         {
             var queryable = base.GetQueryable();
-
-            // Apply base filtering: not deleted
             queryable = queryable.Where(entity => !entity.IsDeleted);
 
-            // Check Username or email
             if (!string.IsNullOrEmpty(user.Username) || !string.IsNullOrEmpty(user.Email))
             {
                 queryable = queryable.Where(entity => user.Username.ToLower() == entity.Username.ToLower()
@@ -32,8 +29,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             }
 
             queryable = queryable.Include(entity => entity.Role);
-
-            // Execute the query asynchronously
             var result = await queryable.SingleOrDefaultAsync();
 
             return result;
@@ -41,14 +36,17 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
         public async Task<List<User>> GetAllUser(int pageNumber, int pageSize, string orderBy)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(pageNumber, pageSize, orderBy);
+            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+
+            // Lọc theo trang
+            queryable = GetQueryablePagination(queryable, pageNumber, pageSize);
 
             return await queryable.ToListAsync();
         }
 
-        public async Task<List<User>> GetAllUserSearch(User user, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<User>, long)> GetAllUserSearch(User user, int pageNumber, int pageSize, string orderBy)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(pageNumber, pageSize, orderBy);
+            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
 
             // Điều kiện lọc từng bước
             if (queryable.Any())
@@ -71,7 +69,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
                 if (user.DOB.HasValue)
                 {
                     queryable = queryable.Where(m => m.DOB.Value.Date == user.DOB.Value.Date);
-                }
+                } 
 
                 if (!string.IsNullOrEmpty(user.Address))
                 {
@@ -104,12 +102,17 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
                 }
             }
 
+            var totalOrigin = queryable.Count();
+
+            // Lọc theo trang
+            queryable = GetQueryablePagination(queryable, pageNumber, pageSize);
+
             var users = await queryable.ToListAsync();
 
-            return users;
+            return (users, totalOrigin);
         }
 
-        public IQueryable<User> GetQueryablePaginationWithOrderBy(int pageNumber, int pageSize, string orderBy)
+        public IQueryable<User> GetQueryablePaginationWithOrderBy(string orderBy)
         {
             // Sắp xếp trước 
             var queryable = base.GetQueryable();
@@ -133,11 +136,8 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
                 }
             }
 
-            // Lọc theo trang
-            queryable = GetQueryablePagination(queryable, pageNumber, pageSize);
-
             return queryable;
         }
 
     }
-}
+} 
