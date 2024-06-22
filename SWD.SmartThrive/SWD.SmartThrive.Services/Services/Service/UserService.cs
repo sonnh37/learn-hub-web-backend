@@ -98,7 +98,6 @@ namespace SWD.SmartThrive.Services.Services.Service
             {
                 return (null, usersWithTotalOrigin.Item2);
             }
-
             var userModels = _mapper.Map<List<UserModel>>(usersWithTotalOrigin.Item1);
 
             return (userModels, usersWithTotalOrigin.Item2);
@@ -183,6 +182,11 @@ namespace SWD.SmartThrive.Services.Services.Service
             return token;
         }
 
+        public UserModel GetUserByEmail(string email)
+        {
+            var user = _repository.GetQueryable(u => u.Email == email).FirstOrDefault();
+            return _mapper.Map<UserModel>(user);
+        }
         
     }
 }

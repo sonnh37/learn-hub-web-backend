@@ -1,4 +1,5 @@
 ﻿using SWD.SmartThrive.Repositories.Data.Entities;
+using System.Linq.Expressions;
 
 namespace SWD.SmartThrive.Repositories.Repositories.Base
 {
@@ -9,6 +10,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         where TEntity : BaseEntity
     {
         IQueryable<TEntity> GetQueryable(CancellationToken cancellationToken = default);
+        IQueryable<TEntity> GetQueryable(Expression<Func<TEntity, bool>> predicate);
 
         Task<long> GetTotalCount();
 
