@@ -25,17 +25,18 @@ namespace SWD.SmartThrive.Services.Services.Service
             return await _repository.Add(course);
         }
 
-        public async Task<bool> UpdateCourse(CourseModel CourseModel)
+        public async Task<bool> UpdateCourse(CourseModel courseModel)
         {
-            var entity = await _repository.GetById(CourseModel.Id);
+            var entity = await _repository.GetById(courseModel.Id);
+
             if (entity == null)
             {
                 return false;
             }
+            _mapper.Map(courseModel, entity);
+            entity = await SetBaseEntityToUpdateFunc(entity);
 
-            var Course = _mapper.Map<Course>(CourseModel);
-            var course = await SetBaseEntityToUpdateFunc(Course);
-            return await _repository.Update(course);
+            return await _repository.Update(entity);
         }
 
         public async Task<bool> DeleteCourse(Guid id)

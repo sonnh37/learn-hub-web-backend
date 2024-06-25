@@ -71,11 +71,20 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
         }
 
-        public async Task<bool> Update(ProviderModel model)
+        public async Task<bool> Update(ProviderModel providerModel)
         {
             try
             {
-                return await _providerRepository.Update(_mapper.Map<Provider>(model));
+                var entity = await _providerRepository.GetById(providerModel.Id);
+
+                if (entity == null)
+                {
+                    return false;
+                }
+                _mapper.Map(providerModel, entity);
+                entity = await SetBaseEntityToUpdateFunc(entity);
+
+                return await _providerRepository.Update(entity);
             }
             catch (Exception ex)
             {
