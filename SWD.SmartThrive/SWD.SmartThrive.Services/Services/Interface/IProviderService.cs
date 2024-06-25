@@ -10,5 +10,10 @@ namespace SWD.SmartThrive.Services.Services.Interface
     public interface IProviderService
     {
         public Task<bool> Add(ProviderModel model);
+        public Task<bool> Delete(ProviderModel model);
+        public Task<bool> Update(ProviderModel model);
+        public Task<List<ProviderModel>> GetAll();
+        public Task<ProviderModel> GetById(Guid id);
+
     }
 }

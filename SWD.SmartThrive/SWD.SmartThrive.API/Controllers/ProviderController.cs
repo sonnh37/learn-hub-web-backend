@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.API.RequestModel;
+using SWD.SmartThrive.API.ResponseModel;
+using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
@@ -11,7 +14,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace SWD.SmartThrive.API.Controllers
 {
-    [Route("api/provider")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProviderController : ControllerBase
     {
@@ -25,10 +28,76 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
             _providerService = providerService;
         }
-        [HttpPost("ImportExcelFile")]
-        public async Task<IActionResult> ImportExcelFile([FromForm]IFormFile file)
-        {
+        //[HttpPost]
+        //public async Task<IActionResult> Add(ProviderRequest request)
+        //{
+        //    try
+        //    {
 
+        //    }catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+        [HttpPut("delete")]
+        public async Task<IActionResult> Delete(ProviderRequest request)
+        {
+            try
+            {
+                bool isSuccess = await _providerService.Delete(_mapper.Map<ProviderModel>(request));
+                return isSuccess switch
+                {
+                    true => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Success)),
+                    false => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Fail))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut("update")]
+        public async Task<IActionResult> Update(ProviderRequest request)
+        {
+            try
+            {
+                bool isSuccess = await _providerService.Update(_mapper.Map<ProviderModel>(request));
+                return isSuccess switch
+                {
+                    true => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Success)),
+                    false => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Fail))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        //[HttpGet]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    try
+        //    {
+        //        var providers = await _providerService.GetAll();
+        //        return providers switch
+        //        {
+        //            null => Ok(new ),
+        //            not null => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Fail))
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+        //[HttpGet]
+        //public Task<IActionResult> GetById(Guid id)
+        //{
+
+        //}
+        [HttpPost("import-excel-file")]
+        public async Task<IActionResult> ImportExcelFile([FromForm] IFormFile file)
+        {
             try
             {
                 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -77,8 +146,6 @@ namespace SWD.SmartThrive.API.Controllers
                                 u.Status = true;
                                 u.RoleId = Guid.Parse("13CDCAA1-614F-431E-BC5B-D7BFCB483EC7");
                                 u.LocationId = Guid.Parse("458EF00A-24E2-4523-B8CC-1C28AEE2204F");
-                                u.CreatedDate = DateTime.Now;
-                                u.IsDeleted = false;
 
                                 await _userService.AddUser(_mapper.Map<UserModel>(u));
 
@@ -86,8 +153,6 @@ namespace SWD.SmartThrive.API.Controllers
                                 p.UserId = _mapper.Map<User>(_userService.GetUserByEmail(u.Email)).Id;
                                 p.CompanyName = reader.GetValue(8).ToString();
                                 p.Website = reader.GetValue(9).ToString();
-                                p.CreatedDate = DateTime.Now;
-                                p.IsDeleted = false;
 
                                 await _providerService.Add(_mapper.Map<ProviderModel>(p));
 

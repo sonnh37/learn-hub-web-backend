@@ -35,8 +35,9 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<bool> AddUser(UserModel userModel)
         {
             var user = _mapper.Map<User>(userModel);
+            var setUser = await SetBaseEntityToCreateFunc(user);
             
-            return await _repository.Add(user);
+            return await _repository.Add(setUser);
         }
 
         public async Task<bool> UpdateUser(UserModel userModel)

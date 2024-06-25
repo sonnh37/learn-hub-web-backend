@@ -25,8 +25,59 @@ namespace SWD.SmartThrive.Services.Services.Service
         {
             try
             {
-                return await _providerRepository.Add(_mapper.Map<Provider>(model));
+                var provider = _mapper.Map<Provider>(model);
+                var setProvider = await SetBaseEntityToCreateFunc(provider);
+                return await _providerRepository.Add(setProvider);
             }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> Delete(ProviderModel model)
+        {
+            try
+            {
+                return await _providerRepository.Delete(_mapper.Map<Provider>(model));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<ProviderModel>> GetAll()
+        {
+            try
+            {
+                return (List<ProviderModel>) await _providerRepository.GetAll();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<ProviderModel> GetById(Guid id)
+        {
+            try
+            {
+                var provider = await _providerRepository.GetById(id);
+                return _mapper.Map<ProviderModel>(provider);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> Update(ProviderModel model)
+        {
+            try
+            {
+                return await _providerRepository.Update(_mapper.Map<Provider>(model));
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
