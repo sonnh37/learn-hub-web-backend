@@ -1,8 +1,3 @@
-
-
-
-
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -108,6 +103,7 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPackageService, PackageService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IProviderService, ProviderService>();
 
 builder.Services.AddScoped(typeof(UserService));
 builder.Services.AddHttpContextAccessor();
