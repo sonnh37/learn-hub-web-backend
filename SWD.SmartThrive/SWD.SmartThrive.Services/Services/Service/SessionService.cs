@@ -25,17 +25,18 @@ namespace SWD.SmartThrive.Services.Services.Service
             return await _repository.Add(session);
         }
 
-        public async Task<bool> UpdateSession(SessionModel SessionModel)
+        public async Task<bool> UpdateSession(SessionModel sessionModel)
         {
-            var entity = await _repository.GetById(SessionModel.Id);
+            var entity = await _repository.GetById(sessionModel.Id);
+
             if (entity == null)
             {
                 return false;
             }
+            _mapper.Map(sessionModel, entity);
+            entity = await SetBaseEntityToUpdateFunc(entity);
 
-            var Session = _mapper.Map<Session>(SessionModel);
-            var session = await SetBaseEntityToUpdateFunc(Session);
-            return await _repository.Update(session);
+            return await _repository.Update(entity);
         }
 
         public async Task<bool> DeleteSession(Guid id)
