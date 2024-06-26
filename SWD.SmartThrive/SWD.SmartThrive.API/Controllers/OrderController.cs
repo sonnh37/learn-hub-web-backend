@@ -79,8 +79,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isOrder switch
                 {
-                    true => Ok(new BaseReponseBool(isOrder, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isOrder, ConstantMessage.Success)),
+                    _ => Ok(new BaseResponse(isOrder, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -100,8 +100,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                     return isOrder switch
                     {
-                        true => Ok(new BaseReponseBool(isOrder, ConstantMessage.Success)),
-                        _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail))
+                        true => Ok(new BaseResponse(isOrder, ConstantMessage.Success)),
+                        _ => Ok(new BaseResponse(isOrder, ConstantMessage.Fail))
                     };
                 }
                 else
@@ -126,8 +126,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isOrder switch
                 {
-                    true => Ok(new BaseReponseBool(isOrder, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isOrder, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isOrder, ConstantMessage.Success)),
+                    _ => Ok(new BaseResponse(isOrder, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)

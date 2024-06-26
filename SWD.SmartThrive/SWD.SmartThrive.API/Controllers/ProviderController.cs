@@ -47,8 +47,8 @@ namespace SWD.SmartThrive.API.Controllers
                 bool isSuccess = await _providerService.Delete(_mapper.Map<ProviderModel>(request));
                 return isSuccess switch
                 {
-                    true => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Success)),
-                    false => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
+                    false => Ok(new BaseResponse(isSuccess, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -64,8 +64,8 @@ namespace SWD.SmartThrive.API.Controllers
                 bool isSuccess = await _providerService.Update(_mapper.Map<ProviderModel>(request));
                 return isSuccess switch
                 {
-                    true => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Success)),
-                    false => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
+                    false => Ok(new BaseResponse(isSuccess, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace SWD.SmartThrive.API.Controllers
         //        return providers switch
         //        {
         //            null => Ok(new ),
-        //            not null => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Fail))
+        //            not null => Ok(new BaseResponse(isSuccess, ConstantMessage.Fail))
         //        };
         //    }
         //    catch (Exception ex)

@@ -101,8 +101,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isUser switch
                 {
-                    true => Ok(new BaseReponseBool(isUser, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isUser, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isUser, ConstantMessage.Success)),
+                    _ => Ok(new BaseResponse(isUser, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -122,8 +122,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                     return isUser switch
                     {
-                        true => Ok(new BaseReponseBool(isUser, ConstantMessage.Success)),
-                        _ => Ok(new BaseReponseBool(isUser, ConstantMessage.Fail))
+                        true => Ok(new BaseResponse(isUser, ConstantMessage.Success)),
+                        _ => Ok(new BaseResponse(isUser, ConstantMessage.Fail))
                     };
                 }
                 else
@@ -148,8 +148,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isUser switch
                 {
-                    true => Ok(new BaseReponseBool(isUser, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isUser, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isUser, ConstantMessage.Success)),
+                    _ => Ok(new BaseResponse(isUser, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -173,8 +173,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 JwtSecurityToken token = _service.CreateToken(userModel);
 
-                return Ok(new LoginResponse<UserModel>(userModel, new JwtSecurityTokenHandler().WriteToken(token)
-                , token.ValidTo.ToString(), ConstantMessage.Success));
+                return Ok(new LoginResponse<UserModel>(ConstantMessage.Success, userModel, new JwtSecurityTokenHandler().WriteToken(token)
+                , token.ValidTo.ToString()));
             }
             catch (Exception ex)
             {
