@@ -78,8 +78,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isPackage switch
                 {
-                    true => Ok(new BaseReponseBool(isPackage, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isPackage, ConstantMessage.Success)),
+                    _ => Ok(new BaseResponse(isPackage, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -99,8 +99,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                     return isPackage switch
                     {
-                        true => Ok(new BaseReponseBool(isPackage, ConstantMessage.Success)),
-                        _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail))
+                        true => Ok(new BaseResponse(isPackage, ConstantMessage.Success)),
+                        _ => Ok(new BaseResponse(isPackage, ConstantMessage.Fail))
                     };
                 }
                 else
@@ -125,8 +125,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isPackage switch
                 {
-                    true => Ok(new BaseReponseBool(isPackage, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isPackage, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isPackage, ConstantMessage.Success)),
+                    _ => Ok(new BaseResponse(isPackage, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)

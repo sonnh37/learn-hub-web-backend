@@ -78,8 +78,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isSession switch
                 {
-                    true => Ok(new BaseReponseBool(isSession, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isSession, ConstantMessage.Success)),
+                    _ => Ok(new BaseResponse(isSession, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -99,8 +99,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                     return isSession switch
                     {
-                        true => Ok(new BaseReponseBool(isSession, ConstantMessage.Success)),
-                        _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail))
+                        true => Ok(new BaseResponse(isSession, ConstantMessage.Success)),
+                        _ => Ok(new BaseResponse(isSession, ConstantMessage.Fail))
                     };
                 }
                 else
@@ -125,8 +125,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isSession switch
                 {
-                    true => Ok(new BaseReponseBool(isSession, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isSession, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isSession, ConstantMessage.Success)),
+                    _ => Ok(new BaseResponse(isSession, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
