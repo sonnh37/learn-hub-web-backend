@@ -46,11 +46,11 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
         }
 
-        public async Task<List<ProviderModel>> GetAll()
+        public async Task<List<ProviderModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy)
         {
             try
             {
-                return (List<ProviderModel>) await _providerRepository.GetAll();
+                return _mapper.Map<List<ProviderModel>>(await _providerRepository.GetAllPaginationWithOrder(pageNumber, pageSize, orderBy));
             }
             catch (Exception ex)
             {

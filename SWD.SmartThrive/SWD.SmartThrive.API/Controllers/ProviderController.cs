@@ -73,28 +73,28 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        //[HttpGet]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    try
-        //    {
-        //        var providers = await _providerService.GetAll();
-        //        return providers switch
-        //        {
-        //            null => Ok(new ),
-        //            not null => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Fail))
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-        //[HttpGet]
-        //public Task<IActionResult> GetById(Guid id)
-        //{
+        [HttpGet]
+        public async Task<IActionResult> GetAll(PaginatedRequest paginatedRequest)
+        {
+            try
+            {
+                var providers = await _providerService.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                return providers switch
+                {
+                    null => Ok(new ),
+                    not null => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Fail))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("get-by-id/{id}")]
+        public Task<IActionResult> GetById(Guid id)
+        {
 
-        //}
+        }
         [HttpPost("import-excel-file")]
         public async Task<IActionResult> ImportExcelFile([FromForm] IFormFile file)
         {

@@ -5,5 +5,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
 {
     public interface IProviderRepository: IBaseRepository<Provider>
     {
+        Task<List<Provider>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy);
     }
 }

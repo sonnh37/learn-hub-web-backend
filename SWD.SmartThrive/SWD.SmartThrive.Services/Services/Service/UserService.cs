@@ -49,7 +49,10 @@ namespace SWD.SmartThrive.Services.Services.Service
                 return false;
             }
 
-            var user = _mapper.Map<User>(userModel);
+            _mapper.Map(userModel, entity);
+
+            var user = await SetBaseEntityToUpdateFunc(entity);
+            
             return await _repository.Update(user);
         }
 
