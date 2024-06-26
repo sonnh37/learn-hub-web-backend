@@ -25,17 +25,18 @@ namespace SWD.SmartThrive.Services.Services.Service
             return await _repository.Add(package);
         }
 
-        public async Task<bool> UpdatePackage(PackageModel PackageModel)
+        public async Task<bool> UpdatePackage(PackageModel packageModel)
         {
-            var entity = await _repository.GetById(PackageModel.Id);
+            var entity = await _repository.GetById(packageModel.Id);
+
             if (entity == null)
             {
                 return false;
             }
+            _mapper.Map(packageModel, entity);
+            entity = await SetBaseEntityToUpdateFunc(entity);
 
-            var Package = _mapper.Map<Package>(PackageModel);
-            var package = await SetBaseEntityToUpdateFunc(Package);
-            return await _repository.Update(package);
+            return await _repository.Update(entity);
         }
 
         public async Task<bool> DeletePackage(Guid id)

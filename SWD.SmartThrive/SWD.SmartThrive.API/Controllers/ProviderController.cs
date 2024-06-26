@@ -47,8 +47,8 @@ namespace SWD.SmartThrive.API.Controllers
                 bool isSuccess = await _providerService.Delete(_mapper.Map<ProviderModel>(request));
                 return isSuccess switch
                 {
-                    true => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Success)),
-                    false => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
+                    false => Ok(new BaseResponse(isSuccess, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -64,8 +64,8 @@ namespace SWD.SmartThrive.API.Controllers
                 bool isSuccess = await _providerService.Update(_mapper.Map<ProviderModel>(request));
                 return isSuccess switch
                 {
-                    true => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Success)),
-                    false => Ok(new BaseReponseBool(isSuccess, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
+                    false => Ok(new BaseResponse(isSuccess, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -73,6 +73,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+<<<<<<< HEAD
         [HttpGet]
         public async Task<IActionResult> GetAll(PaginatedRequest paginatedRequest)
         {
@@ -93,6 +94,28 @@ namespace SWD.SmartThrive.API.Controllers
         [HttpGet("get-by-id/{id}")]
         public Task<IActionResult> GetById(Guid id)
         {
+=======
+        //[HttpGet]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    try
+        //    {
+        //        var providers = await _providerService.GetAll();
+        //        return providers switch
+        //        {
+        //            null => Ok(new ),
+        //            not null => Ok(new BaseResponse(isSuccess, ConstantMessage.Fail))
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+        //[HttpGet]
+        //public Task<IActionResult> GetById(Guid id)
+        //{
+>>>>>>> 3f93132ed93833a9f5010b31b637f1d0c4b71335
 
         }
         [HttpPost("import-excel-file")]

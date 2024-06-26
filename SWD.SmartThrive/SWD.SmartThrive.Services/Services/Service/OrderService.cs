@@ -26,17 +26,18 @@ namespace SWD.SmartThrive.Services.Services.Service
             return await _repository.Add(order);
         }
 
-        public async Task<bool> UpdateOrder(OrderModel OrderModel)
+        public async Task<bool> UpdateOrder(OrderModel orderModel)
         {
-            var entity = await _repository.GetById(OrderModel.Id);
+            var entity = await _repository.GetById(orderModel.Id);
+
             if (entity == null)
             {
                 return false;
             }
+            _mapper.Map(orderModel, entity);
+            entity = await SetBaseEntityToUpdateFunc(entity);
 
-            var Order = _mapper.Map<Order>(OrderModel);
-            var order = await SetBaseEntityToUpdateFunc(Order);
-            return await _repository.Update(order);
+            return await _repository.Update(entity);
         }
 
         public async Task<bool> DeleteOrder(Guid id)

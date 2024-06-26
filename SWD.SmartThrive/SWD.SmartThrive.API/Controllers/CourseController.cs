@@ -78,8 +78,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isCourse switch
                 {
-                    true => Ok(new BaseReponseBool(isCourse, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isCourse, ConstantMessage.Success)),
+                    _ => Ok(new BaseResponse(isCourse, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
@@ -99,8 +99,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                     return isCourse switch
                     {
-                        true => Ok(new BaseReponseBool(isCourse, ConstantMessage.Success)),
-                        _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail))
+                        true => Ok(new BaseResponse(isCourse, ConstantMessage.Success)),
+                        _ => Ok(new BaseResponse(isCourse, ConstantMessage.Fail))
                     };
                 }
                 else
@@ -125,8 +125,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return isCourse switch
                 {
-                    true => Ok(new BaseReponseBool(isCourse, ConstantMessage.Success)),
-                    _ => Ok(new BaseReponseBool(isCourse, ConstantMessage.Fail))
+                    true => Ok(new BaseResponse(isCourse, ConstantMessage.Success)),
+                    _ => Ok(new BaseResponse(isCourse, ConstantMessage.Fail))
                 };
             }
             catch (Exception ex)
