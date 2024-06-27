@@ -6,6 +6,7 @@ using SWD.SmartThrive.API.RequestModel;
 using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.API.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
+using SWD.SmartThrive.Services.Services.Service;
 
 namespace SWD.SmartThrive.API.Controllers
 {
@@ -23,27 +24,24 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
-        //[HttpPost("get-all-session")]
-        //public async Task<IActionResult> GetAllSession(PaginatedRequest<SessionRequest> paginatedRequest)
-        //{
-        //    try
-        //    {
-        //        var sessions = await _service.GetAllSession(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var sessions = await _service.GetAllSession();
 
-        //        return sessions switch
-        //        {
-        //            null => Ok(new PaginatedListResponse<SessionModel>(
-        //                null,
-        //                ConstantMessage.NotFound)),
-        //            not null => Ok(new PaginatedListResponse<SessionModel>(sessions, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return BadRequest(ex.Message);
-        //    };
-        //}
+                return sessions switch
+                {
+                    null => Ok(new ItemListResponse<SessionModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<SessionModel>(ConstantMessage.Success, sessions))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetSession(Guid id)
@@ -134,31 +132,5 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        //[HttpGet("get-all-session-by-session")]
-        //public async Task<IActionResult> GetAllPackageByStudent(Guid studentid)
-        //{
-        //    try
-        //    {
-        //        if (studentid == Guid.Empty)
-        //        {
-        //            return BadRequest("StudentId is empty");
-        //        }
-
-        //        var sessionModels = await _service.GetAllSessionBySession(studentid);
-
-        //        return sessionModels switch
-        //        {
-        //            not null => Ok(new BaseReponseList<SessionModel>(sessionModels, ConstantMessage.Success)),
-        //            null => Ok(new BaseReponseList<SessionModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
-        //        };
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
     }
 }

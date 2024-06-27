@@ -8,6 +8,7 @@ using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
+using SWD.SmartThrive.Services.Services.Service;
 
 namespace SWD.SmartThrive.API.Controllers
 {
@@ -22,6 +23,25 @@ namespace SWD.SmartThrive.API.Controllers
         {
             _mapper = mapper;
             _studentService = studentService;
+        }
+
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var students = await _studentService.GetAll();
+
+                return students switch
+                {
+                    null => Ok(new ItemListResponse<StudentModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<StudentModel>(ConstantMessage.Success, students))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("get-all-pagination")]

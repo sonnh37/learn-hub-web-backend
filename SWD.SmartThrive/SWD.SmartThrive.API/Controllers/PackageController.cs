@@ -6,6 +6,7 @@ using SWD.SmartThrive.API.RequestModel;
 using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.API.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
+using SWD.SmartThrive.Services.Services.Service;
 
 namespace SWD.SmartThrive.API.Controllers
 {
@@ -23,27 +24,24 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
-        //[HttpPost("get-all-package")]
-        //public async Task<IActionResult> GetAllPackage(PaginatedRequest<PackageRequest> paginatedRequest)
-        //{
-        //    try
-        //    {
-        //        var packages = await _service.GetAllPackage(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var packages = await _service.GetAllPackage();
 
-        //        return packages switch
-        //        {
-        //            null => Ok(new PaginatedListResponse<PackageModel>(
-        //                null,
-        //                ConstantMessage.NotFound)),
-        //            not null => Ok(new PaginatedListResponse<PackageModel>(packages, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return BadRequest(ex.Message);
-        //    };
-        //}
+                return packages switch
+                {
+                    null => Ok(new ItemListResponse<PackageModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<PackageModel>(ConstantMessage.Success, packages))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetPackage(Guid id)

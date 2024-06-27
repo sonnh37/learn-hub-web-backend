@@ -45,6 +45,7 @@
         public ItemListResponse(string message, List<TResult>? results = null) : base(results != null, message)
         {
             Results = results;
+            TotalRecords = results != null ? results.Count : 0;
         }
     }
 }
