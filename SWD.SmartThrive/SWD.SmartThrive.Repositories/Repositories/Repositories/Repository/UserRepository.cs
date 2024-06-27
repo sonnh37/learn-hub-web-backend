@@ -29,7 +29,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             }
 
             queryable = queryable.Include(entity => entity.Role);
-            var result = await queryable.SingleOrDefaultAsync();
+            var result = await queryable.FirstOrDefaultAsync();
 
             return result;
         }

@@ -22,6 +22,8 @@ namespace SWD.SmartThrive.Services.Services.Service
     {
         private readonly IUserRepository _repository;
 
+        private readonly IRoleRepository _roleRepository;
+
         private readonly IConfiguration _configuration;
 
         private DateTime countDown = DateTime.Now.AddMinutes(30);
@@ -29,6 +31,7 @@ namespace SWD.SmartThrive.Services.Services.Service
         public UserService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, IHttpContextAccessor _httpContextAccessor) : base(mapper, unitOfWork, _httpContextAccessor)
         {
             _repository = unitOfWork.UserRepository;
+            _roleRepository = unitOfWork.RoleRepository;
             _configuration = configuration;
         }
 
@@ -149,14 +152,20 @@ namespace SWD.SmartThrive.Services.Services.Service
         public async Task<UserModel> Register(UserModel userModel)
         {
             userModel.Password = BCrypt.Net.BCrypt.HashPassword(userModel.Password);
-            bool isUser = await this.AddUser(userModel);
+            
+            // get Role id by role name
+            
+
+            bool isUser = await AddUser(userModel);
+
+            UserModel _userModel = await GetUserByEmailOrUsername(userModel);
 
             if (!isUser)
             {
                 return null;
             }
 
-            return userModel;
+            return _userModel;
         }
 
         public JwtSecurityToken CreateToken(UserModel userModel)
@@ -185,9 +194,9 @@ namespace SWD.SmartThrive.Services.Services.Service
             return token;
         }
 
-        public UserModel GetUserByEmail(string email)
+        public async Task<UserModel> GetUserByEmailOrUsername(UserModel userModel)
         {
-            var user = _repository.GetQueryable(u => u.Email == email).FirstOrDefault();
+            var user = await _repository.FindUsernameOrEmail(_mapper.Map<User>(userModel));
             return _mapper.Map<UserModel>(user);
         }
         

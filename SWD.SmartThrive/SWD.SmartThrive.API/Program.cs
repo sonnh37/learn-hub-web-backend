@@ -105,6 +105,7 @@ builder.Services.AddScoped<IPackageService, PackageService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IProviderService, ProviderService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 
 builder.Services.AddHttpContextAccessor();
