@@ -56,6 +56,10 @@ namespace SWD.SmartThrive.Services.Base
                 entity.LastUpdatedBy = user.Email;
                 entity.LastUpdatedDate = entity.CreatedDate;
                 entity.IsDeleted = false;
+            } else
+            {
+                entity.CreatedDate = DateTime.UtcNow;
+                entity.IsDeleted = false;
             }
 
             return entity;

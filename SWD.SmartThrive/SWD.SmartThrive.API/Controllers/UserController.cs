@@ -20,11 +20,13 @@ namespace SWD.SmartThrive.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _service;
+        private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
-        public UserController(IUserService service, IMapper mapper)
+        public UserController(IUserService service, IRoleService roleService, IMapper mapper)
         {
             _service = service;
+            _roleService = roleService;
             _mapper = mapper;
         }
 
@@ -209,7 +211,20 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                UserModel userModel = await _service.Register(_mapper.Map<UserModel>(userRequest));
+                UserModel _userModel = _service.GetUserByEmail(userRequest.Email);
+
+                if (_userModel != null)
+                {
+                    return Ok(new ItemResponse<UserModel>(ConstantMessage.Duplicate));
+                }
+
+                RoleModel roleModel = await _roleService.GetRoleByName(userRequest.RoleName);
+
+                UserModel userModelMapping = _mapper.Map<UserModel>(userRequest);
+
+                userModelMapping.RoleId = roleModel.Id;
+
+                UserModel userModel = await _service.Register(userModelMapping);
 
                 return userModel switch
                 {
