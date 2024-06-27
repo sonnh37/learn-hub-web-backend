@@ -38,7 +38,6 @@ namespace SWD.SmartThrive.Services.Base
             _unitOfWork = unitOfWork;
             __repository = _unitOfWork.GetRepositoryByEntity<TEntity>();
             __userRepository = _unitOfWork.UserRepository;
-
         }
 
         protected BaseService(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) : this(mapper, unitOfWork)

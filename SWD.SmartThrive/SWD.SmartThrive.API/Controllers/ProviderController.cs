@@ -14,7 +14,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace SWD.SmartThrive.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/provider")]
     [ApiController]
     public class ProviderController : ControllerBase
     {
@@ -28,17 +28,110 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
             _providerService = providerService;
         }
-        //[HttpPost]
-        //public async Task<IActionResult> Add(ProviderRequest request)
-        //{
-        //    try
-        //    {
 
-        //    }catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var providers = await _providerService.GetAll();
+                long totalOrigin = await _providerService.GetTotalCount();
+
+                return providers switch
+                {
+                    null => Ok("not found"),
+                    not null => Ok(providers)
+                }; ;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("get-all-pagination")]
+        public async Task<IActionResult> GetAllPagination(PaginatedRequest paginatedRequest)
+        {
+            try
+            {
+                var providers = await _providerService.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                long totalOrigin = await _providerService.GetTotalCount();
+
+                return providers switch
+                {
+                    null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.Success, providers, totalOrigin,
+                                        paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("get-by-id/{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            try
+            {
+                if (id == Guid.Empty)
+                {
+                    return BadRequest("Id is empty");
+                }
+                var model = await _providerService.GetById(id);
+
+                return model switch
+                {
+                    null => Ok(new PaginatedResponse<ProviderModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<ProviderModel>(ConstantMessage.Success, model))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            };
+        }
+
+        [HttpPost("search")]
+        public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<ProviderSearchRequest> paginatedRequest)
+        {
+            try
+            {
+                var provider = _mapper.Map<ProviderModel>(paginatedRequest.Result);
+                var providers = await _providerService.Search(provider, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+
+                return providers.Item1 switch
+                {
+                    null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.NotFound, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.Success, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
+        }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> Add(ProviderRequest request)
+        {
+            try
+            {
+                bool isSuccess = await _providerService.Add(_mapper.Map<ProviderModel>(request));
+                return isSuccess switch
+                {
+                    true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
+                    false => Ok(new BaseResponse(isSuccess, ConstantMessage.Fail))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut("delete")]
         public async Task<IActionResult> Delete(ProviderRequest request)
         {
@@ -56,6 +149,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPut("update")]
         public async Task<IActionResult> Update(ProviderRequest request)
         {
@@ -73,103 +167,7 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        //[HttpGet]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    try
-        //    {
-        //        var providers = await _providerService.GetAll();
-        //        return providers switch
-        //        {
-        //            null => Ok(new ),
-        //            not null => Ok(new BaseResponse(isSuccess, ConstantMessage.Fail))
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-        //[HttpGet]
-        //public Task<IActionResult> GetById(Guid id)
-        //{
 
-        //}
-        [HttpPost("import-excel-file")]
-        public async Task<IActionResult> ImportExcelFile([FromForm] IFormFile file)
-        {
-            try
-            {
-                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                if (file == null || file.Length == 0)
-                {
-                    return BadRequest("No file uploaded!");
-                }
-
-                var uploadsFolder = $"{Directory.GetCurrentDirectory()}\\Uploads";
-
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                var filePath = Path.Combine(uploadsFolder, file.Name);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    file.CopyTo(stream);
-                }
-
-                using (var stream = System.IO.File.Open(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    using (var reader = ExcelReaderFactory.CreateReader(stream))
-                    {
-                        bool isHeaderSkipped = false;
-                        do
-                        {
-                            while (reader.Read())
-                            {
-                                if (!isHeaderSkipped)
-                                {
-                                    isHeaderSkipped = true;
-                                    continue;
-                                }
-                                UserRequest u = new UserRequest();
-                                u.Username = reader.GetValue(0).ToString();
-                                u.Password = reader.GetValue(1).ToString();
-                                u.FullName = reader.GetValue(2).ToString();
-                                u.Email = reader.GetValue(3).ToString();
-                                u.Address = reader.GetValue(4).ToString();
-                                u.Gender = reader.GetValue(5).ToString();
-                                u.Phone = reader.GetValue(6).ToString();
-                                u.DOB = Convert.ToDateTime(reader.GetValue(7).ToString());
-                                u.Status = true;
-                                u.RoleId = Guid.Parse("13CDCAA1-614F-431E-BC5B-D7BFCB483EC7");
-                                u.LocationId = Guid.Parse("458EF00A-24E2-4523-B8CC-1C28AEE2204F");
-
-                                await _userService.AddUser(_mapper.Map<UserModel>(u));
-
-                                ProviderRequest p = new ProviderRequest();
-                                p.UserId = _mapper.Map<User>(_userService.GetUserByEmail(u.Email)).Id;
-                                p.CompanyName = reader.GetValue(8).ToString();
-                                p.Website = reader.GetValue(9).ToString();
-
-                                await _providerService.Add(_mapper.Map<ProviderModel>(p));
-
-
-                            }
-                        } while (reader.NextResult());
-
-                    }
-                }
-
-                return Ok("Inserted successfully!");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
+       
     }
 }

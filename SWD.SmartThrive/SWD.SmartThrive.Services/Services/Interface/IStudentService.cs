@@ -10,12 +10,14 @@ namespace SWD.SmartThrive.Services.Services.Interface
 {
     public interface IStudentService
     {
-        Task<bool> Add(StudentModel student);
-        Task<bool> Update(StudentModel student);
-        Task<bool> Delete(Guid id);
+        Task<bool> Add(StudentModel model);
+        Task<bool> Update(StudentModel model);
+        Task<bool> Delete(StudentModel model);
         Task<List<StudentModel>> GetAll();
-        Task<List<StudentModel>> GetAll(int pageNumber, int pageSize, string orderBy);
-        Task<List<StudentModel>> GetStudentsByUserId(Guid id);
+        Task<List<StudentModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy);
         Task<StudentModel> GetById(Guid id);
+        Task<List<StudentModel>> GetStudentsByUserId(Guid id);
+        Task<(List<StudentModel>?, long)> Search(StudentModel model, int pageNumber, int pageSize, string orderBy);
+        Task<long> GetTotalCount();
     }
 }
