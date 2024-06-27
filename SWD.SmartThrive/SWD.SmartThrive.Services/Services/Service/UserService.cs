@@ -158,7 +158,7 @@ namespace SWD.SmartThrive.Services.Services.Service
 
             bool isUser = await AddUser(userModel);
 
-            UserModel _userModel = GetUserByEmail(userModel.Email);
+            UserModel _userModel = await GetUserByEmailOrUsername(userModel);
 
             if (!isUser)
             {
@@ -194,9 +194,9 @@ namespace SWD.SmartThrive.Services.Services.Service
             return token;
         }
 
-        public UserModel GetUserByEmail(string email)
+        public async Task<UserModel> GetUserByEmailOrUsername(UserModel userModel)
         {
-            var user = _repository.GetQueryable(u => u.Email == email).FirstOrDefault();
+            var user = await _repository.FindUsernameOrEmail(_mapper.Map<User>(userModel));
             return _mapper.Map<UserModel>(user);
         }
         

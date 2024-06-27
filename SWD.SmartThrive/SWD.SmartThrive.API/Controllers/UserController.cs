@@ -211,7 +211,7 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                UserModel _userModel = _service.GetUserByEmail(userRequest.Email);
+                UserModel _userModel =  await _service.GetUserByEmailOrUsername(_mapper.Map<UserModel>(userRequest));
 
                 if (_userModel != null)
                 {
