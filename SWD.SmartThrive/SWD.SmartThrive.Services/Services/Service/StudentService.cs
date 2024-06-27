@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace SWD.SmartThrive.Services.Services.Service
 {
-    public class StudentService : BaseService<Student>,IStudentService
+    public class StudentService : BaseService<Student>, IStudentService
     {
         private readonly IStudentRepository _studentRepository;
 
