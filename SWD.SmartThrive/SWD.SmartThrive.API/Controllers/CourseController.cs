@@ -6,6 +6,7 @@ using SWD.SmartThrive.API.RequestModel;
 using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.API.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
+using SWD.SmartThrive.Services.Services.Service;
 
 namespace SWD.SmartThrive.API.Controllers
 {
@@ -23,29 +24,26 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
-        //[HttpPost("get-all-course")]
-        //public async Task<IActionResult> GetAllCourse(PaginatedRequest<CourseRequest> paginatedRequest)
-        //{
-        //    try
-        //    {
-        //        var courses = await _service.GetAllCourse(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var courses = await _service.GetAllCourse();
 
-        //        return courses switch
-        //        {
-        //            null => Ok(new PaginatedResponseList<CourseModel>(
-        //                null,
-        //                ConstantMessage.NotFound)),
-        //            not null => Ok(new PaginatedResponseList<CourseModel>(courses, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
+                return courses switch
+                {
+                    null => Ok(new ItemListResponse<CourseModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<CourseModel>(ConstantMessage.Success, courses))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //        return BadRequest(ex.Message);
-        //    };
-        //}
-
-        [HttpGet("get-course")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetCourse(Guid id)
         {
             try
@@ -58,8 +56,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return courseModel switch
                 {
-                    null => Ok(new PaginatedResponse<CourseModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<CourseModel>(ConstantMessage.Success, courseModel))
+                    null => Ok(new ItemResponse<CourseModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new ItemResponse<CourseModel>(ConstantMessage.Success, courseModel))
                 };
             }
             catch (Exception ex)
@@ -69,7 +67,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpPost("add-new-course")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddCourse(CourseRequest course)
         {
             try
@@ -88,7 +86,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("delete-course")]
+        [HttpPut("delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -114,7 +112,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("update-course")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(CourseRequest course)
         {
             try
@@ -134,56 +132,5 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        //[HttpGet("get-all-course-by-provider")]
-        //public async Task<IActionResult> GetAllPackageByProvider(Guid studentid)
-        //{
-        //    try
-        //    {
-        //        if (studentid == Guid.Empty)
-        //        {
-        //            return BadRequest("StudentId is empty");
-        //        }
-
-        //        var courseModels = await _service.GetAllCourseByProvider(studentid);
-
-        //        return courseModels switch
-        //        {
-        //            not null => Ok(new BaseReponseList<CourseModel>(courseModels, ConstantMessage.Success)),
-        //            null => Ok(new BaseReponseList<CourseModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
-        //        };
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-
-        //[HttpGet("search-course-by-id-or-name")]
-        //public async Task<IActionResult> SearchCourse(string course)
-        //{
-        //    try
-        //    {
-        //        if (string.IsNullOrEmpty(course))
-        //        {
-        //            return BadRequest("StudentId is empty");
-        //        }
-
-        //        var courseModels = await _service.SearchCourse(course);
-
-        //        return courseModels switch
-        //        {
-        //            not null => Ok(new BaseReponseList<CourseModel>(courseModels, ConstantMessage.Success)),
-        //            null => Ok(new BaseReponseList<CourseModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
     }
 }

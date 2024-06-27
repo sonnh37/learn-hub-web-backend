@@ -24,29 +24,26 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
-        //[HttpPost("get-all-order")]
-        //public async Task<IActionResult> GetAllOrder(PaginatedRequest<OrderRequest> paginatedRequest)
-        //{
-        //    try
-        //    {
-        //        var orders = await _service.GetAllOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var orders = await _service.GetAllOrder();
 
-        //        return orders switch
-        //        {
-        //            null => Ok(new PaginatedResponseList<OrderModel>(
-        //                null,
-        //                ConstantMessage.NotFound)),
-        //            not null => Ok(new PaginatedResponseList<OrderModel>(orders, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
-        //        };
-        //    }
-        //    catch (Exception ex)
-        //    {
+                return orders switch
+                {
+                    null => Ok(new ItemListResponse<OrderModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<OrderModel>(ConstantMessage.Success, orders))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //        return BadRequest(ex.Message);
-        //    };
-        //}
-
-        [HttpGet("get-order")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetOrder(Guid id)
         {
             try
@@ -59,8 +56,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return orderModel switch
                 {
-                    null => Ok(new PaginatedResponse<OrderModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<OrderModel>(ConstantMessage.Success, orderModel))
+                    null => Ok(new ItemResponse<OrderModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new ItemResponse<OrderModel>(ConstantMessage.Success, orderModel))
                 };
             }
             catch (Exception ex)
@@ -70,7 +67,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpPost("add-new-order")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddOrder(OrderRequest order)
         {
             try
@@ -89,7 +86,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("delete-order")]
+        [HttpPut("delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -115,7 +112,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("update-order")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(OrderRequest order)
         {
             try
@@ -135,31 +132,5 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        //[HttpGet("get-all-order-by-student")]
-        //public async Task<IActionResult> GetAllOrderByStudent(Guid studentid)
-        //{
-        //    try
-        //    {
-        //        if (studentid == Guid.Empty)
-        //        {
-        //            return BadRequest("StudentId is empty");
-        //        }
-
-        //        var orderModels = await _service.GetAllOrderByStudent(studentid);
-
-        //        return orderModels switch
-        //        {
-        //            not null => Ok(new BaseReponseList<OrderModel>(orderModels, ConstantMessage.Success)),
-        //            null => Ok(new BaseReponseList<OrderModel>(null, ConstantMessage.NotFound, ConstantHttpStatus.NOT_FOUND))
-        //        };
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
     }
 }

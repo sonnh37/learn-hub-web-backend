@@ -20,11 +20,13 @@ namespace SWD.SmartThrive.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _service;
+        private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
-        public UserController(IUserService service, IMapper mapper)
+        public UserController(IUserService service, IRoleService roleService, IMapper mapper)
         {
             _service = service;
+            _roleService = roleService;
             _mapper = mapper;
         }
 
@@ -33,11 +35,12 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var users = await _service.GetAll();
+                var users = await _service.GetAllUser();
+
                 return users switch
                 {
-                    null => Ok("not found"),
-                    not null => Ok(users)
+                    null => Ok(new ItemListResponse<UserModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<UserModel>(ConstantMessage.Success, users))
                 };
             }
             catch (Exception ex)
@@ -46,7 +49,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPost("get-all-user-search")]
+        [HttpPost("search")]
         public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<UserSearchRequest> paginatedRequest)
         {
             try
@@ -56,8 +59,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return users.Item1 switch
                 {
-                    null => Ok(new PaginatedResponseList<UserModel>(ConstantMessage.NotFound, users.Item1, users.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedResponseList<UserModel>(ConstantMessage.Success, users.Item1, users.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<UserModel>(ConstantMessage.NotFound, users.Item1, users.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedListResponse<UserModel>(ConstantMessage.Success, users.Item1, users.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)
@@ -67,7 +70,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpPost("get-all-user")]
+        [HttpPost("get-all-pagination")]
         public async Task<IActionResult> GetAllUser(PaginatedRequest paginatedRequest)
         {
             try
@@ -76,8 +79,8 @@ namespace SWD.SmartThrive.API.Controllers
                 long totalOrigin = await _service.GetTotalCount();
                 return users switch
                 {
-                    null => Ok(new PaginatedResponseList<UserModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponseList<UserModel>(ConstantMessage.Success, users, totalOrigin, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<UserModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedListResponse<UserModel>(ConstantMessage.Success, users, totalOrigin, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)
@@ -87,7 +90,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpGet("get-user")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetUser(Guid id)
         {
             try
@@ -100,8 +103,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return userModel switch
                 {
-                    null => Ok(new PaginatedResponse<UserModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<UserModel>(ConstantMessage.Success, userModel))
+                    null => Ok(new ItemResponse<UserModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new ItemResponse<UserModel>(ConstantMessage.Success, userModel))
                 };
             }
             catch (Exception ex)
@@ -111,7 +114,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpPost("add-new-user")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddUser(UserRequest user)
         {
             try
@@ -130,7 +133,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("delete-user")]
+        [HttpPut("delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -156,7 +159,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("update-user")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(UserRequest user)
         {
             try
@@ -208,12 +211,25 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                UserModel userModel = await _service.Register(_mapper.Map<UserModel>(userRequest));
+                UserModel _userModel =  await _service.GetUserByEmailOrUsername(_mapper.Map<UserModel>(userRequest));
+
+                if (_userModel != null)
+                {
+                    return Ok(new ItemResponse<UserModel>(ConstantMessage.Duplicate));
+                }
+
+                RoleModel roleModel = await _roleService.GetRoleByName(userRequest.RoleName);
+
+                UserModel userModelMapping = _mapper.Map<UserModel>(userRequest);
+
+                userModelMapping.RoleId = roleModel.Id;
+
+                UserModel userModel = await _service.Register(userModelMapping);
 
                 return userModel switch
                 {
-                    null => Ok(new PaginatedResponse<UserModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<UserModel>(ConstantMessage.Success, userModel))
+                    null => Ok(new ItemResponse<UserModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new ItemResponse<UserModel>(ConstantMessage.Success, userModel))
                 };
             }
             catch (Exception ex)

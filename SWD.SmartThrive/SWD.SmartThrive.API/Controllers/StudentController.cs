@@ -30,11 +30,12 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var providers = await _studentService.GetAll();
-                return providers switch
+                var students = await _studentService.GetAll();
+
+                return students switch
                 {
-                    null => Ok("not found"),
-                    not null => Ok(providers)
+                    null => Ok(new ItemListResponse<StudentModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<StudentModel>(ConstantMessage.Success, students))
                 };
             }
             catch (Exception ex)
@@ -53,8 +54,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return providers switch
                 {
-                    null => Ok(new PaginatedResponseList<StudentModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponseList<StudentModel>(ConstantMessage.Success, providers, totalOrigin,
+                    null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.Success, providers, totalOrigin,
                                         paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
@@ -64,7 +65,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpGet("get-by-id")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             try
@@ -77,8 +78,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return StudentModel switch
                 {
-                    null => Ok(new PaginatedResponse<StudentModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<StudentModel>(ConstantMessage.Success, StudentModel))
+                    null => Ok(new ItemResponse<StudentModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new ItemResponse<StudentModel>(ConstantMessage.Success, StudentModel))
                 };
             }
             catch (Exception ex)
@@ -120,8 +121,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return students.Item1 switch
                 {
-                    null => Ok(new PaginatedResponseList<StudentModel>(ConstantMessage.NotFound, students.Item1, students.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedResponseList<StudentModel>(ConstantMessage.Success, students.Item1, students.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.NotFound, students.Item1, students.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.Success, students.Item1, students.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)
