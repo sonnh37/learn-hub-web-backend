@@ -35,7 +35,7 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var users = await _service.GetAllUser();
+                var users = await _service.GetAll();
 
                 return users switch
                 {

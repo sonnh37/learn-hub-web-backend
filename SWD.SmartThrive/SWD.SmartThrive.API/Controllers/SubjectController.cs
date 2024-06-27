@@ -28,11 +28,11 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var providers = await _service.GetAll();
-                return providers switch
+                var subjects = await _service.GetAll();
+                return subjects switch
                 {
-                    null => Ok("not found"),
-                    not null => Ok(providers)
+                    null => Ok(new ItemListResponse<SubjectModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<SubjectModel>(ConstantMessage.Success, subjects))
                 };
             }
             catch (Exception ex)
@@ -51,8 +51,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return subjects switch
                 {
-                    null => Ok(new PaginatedResponseList<SubjectModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponseList<SubjectModel>(ConstantMessage.Success, subjects, totalOrigin,
+                    null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.Success, subjects, totalOrigin,
                                         paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
@@ -75,8 +75,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return subject switch
                 {
-                    null => Ok(new PaginatedResponse<SubjectModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<SubjectModel>(ConstantMessage.Success, subject))
+                    null => Ok(new ItemResponse<SubjectModel>(ConstantMessage.NotFound, null)),
+                    not null => Ok(new ItemResponse<SubjectModel>(ConstantMessage.Success, subject))
                 };
             }
             catch (Exception ex)
@@ -98,8 +98,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return subject switch
                 {
-                    null => Ok("No subject with given categoryId"),
-                    not null => Ok(subject)
+                    null => Ok(new ItemListResponse<SubjectModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<SubjectModel>(ConstantMessage.Success, subject))
                 };
             }
             catch (Exception ex)
@@ -118,8 +118,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return subjects.Item1 switch
                 {
-                    null => Ok(new PaginatedResponseList<SubjectModel>(ConstantMessage.NotFound, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedResponseList<SubjectModel>(ConstantMessage.Success, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.NotFound, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.Success, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)

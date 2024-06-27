@@ -30,8 +30,8 @@ namespace SWD.SmartThrive.API.Controllers
                 var categories = await _service.GetAll();
                 return categories switch
                 {
-                    null => Ok("not found"),
-                    not null => Ok(categories)
+                    null => Ok(new ItemListResponse<CategoryModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<CategoryModel>(ConstantMessage.Success, categories))
                 };
             }
             catch (Exception ex)
@@ -50,8 +50,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return categories switch
                 {
-                    null => Ok(new PaginatedResponseList<CategoryModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponseList<CategoryModel>(ConstantMessage.Success, categories, totalOrigin,
+                    null => Ok(new PaginatedListResponse<CategoryModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedListResponse<CategoryModel>(ConstantMessage.Success, categories, totalOrigin,
                                         paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
@@ -74,8 +74,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return category switch
                 {
-                    null => Ok(new PaginatedResponse<CategoryModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<CategoryModel>(ConstantMessage.Success, category))
+                    null => Ok(new ItemResponse<CategoryModel>(ConstantMessage.NotFound, null)),
+                    not null => Ok(new ItemResponse<CategoryModel>(ConstantMessage.Success, category))
                 };
             }
             catch (Exception ex)
@@ -94,8 +94,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return categories.Item1 switch
                 {
-                    null => Ok(new PaginatedResponseList<CategoryModel>(ConstantMessage.NotFound, categories.Item1, categories.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedResponseList<CategoryModel>(ConstantMessage.Success, categories.Item1, categories.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<CategoryModel>(ConstantMessage.NotFound, categories.Item1, categories.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedListResponse<CategoryModel>(ConstantMessage.Success, categories.Item1, categories.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)
