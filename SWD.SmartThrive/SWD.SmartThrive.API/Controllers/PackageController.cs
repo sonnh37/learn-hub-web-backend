@@ -45,7 +45,7 @@ namespace SWD.SmartThrive.API.Controllers
         //    };
         //}
 
-        [HttpGet("get-package")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetPackage(Guid id)
         {
             try
@@ -69,7 +69,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpPost("add-new-package")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddPackage(PackageRequest package)
         {
             try
@@ -88,7 +88,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("delete-package")]
+        [HttpPut("delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -114,7 +114,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("update-package")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(PackageRequest package)
         {
             try

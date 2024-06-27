@@ -9,6 +9,7 @@ using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
+using SWD.SmartThrive.Services.Services.Service;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace SWD.SmartThrive.API.Controllers
@@ -27,7 +28,26 @@ namespace SWD.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("get-all-user-search")]
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var users = await _service.GetAllUser();
+
+                return users switch
+                {
+                    null => Ok(new ItemListResponse<UserModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<UserModel>(ConstantMessage.Success, users))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("search")]
         public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<UserSearchRequest> paginatedRequest)
         {
             try
@@ -48,7 +68,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpPost("get-all-user")]
+        [HttpPost("get-all-pagination")]
         public async Task<IActionResult> GetAllUser(PaginatedRequest paginatedRequest)
         {
             try
@@ -68,7 +88,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpGet("get-user")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetUser(Guid id)
         {
             try
@@ -92,7 +112,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpPost("add-new-user")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddUser(UserRequest user)
         {
             try
@@ -111,7 +131,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("delete-user")]
+        [HttpPut("delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -137,7 +157,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("update-user")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(UserRequest user)
         {
             try

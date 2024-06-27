@@ -45,7 +45,7 @@ namespace SWD.SmartThrive.API.Controllers
         //    };
         //}
 
-        [HttpGet("get-session")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetSession(Guid id)
         {
             try
@@ -69,7 +69,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpPost("add-new-session")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddSession(SessionRequest session)
         {
             try
@@ -88,7 +88,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("delete-session")]
+        [HttpPut("delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -114,7 +114,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("update-session")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(SessionRequest session)
         {
             try

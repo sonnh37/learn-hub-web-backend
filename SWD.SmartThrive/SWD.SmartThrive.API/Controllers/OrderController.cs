@@ -46,7 +46,7 @@ namespace SWD.SmartThrive.API.Controllers
         //    };
         //}
 
-        [HttpGet("get-order")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetOrder(Guid id)
         {
             try
@@ -70,7 +70,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpPost("add-new-order")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddOrder(OrderRequest order)
         {
             try
@@ -89,7 +89,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("delete-order")]
+        [HttpPut("delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -115,7 +115,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("update-order")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(OrderRequest order)
         {
             try

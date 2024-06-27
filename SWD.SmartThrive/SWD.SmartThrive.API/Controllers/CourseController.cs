@@ -45,7 +45,7 @@ namespace SWD.SmartThrive.API.Controllers
         //    };
         //}
 
-        [HttpGet("get-course")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<IActionResult> GetCourse(Guid id)
         {
             try
@@ -69,7 +69,7 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpPost("add-new-course")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddCourse(CourseRequest course)
         {
             try
@@ -88,7 +88,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("delete-course")]
+        [HttpPut("delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try
@@ -114,7 +114,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpPut("update-course")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(CourseRequest course)
         {
             try
