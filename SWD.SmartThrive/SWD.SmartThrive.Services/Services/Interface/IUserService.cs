@@ -13,9 +13,9 @@ namespace SWD.SmartThrive.Services.Services.Interface
 
         public Task<UserModel> GetUser(Guid id);
 
-        public Task<List<UserModel>?> GetAllUser(int pageNumber, int pageSize, string orderBy);
+        public Task<List<UserModel>?> GetAllPagination(int pageNumber, int pageSize, string orderBy);
 
-        public Task<List<UserModel>?> GetAllUser();
+        public Task<List<UserModel>?> GetAll();
 
         public Task<(List<UserModel>?, long)> GetAllUserSearch(UserModel userModel, int pageNumber, int pageSize, string orderBy);
 
