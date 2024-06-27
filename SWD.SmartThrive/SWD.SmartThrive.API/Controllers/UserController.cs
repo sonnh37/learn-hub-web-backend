@@ -9,6 +9,7 @@ using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
+using SWD.SmartThrive.Services.Services.Service;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace SWD.SmartThrive.API.Controllers
@@ -25,6 +26,24 @@ namespace SWD.SmartThrive.API.Controllers
         {
             _service = service;
             _mapper = mapper;
+        }
+
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var users = await _service.GetAll();
+                return users switch
+                {
+                    null => Ok("not found"),
+                    not null => Ok(users)
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("get-all-user-search")]
@@ -53,7 +72,7 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var users = await _service.GetAllUser(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var users = await _service.GetAllPagination(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
                 long totalOrigin = await _service.GetTotalCount();
                 return users switch
                 {

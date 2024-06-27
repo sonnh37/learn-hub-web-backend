@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SWD.SmartThrive.Repositories.Data.Entities;
@@ -68,7 +69,7 @@ namespace SWD.SmartThrive.Services.Services.Service
             return await _repository.Delete(user);
         }
 
-        public async Task<List<UserModel>?> GetAllUser(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<UserModel>?> GetAllPagination(int pageNumber, int pageSize, string orderBy)
         {
             var users = await _repository.GetAllUser(pageNumber, pageSize, orderBy);
             
@@ -80,7 +81,7 @@ namespace SWD.SmartThrive.Services.Services.Service
             return _mapper.Map<List<UserModel>>(users);
         }
         
-        public async Task<List<UserModel>?> GetAllUser()
+        public async Task<List<UserModel>?> GetAll()
         {
             var users = await _repository.GetAll();
             
@@ -108,6 +109,13 @@ namespace SWD.SmartThrive.Services.Services.Service
 
         public async Task<UserModel> GetUser(Guid id)
         {
+            // get user by id to get list student relate
+            var query = _repository.GetQueryable();
+
+            query = query.Where(m => m.Id == id);
+
+            query = query.Include(m => m.Students);
+
             var user = await _repository.GetById(id);
 
             if (user == null)

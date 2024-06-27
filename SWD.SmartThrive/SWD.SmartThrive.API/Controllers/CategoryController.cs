@@ -1,32 +1,25 @@
 ﻿using AutoMapper;
-using Azure.Core;
-using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.API.RequestModel;
 using SWD.SmartThrive.API.ResponseModel;
 using SWD.SmartThrive.API.Tool.Constant;
-using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
-using System.Drawing.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SWD.SmartThrive.API.Controllers
 {
-    [Route("api/provider")]
+    [Route("api/category")]
     [ApiController]
-    public class ProviderController : ControllerBase
+    public class CategoryController : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly IProviderService _providerService;
+        private readonly ICategoryService _service;
         private readonly IMapper _mapper;
 
-        public ProviderController(IUserService userService, IMapper mapper, IProviderService providerService)
+        public CategoryController(ICategoryService service, IMapper mapper)
         {
-            _userService = userService;
+            _service = service;
             _mapper = mapper;
-            _providerService = providerService;
         }
 
         [HttpGet("get-all")]
@@ -34,11 +27,11 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var providers = await _providerService.GetAll();
-                return providers switch
+                var categories = await _service.GetAll();
+                return categories switch
                 {
                     null => Ok("not found"),
-                    not null => Ok(providers)
+                    not null => Ok(categories)
                 };
             }
             catch (Exception ex)
@@ -52,13 +45,13 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var providers = await _providerService.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
-                long totalOrigin = await _providerService.GetTotalCount();
+                var categories = await _service.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                long totalOrigin = await _service.GetTotalCount();
 
-                return providers switch
+                return categories switch
                 {
-                    null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.Success, providers, totalOrigin,
+                    null => Ok(new PaginatedResponseList<CategoryModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponseList<CategoryModel>(ConstantMessage.Success, categories, totalOrigin,
                                         paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
@@ -77,12 +70,12 @@ namespace SWD.SmartThrive.API.Controllers
                 {
                     return BadRequest("Id is empty");
                 }
-                var model = await _providerService.GetById(id);
+                var category = await _service.GetById(id);
 
-                return model switch
+                return category switch
                 {
-                    null => Ok(new PaginatedResponse<ProviderModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<ProviderModel>(ConstantMessage.Success, model))
+                    null => Ok(new PaginatedResponse<CategoryModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<CategoryModel>(ConstantMessage.Success, category))
                 };
             }
             catch (Exception ex)
@@ -92,32 +85,31 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<ProviderSearchRequest> paginatedRequest)
+        public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<CategorySearchRequest> paginatedRequest)
         {
             try
             {
-                var provider = _mapper.Map<ProviderModel>(paginatedRequest.Result);
-                var providers = await _providerService.Search(provider, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var category = _mapper.Map<CategoryModel>(paginatedRequest.Result);
+                var categories = await _service.Search(category, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
 
-                return providers.Item1 switch
+                return categories.Item1 switch
                 {
-                    null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.NotFound, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.Success, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedResponseList<CategoryModel>(ConstantMessage.NotFound, categories.Item1, categories.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedResponseList<CategoryModel>(ConstantMessage.Success, categories.Item1, categories.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             };
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add(ProviderRequest request)
+        public async Task<IActionResult> Add(CategoryRequest request)
         {
             try
             {
-                bool isSuccess = await _providerService.Add(_mapper.Map<ProviderModel>(request));
+                bool isSuccess = await _service.Add(_mapper.Map<CategoryModel>(request));
                 return isSuccess switch
                 {
                     true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
@@ -131,11 +123,11 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPut("delete")]
-        public async Task<IActionResult> Delete(ProviderRequest request)
+        public async Task<IActionResult> Delete(CategoryRequest request)
         {
             try
             {
-                bool isSuccess = await _providerService.Delete(_mapper.Map<ProviderModel>(request));
+                bool isSuccess = await _service.Delete(_mapper.Map<CategoryModel>(request));
                 return isSuccess switch
                 {
                     true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
@@ -149,11 +141,11 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update(ProviderRequest request)
+        public async Task<IActionResult> Update(CategoryRequest request)
         {
             try
             {
-                bool isSuccess = await _providerService.Update(_mapper.Map<ProviderModel>(request));
+                bool isSuccess = await _service.Update(_mapper.Map<CategoryModel>(request));
                 return isSuccess switch
                 {
                     true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
@@ -165,7 +157,5 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-       
     }
 }

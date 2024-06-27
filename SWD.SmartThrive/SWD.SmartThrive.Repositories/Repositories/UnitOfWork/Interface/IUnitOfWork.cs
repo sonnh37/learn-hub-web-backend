@@ -16,5 +16,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface
         IStudentRepository StudentRepository { get; }
         IUserRepository UserRepository { get; }
         IProviderRepository ProviderRepository { get; }
+        ISubjectRepository SubjectRepository { get; }
     }
 }

@@ -8,6 +8,7 @@ using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
+using SWD.SmartThrive.Services.Services.Service;
 
 namespace SWD.SmartThrive.API.Controllers
 {
@@ -22,6 +23,24 @@ namespace SWD.SmartThrive.API.Controllers
         {
             _mapper = mapper;
             _studentService = studentService;
+        }
+
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var providers = await _studentService.GetAll();
+                return providers switch
+                {
+                    null => Ok("not found"),
+                    not null => Ok(providers)
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("get-all-pagination")]
@@ -45,7 +64,7 @@ namespace SWD.SmartThrive.API.Controllers
             }
         }
 
-        [HttpGet("get-by-id/{id}")]
+        [HttpGet("get-by-id")]
         public async Task<IActionResult> GetById(Guid id)
         {
             try
@@ -60,6 +79,29 @@ namespace SWD.SmartThrive.API.Controllers
                 {
                     null => Ok(new PaginatedResponse<StudentModel>(ConstantMessage.NotFound)),
                     not null => Ok(new PaginatedResponse<StudentModel>(ConstantMessage.Success, StudentModel))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            };
+        }
+
+        [HttpGet("get-by-userId")]
+        public async Task<IActionResult> GetByUserId(Guid userId)
+        {
+            try
+            {
+                if (userId == Guid.Empty)
+                {
+                    return BadRequest("Id is empty");
+                }
+                var StudentModel = await _studentService.GetStudentsByUserId(userId);
+
+                return StudentModel switch
+                {
+                    null => Ok("No student with given userId"),
+                    not null => Ok(StudentModel)
                 };
             }
             catch (Exception ex)

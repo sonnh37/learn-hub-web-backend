@@ -1,32 +1,26 @@
 ﻿using AutoMapper;
-using Azure.Core;
-using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.API.RequestModel;
 using SWD.SmartThrive.API.ResponseModel;
 using SWD.SmartThrive.API.Tool.Constant;
-using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
-using System.Drawing.Text;
-using static System.Net.Mime.MediaTypeNames;
+using SWD.SmartThrive.Services.Services.Service;
 
 namespace SWD.SmartThrive.API.Controllers
 {
-    [Route("api/provider")]
+    [Route("api/subject")]
     [ApiController]
-    public class ProviderController : ControllerBase
+    public class SubjectController : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly IProviderService _providerService;
+        private readonly ISubjectService _service;
         private readonly IMapper _mapper;
 
-        public ProviderController(IUserService userService, IMapper mapper, IProviderService providerService)
+        public SubjectController(ISubjectService subjectService, IMapper mapper)
         {
-            _userService = userService;
+            _service = subjectService;
             _mapper = mapper;
-            _providerService = providerService;
         }
 
         [HttpGet("get-all")]
@@ -34,7 +28,7 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var providers = await _providerService.GetAll();
+                var providers = await _service.GetAll();
                 return providers switch
                 {
                     null => Ok("not found"),
@@ -52,13 +46,13 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var providers = await _providerService.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
-                long totalOrigin = await _providerService.GetTotalCount();
+                var subjects = await _service.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                long totalOrigin = await _service.GetTotalCount();
 
-                return providers switch
+                return subjects switch
                 {
-                    null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.Success, providers, totalOrigin,
+                    null => Ok(new PaginatedResponseList<SubjectModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponseList<SubjectModel>(ConstantMessage.Success, subjects, totalOrigin,
                                         paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
@@ -77,12 +71,35 @@ namespace SWD.SmartThrive.API.Controllers
                 {
                     return BadRequest("Id is empty");
                 }
-                var model = await _providerService.GetById(id);
+                var subject = await _service.GetById(id);
 
-                return model switch
+                return subject switch
                 {
-                    null => Ok(new PaginatedResponse<ProviderModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<ProviderModel>(ConstantMessage.Success, model))
+                    null => Ok(new PaginatedResponse<SubjectModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedResponse<SubjectModel>(ConstantMessage.Success, subject))
+                };
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            };
+        }
+
+        [HttpGet("get-by-categoryId/{categoryId}")]
+        public async Task<IActionResult> GetByCategoryId(Guid categoryId)
+        {
+            try
+            {
+                if (categoryId == Guid.Empty)
+                {
+                    return BadRequest("Id is empty");
+                }
+                var subject = await _service.GetByCategoryId(categoryId);
+
+                return subject switch
+                {
+                    null => Ok("No subject with given categoryId"),
+                    not null => Ok(subject)
                 };
             }
             catch (Exception ex)
@@ -92,32 +109,31 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<ProviderSearchRequest> paginatedRequest)
+        public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<SubjectSearchRequest> paginatedRequest)
         {
             try
             {
-                var provider = _mapper.Map<ProviderModel>(paginatedRequest.Result);
-                var providers = await _providerService.Search(provider, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var subject = _mapper.Map<SubjectModel>(paginatedRequest.Result);
+                var subjects = await _service.Search(subject, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
 
-                return providers.Item1 switch
+                return subjects.Item1 switch
                 {
-                    null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.NotFound, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.Success, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedResponseList<SubjectModel>(ConstantMessage.NotFound, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedResponseList<SubjectModel>(ConstantMessage.Success, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             };
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add(ProviderRequest request)
+        public async Task<IActionResult> Add(SubjectRequest request)
         {
             try
             {
-                bool isSuccess = await _providerService.Add(_mapper.Map<ProviderModel>(request));
+                bool isSuccess = await _service.Add(_mapper.Map<SubjectModel>(request));
                 return isSuccess switch
                 {
                     true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
@@ -131,11 +147,11 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPut("delete")]
-        public async Task<IActionResult> Delete(ProviderRequest request)
+        public async Task<IActionResult> Delete(SubjectRequest request)
         {
             try
             {
-                bool isSuccess = await _providerService.Delete(_mapper.Map<ProviderModel>(request));
+                bool isSuccess = await _service.Delete(_mapper.Map<SubjectModel>(request));
                 return isSuccess switch
                 {
                     true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
@@ -149,11 +165,11 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update(ProviderRequest request)
+        public async Task<IActionResult> Update(SubjectRequest request)
         {
             try
             {
-                bool isSuccess = await _providerService.Update(_mapper.Map<ProviderModel>(request));
+                bool isSuccess = await _service.Update(_mapper.Map<SubjectModel>(request));
                 return isSuccess switch
                 {
                     true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
@@ -165,7 +181,5 @@ namespace SWD.SmartThrive.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-       
     }
 }

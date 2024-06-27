@@ -50,9 +50,9 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
         }
 
-        public Task<List<StudentModel>> GetAll()
+        public async Task<List<StudentModel>> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<StudentModel>>(await _studentRepository.GetAll());
         }
 
         public async Task<List<StudentModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy)
@@ -80,9 +80,16 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
         }
 
-        public Task<List<StudentModel>> GetStudentsByUserId(Guid id)
+        public async Task<List<StudentModel>> GetStudentsByUserId(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _mapper.Map<List<StudentModel>>(await _studentRepository.GetStudentsByUserId(id));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<(List<StudentModel>?, long)> Search(StudentModel model, int pageNumber, int pageSize, string orderBy)

@@ -8,8 +8,10 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 {
     public class StudentRepository : BaseRepository<Student>, IStudentRepository
     {
+        private readonly STDbContext _context;
         public StudentRepository(STDbContext context) : base(context)
         {
+            _context = context;
         }
 
         public IQueryable<Student> GetQueryablePaginationWithOrderBy(string orderBy)
@@ -76,6 +78,12 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             var providers = await queryable.ToListAsync();
 
             return (providers, totalOrigin);
+        }
+
+        public async Task<List<Student>> GetStudentsByUserId(Guid id)
+        {
+            var students = await _context.Students.Where(s => s.UserId == id).ToListAsync();
+            return students;
         }
     }
 

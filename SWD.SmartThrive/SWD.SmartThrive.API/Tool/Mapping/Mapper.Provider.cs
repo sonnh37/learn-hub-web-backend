@@ -9,9 +9,9 @@ namespace SWD.SmartThrive.API.Tool.Mapping
     {
         public void ProviderMapping()
         {
-            CreateMap<Provider, StudentModel>().ReverseMap();
-            CreateMap<StudentModel, ProviderRequest>().ReverseMap();
-            CreateMap<StudentModel, ProviderSearchRequest>().ReverseMap();
+            CreateMap<Provider, ProviderModel>().ReverseMap();
+            CreateMap<ProviderModel, ProviderRequest>().ReverseMap();
+            CreateMap<ProviderModel, ProviderSearchRequest>().ReverseMap();
         }
     }
 }
