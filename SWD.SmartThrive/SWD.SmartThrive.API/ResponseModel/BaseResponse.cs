@@ -25,4 +25,26 @@
             Expiration = expiration;
         }
     }
+
+    public class ItemResponse<TResult> : BaseResponse where TResult : class
+    {
+        public TResult? Result { get; }
+
+        public ItemResponse(string message, TResult? result = null) : base(result != null, message)
+        {
+            Result = result;
+        }
+    }
+
+    public class ItemListResponse<TResult> : BaseResponse where TResult : class
+    {
+        public List<TResult>? Results { get; }
+
+        public int TotalRecords { get; protected set; }
+
+        public ItemListResponse(string message, List<TResult>? results = null) : base(results != null, message)
+        {
+            Results = results;
+        }
+    }
 }

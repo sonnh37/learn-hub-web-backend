@@ -35,13 +35,12 @@ namespace SWD.SmartThrive.API.Controllers
             try
             {
                 var providers = await _providerService.GetAll();
-                long totalOrigin = await _providerService.GetTotalCount();
 
                 return providers switch
                 {
-                    null => Ok("not found"),
-                    not null => Ok(providers)
-                }; ;
+                    null => Ok(new ItemListResponse<ProviderModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<ProviderModel>(ConstantMessage.Success, providers))
+                };
             }
             catch (Exception ex)
             {
@@ -59,8 +58,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return providers switch
                 {
-                    null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.Success, providers, totalOrigin,
+                    null => Ok(new PaginatedListResponse<ProviderModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedListResponse<ProviderModel>(ConstantMessage.Success, providers, totalOrigin,
                                         paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
@@ -83,8 +82,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return model switch
                 {
-                    null => Ok(new PaginatedResponse<ProviderModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<ProviderModel>(ConstantMessage.Success, model))
+                    null => Ok(new ItemResponse<ProviderModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new ItemResponse<ProviderModel>(ConstantMessage.Success, model))
                 };
             }
             catch (Exception ex)
@@ -103,8 +102,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return providers.Item1 switch
                 {
-                    null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.NotFound, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedResponseList<ProviderModel>(ConstantMessage.Success, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<ProviderModel>(ConstantMessage.NotFound, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedListResponse<ProviderModel>(ConstantMessage.Success, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)

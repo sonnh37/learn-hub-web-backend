@@ -34,8 +34,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return providers switch
                 {
-                    null => Ok(new PaginatedResponseList<StudentModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponseList<StudentModel>(ConstantMessage.Success, providers, totalOrigin,
+                    null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.Success, providers, totalOrigin,
                                         paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
@@ -58,8 +58,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return StudentModel switch
                 {
-                    null => Ok(new PaginatedResponse<StudentModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<StudentModel>(ConstantMessage.Success, StudentModel))
+                    null => Ok(new ItemResponse<StudentModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new ItemResponse<StudentModel>(ConstantMessage.Success, StudentModel))
                 };
             }
             catch (Exception ex)
@@ -78,8 +78,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return students.Item1 switch
                 {
-                    null => Ok(new PaginatedResponseList<StudentModel>(ConstantMessage.NotFound, students.Item1, students.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedResponseList<StudentModel>(ConstantMessage.Success, students.Item1, students.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.NotFound, students.Item1, students.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.Success, students.Item1, students.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)

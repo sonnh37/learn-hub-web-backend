@@ -32,10 +32,10 @@ namespace SWD.SmartThrive.API.Controllers
 
         //        return sessions switch
         //        {
-        //            null => Ok(new PaginatedResponseList<SessionModel>(
+        //            null => Ok(new PaginatedListResponse<SessionModel>(
         //                null,
         //                ConstantMessage.NotFound)),
-        //            not null => Ok(new PaginatedResponseList<SessionModel>(sessions, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+        //            not null => Ok(new PaginatedListResponse<SessionModel>(sessions, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
         //        };
         //    }
         //    catch (Exception ex)
@@ -58,8 +58,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return sessionModel switch
                 {
-                    null => Ok(new PaginatedResponse<SessionModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<SessionModel>(ConstantMessage.Success, sessionModel))
+                    null => Ok(new ItemResponse<SessionModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new ItemResponse<SessionModel>(ConstantMessage.Success, sessionModel))
                 };
             }
             catch (Exception ex)

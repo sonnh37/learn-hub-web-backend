@@ -2,17 +2,7 @@
 
 namespace SWD.SmartThrive.API.ResponseModel
 {
-    public class PaginatedResponse<TResult> : BaseResponse where TResult : class
-    {
-        public TResult? Result { get; }
-
-        public PaginatedResponse(string message, TResult? result = null ) : base(result!=null, message)
-        {
-            Result = result;
-        }
-    }
-
-    public class PaginatedResponseList<TResult> : BaseResponse where TResult : class
+    public class PaginatedListResponse<TResult> : BaseResponse where TResult : class
     {
         public List<TResult>? Results { get; }
 
@@ -28,7 +18,7 @@ namespace SWD.SmartThrive.API.ResponseModel
 
         public string? OrderBy { get; protected set; }
 
-        public PaginatedResponseList(string message, List<TResult>? results = null, long totalOrigin = 0, int pageNumber = 1, int pageSize = 1, string? orderBy = null) : base(results != null, message)
+        public PaginatedListResponse(string message, List<TResult>? results = null, long totalOrigin = 0, int pageNumber = 1, int pageSize = 1, string? orderBy = null) : base(results != null, message)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
@@ -39,6 +29,4 @@ namespace SWD.SmartThrive.API.ResponseModel
             TotalPages = (int)Math.Ceiling(totalOrigin / (double)PageSize);
         }
     }
-
-    
 }

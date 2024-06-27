@@ -32,10 +32,10 @@ namespace SWD.SmartThrive.API.Controllers
 
         //        return courses switch
         //        {
-        //            null => Ok(new PaginatedResponseList<CourseModel>(
+        //            null => Ok(new PaginatedListResponse<CourseModel>(
         //                null,
         //                ConstantMessage.NotFound)),
-        //            not null => Ok(new PaginatedResponseList<CourseModel>(courses, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+        //            not null => Ok(new PaginatedListResponse<CourseModel>(courses, ConstantMessage.Success, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
         //        };
         //    }
         //    catch (Exception ex)
@@ -58,8 +58,8 @@ namespace SWD.SmartThrive.API.Controllers
 
                 return courseModel switch
                 {
-                    null => Ok(new PaginatedResponse<CourseModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedResponse<CourseModel>(ConstantMessage.Success, courseModel))
+                    null => Ok(new ItemResponse<CourseModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new ItemResponse<CourseModel>(ConstantMessage.Success, courseModel))
                 };
             }
             catch (Exception ex)
