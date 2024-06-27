@@ -35,7 +35,7 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var users = await _service.GetAllUser();
+                var users = await _service.GetAll();
 
                 return users switch
                 {
@@ -75,7 +75,7 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var users = await _service.GetAllUser(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var users = await _service.GetAllPagination(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
                 long totalOrigin = await _service.GetTotalCount();
                 return users switch
                 {

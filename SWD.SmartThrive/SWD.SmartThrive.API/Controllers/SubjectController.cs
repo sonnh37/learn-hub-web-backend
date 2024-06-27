@@ -1,28 +1,26 @@
 ﻿using AutoMapper;
-using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.API.RequestModel;
 using SWD.SmartThrive.API.ResponseModel;
 using SWD.SmartThrive.API.Tool.Constant;
-using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Services.Service;
 
 namespace SWD.SmartThrive.API.Controllers
 {
-    [Route("api/student")]
+    [Route("api/subject")]
     [ApiController]
-    public class StudentController : ControllerBase
+    public class SubjectController : ControllerBase
     {
-        private readonly IStudentService _studentService;
+        private readonly ISubjectService _service;
         private readonly IMapper _mapper;
 
-        public StudentController(IMapper mapper, IStudentService studentService)
+        public SubjectController(ISubjectService subjectService, IMapper mapper)
         {
+            _service = subjectService;
             _mapper = mapper;
-            _studentService = studentService;
         }
 
         [HttpGet("get-all")]
@@ -30,12 +28,11 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var students = await _studentService.GetAll();
-
-                return students switch
+                var subjects = await _service.GetAll();
+                return subjects switch
                 {
-                    null => Ok(new ItemListResponse<StudentModel>(ConstantMessage.Fail, null)),
-                    not null => Ok(new ItemListResponse<StudentModel>(ConstantMessage.Success, students))
+                    null => Ok(new ItemListResponse<SubjectModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<SubjectModel>(ConstantMessage.Success, subjects))
                 };
             }
             catch (Exception ex)
@@ -49,13 +46,13 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var providers = await _studentService.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
-                long totalOrigin = await _studentService.GetTotalCount();
+                var subjects = await _service.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                long totalOrigin = await _service.GetTotalCount();
 
-                return providers switch
+                return subjects switch
                 {
-                    null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.Success, providers, totalOrigin,
+                    null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.Success, subjects, totalOrigin,
                                         paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
@@ -74,12 +71,12 @@ namespace SWD.SmartThrive.API.Controllers
                 {
                     return BadRequest("Id is empty");
                 }
-                var StudentModel = await _studentService.GetById(id);
+                var subject = await _service.GetById(id);
 
-                return StudentModel switch
+                return subject switch
                 {
-                    null => Ok(new ItemResponse<StudentModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new ItemResponse<StudentModel>(ConstantMessage.Success, StudentModel))
+                    null => Ok(new ItemResponse<SubjectModel>(ConstantMessage.NotFound, null)),
+                    not null => Ok(new ItemResponse<SubjectModel>(ConstantMessage.Success, subject))
                 };
             }
             catch (Exception ex)
@@ -88,21 +85,21 @@ namespace SWD.SmartThrive.API.Controllers
             };
         }
 
-        [HttpGet("get-by-userId")]
-        public async Task<IActionResult> GetByUserId(Guid userId)
+        [HttpGet("get-by-categoryId/{categoryId}")]
+        public async Task<IActionResult> GetByCategoryId(Guid categoryId)
         {
             try
             {
-                if (userId == Guid.Empty)
+                if (categoryId == Guid.Empty)
                 {
                     return BadRequest("Id is empty");
                 }
-                var StudentModel = await _studentService.GetStudentsByUserId(userId);
+                var subject = await _service.GetByCategoryId(categoryId);
 
-                return StudentModel switch
+                return subject switch
                 {
-                    null => Ok("No student with given userId"),
-                    not null => Ok(StudentModel)
+                    null => Ok(new ItemListResponse<SubjectModel>(ConstantMessage.Fail, null)),
+                    not null => Ok(new ItemListResponse<SubjectModel>(ConstantMessage.Success, subject))
                 };
             }
             catch (Exception ex)
@@ -112,32 +109,31 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<StudentSearchRequest> paginatedRequest)
+        public async Task<IActionResult> GetAllUserSearch(PaginatedRequest<SubjectSearchRequest> paginatedRequest)
         {
             try
             {
-                var student = _mapper.Map<StudentModel>(paginatedRequest.Result);
-                var students = await _studentService.Search(student, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var subject = _mapper.Map<SubjectModel>(paginatedRequest.Result);
+                var subjects = await _service.Search(subject, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
 
-                return students.Item1 switch
+                return subjects.Item1 switch
                 {
-                    null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.NotFound, students.Item1, students.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedListResponse<StudentModel>(ConstantMessage.Success, students.Item1, students.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.NotFound, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.Success, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
                 };
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             };
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add(StudentRequest request)
+        public async Task<IActionResult> Add(SubjectRequest request)
         {
             try
             {
-                bool isSuccess = await _studentService.Add(_mapper.Map<StudentModel>(request));
+                bool isSuccess = await _service.Add(_mapper.Map<SubjectModel>(request));
                 return isSuccess switch
                 {
                     true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
@@ -151,11 +147,11 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPut("delete")]
-        public async Task<IActionResult> Delete(StudentRequest request)
+        public async Task<IActionResult> Delete(SubjectRequest request)
         {
             try
             {
-                bool isSuccess = await _studentService.Delete(_mapper.Map<StudentModel>(request));
+                bool isSuccess = await _service.Delete(_mapper.Map<SubjectModel>(request));
                 return isSuccess switch
                 {
                     true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),
@@ -169,11 +165,11 @@ namespace SWD.SmartThrive.API.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update(StudentRequest request)
+        public async Task<IActionResult> Update(SubjectRequest request)
         {
             try
             {
-                bool isSuccess = await _studentService.Update(_mapper.Map<StudentModel>(request));
+                bool isSuccess = await _service.Update(_mapper.Map<SubjectModel>(request));
                 return isSuccess switch
                 {
                     true => Ok(new BaseResponse(isSuccess, ConstantMessage.Success)),

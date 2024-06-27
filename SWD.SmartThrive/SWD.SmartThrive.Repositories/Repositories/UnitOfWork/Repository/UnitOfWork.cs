@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Repository
 {
-    public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
+    public class UnitOfWork : BaseUnitOfWork<STDbContext>,IUnitOfWork
     {
         public UnitOfWork(STDbContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
@@ -36,6 +36,8 @@ namespace SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Repository
         public IUserRepository UserRepository => GetRepository<IUserRepository>();
 
         public IProviderRepository ProviderRepository => GetRepository<IProviderRepository>();
+
+        public ISubjectRepository SubjectRepository => GetRepository<ISubjectRepository>();
 
     }
 }

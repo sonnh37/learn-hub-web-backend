@@ -7,5 +7,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
     {
         Task<List<Student>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy);
         Task<(List<Student>, long)> Search(Student student, int pageNumber, int pageSize, string orderBy);
+        Task<List<Student>> GetStudentsByUserId(Guid id);
     }
 }
