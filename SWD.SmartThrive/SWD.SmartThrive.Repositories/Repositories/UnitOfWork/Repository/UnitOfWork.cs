@@ -35,5 +35,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Repository
 
         public IUserRepository UserRepository => GetRepository<IUserRepository>();
 
+        public IProviderRepository ProviderRepository => GetRepository<IProviderRepository>();
+
     }
 }

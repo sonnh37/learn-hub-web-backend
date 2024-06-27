@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
 using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
@@ -16,10 +17,11 @@ namespace SWD.SmartThrive.Services.Services.Service
     public class ProviderService : BaseService<Provider>, IProviderService
     {
         private readonly IProviderRepository _providerRepository;
-        public ProviderService(IMapper mapper, IUnitOfWork unitOfWork, IProviderRepository providerRepository) : base(mapper, unitOfWork)
+        public ProviderService(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) : base(mapper, unitOfWork, httpContextAccessor)
         {
-            _providerRepository = providerRepository;
+            _providerRepository = unitOfWork.ProviderRepository;
         }
+
 
         public async Task<bool> Add(ProviderModel model)
         {
@@ -39,6 +41,19 @@ namespace SWD.SmartThrive.Services.Services.Service
             try
             {
                 return await _providerRepository.Delete(_mapper.Map<Provider>(model));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<ProviderModel>> GetAll()
+        {
+            try
+            {
+                var providers = await _providerRepository.GetAll();
+                return _mapper.Map<List<ProviderModel>>(providers);
             }
             catch (Exception ex)
             {
@@ -69,6 +84,20 @@ namespace SWD.SmartThrive.Services.Services.Service
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<(List<ProviderModel>?, long)> Search(ProviderModel providerModel, int pageNumber, int pageSize, string orderBy)
+        {
+            var provider = _mapper.Map<Provider>(providerModel);
+            var providersWithTotalOrigin = await _providerRepository.Search(provider, pageNumber, pageSize, orderBy);
+
+            if (!providersWithTotalOrigin.Item1.Any())
+            {
+                return (null, providersWithTotalOrigin.Item2);
+            }
+            var providerModels = _mapper.Map<List<ProviderModel>>(providersWithTotalOrigin.Item1);
+
+            return (providerModels, providersWithTotalOrigin.Item2);
         }
 
         public async Task<bool> Update(ProviderModel providerModel)

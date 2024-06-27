@@ -12,8 +12,11 @@ namespace SWD.SmartThrive.Services.Services.Interface
         public Task<bool> Add(ProviderModel model);
         public Task<bool> Delete(ProviderModel model);
         public Task<bool> Update(ProviderModel model);
+        public Task<List<ProviderModel>> GetAll();
         public Task<List<ProviderModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy);
         public Task<ProviderModel> GetById(Guid id);
+        public Task<(List<ProviderModel>?, long)> Search(ProviderModel providerModel, int pageNumber, int pageSize, string orderBy);
+        public Task<long> GetTotalCount();
 
     }
 }

@@ -9,6 +9,7 @@ using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Repository;
 using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Interface;
 using SWD.SmartThrive.Repositories.Repositories.UnitOfWork.Repository;
+using SWD.SmartThrive.Services.Base;
 using SWD.SmartThrive.Services.Services.Interface;
 using SWD.SmartThrive.Services.Services.Service;
 using System.Text;
@@ -97,15 +98,15 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPackageService, PackageService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IProviderService, ProviderService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 
-builder.Services.AddScoped(typeof(UserService));
+
 builder.Services.AddHttpContextAccessor();
 #endregion
 

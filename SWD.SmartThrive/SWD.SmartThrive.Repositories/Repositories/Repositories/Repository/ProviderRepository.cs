@@ -44,5 +44,38 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             
             return await queryable.ToListAsync();
         }
+
+        public async Task<(List<Provider>, long)> Search(Provider provider, int pageNumber, int pageSize, string orderBy)
+        {
+            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+
+            // Điều kiện lọc từng bước
+            if (queryable.Any())
+            {
+                if (!string.IsNullOrEmpty(provider.CompanyName))
+                {
+                    queryable = queryable.Where(m => m.CompanyName.ToLower().Trim().StartsWith(provider.CompanyName.ToLower().Trim()));
+                }
+
+                if (!string.IsNullOrEmpty(provider.Website))
+                {
+                    queryable = queryable.Where(m => m.Website.ToLower().Trim().StartsWith(provider.Website.ToLower().Trim()));
+                }
+               
+                if (provider.UserId != Guid.Empty && provider.UserId != null)
+                {
+                    queryable = queryable.Where(m => m.UserId == provider.UserId);
+                }
+            }
+
+            var totalOrigin = queryable.Count();
+
+            // Lọc theo trang
+            queryable = GetQueryablePagination(queryable, pageNumber, pageSize);
+
+            var providers = await queryable.ToListAsync();
+
+            return (providers, totalOrigin);
+        }
     }
 }

@@ -51,15 +51,8 @@ namespace SWD.SmartThrive.Services.Services.Service
             _mapper.Map(userModel, entity);
             entity = await SetBaseEntityToUpdateFunc(entity);
 
-<<<<<<< HEAD
-            _mapper.Map(userModel, entity);
-
-            var user = await SetBaseEntityToUpdateFunc(entity);
-            
+            var user = _mapper.Map<User>(userModel);
             return await _repository.Update(user);
-=======
-            return await _repository.Update(entity);
->>>>>>> 3f93132ed93833a9f5010b31b637f1d0c4b71335
         }
 
         public async Task<bool> DeleteUser(Guid id)
