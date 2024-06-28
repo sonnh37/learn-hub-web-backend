@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.API.RequestModel;
 using SWD.SmartThrive.API.ResponseModel;
+using SWD.SmartThrive.API.SearchRequest;
 using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.Services.Model;
 using SWD.SmartThrive.Services.Services.Interface;

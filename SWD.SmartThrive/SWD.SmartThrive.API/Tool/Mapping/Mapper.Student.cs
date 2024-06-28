@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SWD.SmartThrive.API.Controllers;
 using SWD.SmartThrive.API.RequestModel;
+using SWD.SmartThrive.API.SearchRequest;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using SWD.SmartThrive.Services.Model;
 

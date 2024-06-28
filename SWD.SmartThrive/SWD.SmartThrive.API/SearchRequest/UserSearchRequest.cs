@@ -1,6 +1,6 @@
-﻿namespace SWD.SmartThrive.API.RequestModel
+﻿namespace SWD.SmartThrive.API.SearchRequest
 {
-    public class UserSearchRequest 
+    public class UserSearchRequest
     {
         public string? Username { get; set; }
 
