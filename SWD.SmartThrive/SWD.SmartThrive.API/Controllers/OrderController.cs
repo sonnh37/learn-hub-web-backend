@@ -7,6 +7,7 @@ using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.API.ResponseModel;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Model;
 using Microsoft.AspNetCore.Authorization;
+using SWD.SmartThrive.API.SearchRequest;
 
 namespace SWD.SmartThrive.API.Controllers
 {
@@ -131,6 +132,46 @@ namespace SWD.SmartThrive.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+        [HttpPost("search")]
+        public async Task<IActionResult> GetAllOrderSearch(PaginatedRequest<OrderSearchRequest> paginatedRequest)
+        {
+            try
+            {
+                var order = _mapper.Map<OrderModel>(paginatedRequest.Result);
+                var orders = await _service.GetAllOrderSearch(order, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+
+                return orders.Item1 switch
+                {
+                    null => Ok(new PaginatedListResponse<OrderModel>(ConstantMessage.NotFound, orders.Item1, orders.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedListResponse<OrderModel>(ConstantMessage.Success, orders.Item1, orders.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
+        }
+
+        [HttpPost("get-all-pagination")]
+        public async Task<IActionResult> GetAllPackages(PaginatedRequest paginatedRequest)
+        {
+            try
+            {
+                var packages = await _service.GetAllPagination(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                long totalOrigin = await _service.GetTotalCount();
+                return packages switch
+                {
+                    null => Ok(new PaginatedListResponse<OrderModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedListResponse<OrderModel>(ConstantMessage.Success, packages, totalOrigin, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
         }
     }
 }
