@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Azure.Core;
 using ExcelDataReader;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.API.RequestModel;
@@ -17,6 +18,7 @@ namespace SWD.SmartThrive.API.Controllers
 {
     [Route("api/provider")]
     [ApiController]
+    [Authorize]
     public class ProviderController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -54,14 +56,14 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var providers = await _providerService.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var providers = await _providerService.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField, paginatedRequest.SortOrder.Value);
                 long totalOrigin = await _providerService.GetTotalCount();
 
                 return providers switch
                 {
                     null => Ok(new PaginatedListResponse<ProviderModel>(ConstantMessage.NotFound)),
                     not null => Ok(new PaginatedListResponse<ProviderModel>(ConstantMessage.Success, providers, totalOrigin,
-                                        paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                                        paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField))
                 };
             }
             catch (Exception ex)
@@ -99,12 +101,12 @@ namespace SWD.SmartThrive.API.Controllers
             try
             {
                 var provider = _mapper.Map<ProviderModel>(paginatedRequest.Result);
-                var providers = await _providerService.Search(provider, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var providers = await _providerService.Search(provider, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField, paginatedRequest.SortOrder.Value);
 
                 return providers.Item1 switch
                 {
-                    null => Ok(new PaginatedListResponse<ProviderModel>(ConstantMessage.NotFound, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedListResponse<ProviderModel>(ConstantMessage.Success, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<ProviderModel>(ConstantMessage.NotFound, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField)),
+                    not null => Ok(new PaginatedListResponse<ProviderModel>(ConstantMessage.Success, providers.Item1, providers.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField))
                 };
             }
             catch (Exception ex)

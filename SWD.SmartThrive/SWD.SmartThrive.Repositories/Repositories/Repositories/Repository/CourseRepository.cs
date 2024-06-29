@@ -16,9 +16,9 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             _context = context;
         }
 
-        public async Task<List<Course>> GetAllCourse(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<Course>> GetAllCourse(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+            var queryable = base.ApplySort(sortField, sortOrder);
 
             // Lọc theo trang
             queryable = GetQueryablePagination(queryable, pageNumber, pageSize);
@@ -26,9 +26,9 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return await queryable.ToListAsync();
         }
 
-        public async Task<(List<Course>, long)> GetAllCourseSearch(Course Course, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<Course>, long)> GetAllCourseSearch(Course Course, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+            var queryable = base.ApplySort(sortField, sortOrder);
 
             // Điều kiện lọc từng bước
             if (queryable.Any())
@@ -107,31 +107,6 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return null; 
         }
 
-
-        public IQueryable<Course> GetQueryablePaginationWithOrderBy(string orderBy)
-        {
-            // Sắp xếp trước 
-            var queryable = base.GetQueryable();
-
-            if (queryable.Any())
-            {
-                switch (orderBy.ToLower())
-                {
-                    case "coursename":
-                        queryable = queryable.OrderBy(o => o.CourseName);
-                        break;
-                    case "price":
-                        queryable = queryable.OrderBy(o => o.Price);
-                        break;
-
-                    default:
-                        queryable = queryable.OrderBy(o => o.Id);
-                        break;
-                }
-            }
-
-            return queryable;
-        }
 
     }
 }

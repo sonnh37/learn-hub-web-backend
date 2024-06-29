@@ -14,14 +14,14 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             _context = context;
         }
 
-        public IQueryable<Student> GetQueryablePaginationWithOrderBy(string orderBy)
+        public IQueryable<Student> GetQueryablePaginationWithSortField(string sortField)
         {
             // Sắp xếp trước 
             var queryable = base.GetQueryable();
 
             if (queryable.Any())
             {
-                switch (orderBy.ToLower())
+                switch (sortField.ToLower())
                 {
                     case "studentname":
                         queryable = queryable.OrderBy(o => o.StudentName);
@@ -38,18 +38,18 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return queryable;
         }
 
-        public async Task<List<Student>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<Student>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+            var queryable = base.ApplySort(sortField, sortOrder);
 
             queryable = GetQueryablePagination(queryable, pageNumber, pageSize);
 
             return await queryable.ToListAsync();
         }
 
-        public async Task<(List<Student>, long)> Search(Student student, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<Student>, long)> Search(Student student, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+            var queryable = base.ApplySort(sortField, sortOrder);
 
             // Điều kiện lọc từng bước
             if (queryable.Any())

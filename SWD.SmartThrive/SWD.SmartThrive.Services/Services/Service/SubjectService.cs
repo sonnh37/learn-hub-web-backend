@@ -49,10 +49,10 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
         }
 
-        public async Task<(List<SubjectModel>?, long)> Search(SubjectModel model, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<SubjectModel>?, long)> Search(SubjectModel model, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
             var subject = _mapper.Map<Subject>(model);
-            var subjectWithTotalOrigin = await _subjectRepository.Search(subject, pageNumber, pageSize, orderBy);
+            var subjectWithTotalOrigin = await _subjectRepository.Search(subject, pageNumber, pageSize, sortField, sortOrder);
 
             if (!subjectWithTotalOrigin.Item1.Any())
             {
@@ -75,11 +75,11 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
         }
 
-        public async Task<List<SubjectModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<SubjectModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
             try
             {
-                return _mapper.Map<List<SubjectModel>>(await _subjectRepository.GetAllPaginationWithOrder(pageNumber, pageSize, orderBy));
+                return _mapper.Map<List<SubjectModel>>(await _subjectRepository.GetAllPaginationWithOrder(pageNumber, pageSize, sortField, sortOrder));
             }
             catch (Exception ex)
             {

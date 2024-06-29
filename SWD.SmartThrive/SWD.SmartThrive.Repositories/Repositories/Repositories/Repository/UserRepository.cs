@@ -4,6 +4,8 @@ using SWD.SmartThrive.Repositories.Data;
 using SWD.SmartThrive.Repositories.Repositories.Base;
 using SWD.SmartThrive.Repositories.Repositories.Repositories.Interface;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 {
@@ -34,9 +36,9 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return result;
         }
 
-        public async Task<List<User>> GetAllUser(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<User>> GetAllUser(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+            var queryable = base.ApplySort(sortField, sortOrder);
 
             // Lọc theo trang
             queryable = GetQueryablePagination(queryable, pageNumber, pageSize);
@@ -44,9 +46,9 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return await queryable.ToListAsync();
         }
 
-        public async Task<(List<User>, long)> GetAllUserSearch(User user, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<User>, long)> GetAllUserSearch(User user, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+            var queryable =  base.ApplySort(sortField, sortOrder);
 
             // Điều kiện lọc từng bước
             if (queryable.Any())
@@ -69,7 +71,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
                 if (user.DOB.HasValue)
                 {
                     queryable = queryable.Where(m => m.DOB.Value.Date == user.DOB.Value.Date);
-                } 
+                }
 
                 if (!string.IsNullOrEmpty(user.Address))
                 {
@@ -111,33 +113,5 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
 
             return (users, totalOrigin);
         }
-
-        public IQueryable<User> GetQueryablePaginationWithOrderBy(string orderBy)
-        {
-            // Sắp xếp trước 
-            var queryable = base.GetQueryable();
-
-            if (queryable.Any())
-            {
-                switch (orderBy.ToLower())
-                {
-                    case "username":
-                        queryable = queryable.OrderBy(o => o.Username);
-                        break;
-                    case "fullname":
-                        queryable = queryable.OrderBy(o => o.FullName);
-                        break;
-                    case "email":
-                        queryable = queryable.OrderBy(o => o.Email);
-                        break;
-                    default:
-                        queryable = queryable.OrderBy(o => o.Id);
-                        break;
-                }
-            }
-
-            return queryable;
-        }
-
     }
 } 

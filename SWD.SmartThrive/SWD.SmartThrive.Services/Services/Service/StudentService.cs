@@ -55,11 +55,11 @@ namespace SWD.SmartThrive.Services.Services.Service
             return _mapper.Map<List<StudentModel>>(await _studentRepository.GetAll());
         }
 
-        public async Task<List<StudentModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<StudentModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
             try
             {
-                return _mapper.Map<List<StudentModel>>(await _studentRepository.GetAllPaginationWithOrder(pageNumber, pageSize, orderBy));
+                return _mapper.Map<List<StudentModel>>(await _studentRepository.GetAllPaginationWithOrder(pageNumber, pageSize, sortField, sortOrder));
             }
             catch (Exception ex)
             {
@@ -92,10 +92,10 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
         }
 
-        public async Task<(List<StudentModel>?, long)> Search(StudentModel model, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<StudentModel>?, long)> Search(StudentModel model, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
             var student = _mapper.Map<Student>(model);
-            var studentsWithTotalOrigin = await _studentRepository.Search(student, pageNumber, pageSize, orderBy);
+            var studentsWithTotalOrigin = await _studentRepository.Search(student, pageNumber, pageSize, sortField, sortOrder);
 
             if (!studentsWithTotalOrigin.Item1.Any())
             {
