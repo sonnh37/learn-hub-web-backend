@@ -6,5 +6,8 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Interface
 {
     public interface IOrderRepository : IBaseRepository<Order>
     {
+    //    public Task<List<Course>> SearchCourse(string name);
+        Task<List<Order>> GetAllOrder(int pageNumber, int pageSize, string orderBy);
+        Task<(List<Order>, long)> GetAllOrderSearch(Order Order, int pageNumber, int pageSize, string orderBy);
     }
 }

@@ -9,5 +9,11 @@ namespace SWD.SmartThrive.Services.Services.Interface
         Task<List<PackageModel>> GetAllPackage();
         Task<PackageModel> GetPackage(Guid id);
         Task<bool> UpdatePackage(PackageModel PackageModel);
+
+        public Task<List<PackageModel>?> GetAllPagination(int pageNumber, int pageSize, string orderBy);
+
+        public Task<(List<PackageModel>?, long)> GetAllPackageSearch(PackageModel packageModel, int pageNumber, int pageSize, string orderBy);
+
+        public Task<long> GetTotalCount();
     }
 }

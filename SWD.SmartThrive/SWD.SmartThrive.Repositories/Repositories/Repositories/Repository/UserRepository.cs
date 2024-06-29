@@ -91,7 +91,7 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
                     queryable = queryable.Where(m => m.Status == user.Status);
                 }
 
-                if (user.RoleId != Guid.Empty && user.LocationId != null)
+                if (user.RoleId != Guid.Empty && user.RoleId != null)
                 {
                     queryable = queryable.Where(m => m.RoleId == user.RoleId);
                 }

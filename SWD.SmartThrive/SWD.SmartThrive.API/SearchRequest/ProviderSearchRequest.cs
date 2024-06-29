@@ -1,4 +1,4 @@
-﻿namespace SWD.SmartThrive.API.RequestModel
+﻿namespace SWD.SmartThrive.API.SearchRequest
 {
     public class ProviderSearchRequest
     {
