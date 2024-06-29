@@ -2,7 +2,7 @@
 
 namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Model
 {
-    public class OrderByStudent
+    public class SortFieldStudent
     {
         public Guid StudentId { get; set; }
         public Guid Id { get; set; }

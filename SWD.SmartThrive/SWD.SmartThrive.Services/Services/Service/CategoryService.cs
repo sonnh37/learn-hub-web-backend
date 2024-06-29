@@ -49,10 +49,10 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
         }
 
-        public async Task<(List<CategoryModel>?, long)> Search(CategoryModel model, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<CategoryModel>?, long)> Search(CategoryModel model, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
             var category = _mapper.Map<Category>(model);
-            var categoryWithTotalOrigin = await _repository.Search(category, pageNumber, pageSize, orderBy);
+            var categoryWithTotalOrigin = await _repository.Search(category, pageNumber, pageSize, sortField, sortOrder);
 
             if (!categoryWithTotalOrigin.Item1.Any())
             {
@@ -75,11 +75,11 @@ namespace SWD.SmartThrive.Services.Services.Service
             }
         }
 
-        public async Task<List<CategoryModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<CategoryModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
             try
             {
-                return _mapper.Map<List<CategoryModel>>(await _repository.GetAllPaginationWithOrder(pageNumber, pageSize, orderBy));
+                return _mapper.Map<List<CategoryModel>>(await _repository.GetAllPaginationWithOrder(pageNumber, pageSize, sortField, sortOrder));
             }
             catch (Exception ex)
             {

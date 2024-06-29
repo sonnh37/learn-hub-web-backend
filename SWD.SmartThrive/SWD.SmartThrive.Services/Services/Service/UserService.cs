@@ -72,9 +72,9 @@ namespace SWD.SmartThrive.Services.Services.Service
             return await _repository.Delete(user);
         }
 
-        public async Task<List<UserModel>?> GetAllPagination(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<UserModel>?> GetAllPagination(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var users = await _repository.GetAllUser(pageNumber, pageSize, orderBy);
+            var users = await _repository.GetAllUser(pageNumber, pageSize, sortField, sortOrder);
             
             if (!users.Any())
             {
@@ -96,10 +96,10 @@ namespace SWD.SmartThrive.Services.Services.Service
             return _mapper.Map<List<UserModel>>(users);
         }
 
-        public async Task<(List<UserModel>?, long)> GetAllUserSearch(UserModel userModel, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<UserModel>?, long)> GetAllUserSearch(UserModel userModel, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
             var user = _mapper.Map<User>(userModel);
-            var usersWithTotalOrigin = await _repository.GetAllUserSearch(user, pageNumber, pageSize, orderBy);
+            var usersWithTotalOrigin = await _repository.GetAllUserSearch(user, pageNumber, pageSize, sortField, sortOrder);
 
             if (!usersWithTotalOrigin.Item1.Any())
             {

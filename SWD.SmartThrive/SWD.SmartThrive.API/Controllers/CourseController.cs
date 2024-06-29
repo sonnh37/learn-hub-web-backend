@@ -11,7 +11,7 @@ using SWD.SmartThrive.API.SearchRequest;
 
 namespace SWD.SmartThrive.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/course")]
     [ApiController]
     [Authorize]
     public class CourseController : Controller
@@ -140,12 +140,12 @@ namespace SWD.SmartThrive.API.Controllers
             try
             {
                 var course = _mapper.Map<CourseModel>(paginatedRequest.Result);
-                var courses = await _service.GetAllCourseSearch(course, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var courses = await _service.GetAllCourseSearch(course, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField, paginatedRequest.SortOrder.Value);
 
                 return courses.Item1 switch
                 {
-                    null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.NotFound, courses.Item1, courses.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.Success, courses.Item1, courses.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.NotFound, courses.Item1, courses.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField)),
+                    not null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.Success, courses.Item1, courses.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField))
                 };
             }
             catch (Exception ex)
@@ -160,12 +160,12 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var courses = await _service.GetAllPagination(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var courses = await _service.GetAllPagination(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField, paginatedRequest.SortOrder.Value);
                 long totalOrigin = await _service.GetTotalCount();
                 return courses switch
                 {
                     null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.Success, courses, totalOrigin, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    not null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.Success, courses, totalOrigin, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField))
                 };
             }
             catch (Exception ex)

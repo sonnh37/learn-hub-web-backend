@@ -9,9 +9,9 @@ namespace SWD.SmartThrive.Services.Services.Interface
         Task<List<CourseModel>> GetAllCourse();
         Task<CourseModel> GetCourse(Guid id);
         Task<bool> UpdateCourse(CourseModel CourseModel);
-        public Task<List<CourseModel>?> GetAllPagination(int pageNumber, int pageSize, string orderBy);
+        public Task<List<CourseModel>?> GetAllPagination(int pageNumber, int pageSize, string sortField, int sortOrder);
 
-        public Task<(List<CourseModel>?, long)> GetAllCourseSearch(CourseModel courseModel, int pageNumber, int pageSize, string orderBy);
+        public Task<(List<CourseModel>?, long)> GetAllCourseSearch(CourseModel courseModel, int pageNumber, int pageSize, string sortField, int sortOrder);
 
         public Task<long> GetTotalCount();
 

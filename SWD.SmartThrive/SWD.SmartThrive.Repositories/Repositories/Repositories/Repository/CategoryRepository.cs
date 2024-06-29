@@ -13,38 +13,18 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
         {
         }
 
-        public IQueryable<Category> GetQueryablePaginationWithOrderBy(string orderBy)
+        public async Task<List<Category>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            // Sắp xếp trước 
-            var queryable = base.GetQueryable();
-
-            if (queryable.Any())
-            {
-                switch (orderBy.ToLower())
-                {
-                    case "categoryname":
-                        queryable = queryable.OrderBy(o => o.CategoryName);
-                        break;
-                    default:
-                        queryable = queryable.OrderBy(o => o.Id);
-                        break;
-                }
-            }
-            return queryable;
-        }
-
-        public async Task<List<Category>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy)
-        {
-            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+            var queryable = base.ApplySort(sortField, sortOrder);
 
             queryable = GetQueryablePagination(queryable, pageNumber, pageSize);
 
             return await queryable.ToListAsync();
         }
 
-        public async Task<(List<Category>, long)> Search(Category category, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<Category>, long)> Search(Category category, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+            var queryable = base.ApplySort(sortField, sortOrder);
 
             // Điều kiện lọc từng bước
             if (queryable.Any())

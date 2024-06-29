@@ -14,9 +14,9 @@ namespace SWD.SmartThrive.Services.Services.Interface
         Task<bool> Update(CategoryModel model);
         Task<bool> Delete(CategoryModel model);
         Task<List<CategoryModel>> GetAll();
-        Task<List<CategoryModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string orderBy);
+        Task<List<CategoryModel>> GetAllPaginationWithOrder(int pageNumber, int pageSize, string sortField, int sortOrder);
         Task<CategoryModel> GetById(Guid id);
-        Task<(List<CategoryModel>?, long)> Search(CategoryModel model, int pageNumber, int pageSize, string orderBy);
+        Task<(List<CategoryModel>?, long)> Search(CategoryModel model, int pageNumber, int pageSize, string sortField, int sortOrder);
         Task<long> GetTotalCount();
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SWD.SmartThrive.Repositories.Data;
 using SWD.SmartThrive.Repositories.Data.Entities;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace SWD.SmartThrive.Repositories.Repositories.Base
 {
@@ -196,6 +197,35 @@ namespace SWD.SmartThrive.Repositories.Repositories.Base
         {
             var result = await GetQueryable().LongCountAsync();
             return result;
+        }
+
+        public IQueryable<TEntity> ApplySort(string sortField, int sortOrder)
+        {
+            // Get the base queryable
+            var queryable = GetQueryable();
+
+            if (queryable.Any())
+            {
+                var parameter = Expression.Parameter(typeof(TEntity), "o");
+                var property = typeof(TEntity).GetProperty(sortField, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+                if (property == null)
+                {
+                    // If the property doesn't exist, default to sorting by Id
+                    property = typeof(TEntity).GetProperty("CreatedDate");
+                }
+
+                var propertyAccess = Expression.MakeMemberAccess(parameter, property);
+                var orderByExp = Expression.Lambda(propertyAccess, parameter);
+
+                string methodName = sortOrder == 1 ? "OrderBy" : "OrderByDescending";
+                var resultExp = Expression.Call(typeof(Queryable), methodName, new Type[] { typeof(TEntity), property.PropertyType },
+                    queryable.Expression, Expression.Quote(orderByExp));
+
+                queryable = queryable.Provider.CreateQuery<TEntity>(resultExp);
+            }
+
+            return queryable;
         }
 
         #endregion

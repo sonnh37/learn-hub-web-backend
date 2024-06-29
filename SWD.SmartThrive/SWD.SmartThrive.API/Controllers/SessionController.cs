@@ -10,7 +10,7 @@ using SWD.SmartThrive.Services.Services.Service;
 
 namespace SWD.SmartThrive.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/session")]
     [ApiController]
     [Authorize]
     public class SessionController : ControllerBase

@@ -16,9 +16,9 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             _context = context;
         }
 
-        public async Task<List<Package>> GetAllPackage(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<Package>> GetAllPackage(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+            var queryable = base.ApplySort(sortField, sortOrder);
 
             // Lọc theo trang
             queryable = GetQueryablePagination(queryable, pageNumber, pageSize);
@@ -26,9 +26,9 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return await queryable.ToListAsync();
         }
 
-        public async Task<(List<Package>, long)> GetAllPackageSearch(Package Package, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<Package>, long)> GetAllPackageSearch(Package Package, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var queryable = this.GetQueryablePaginationWithOrderBy(orderBy);
+            var queryable = base.ApplySort(sortField, sortOrder);
 
             // Điều kiện lọc từng bước
             if (queryable.Any())
@@ -58,14 +58,14 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
             return (pacakges, totalOrigin);
         }
 
-        public IQueryable<Package> GetQueryablePaginationWithOrderBy(string orderBy)
+        public IQueryable<Package> GetQueryablePaginationWithSortField(string sortField)
         {
             // Sắp xếp trước 
             var queryable = base.GetQueryable();
 
             if (queryable.Any())
             {
-                switch (orderBy.ToLower())
+                switch (sortField.ToLower())
                 {
                     case "packagename":
                         queryable = queryable.OrderBy(o => o.PackageName);

@@ -75,9 +75,9 @@ namespace SWD.SmartThrive.Services.Services.Service
             return _mapper.Map<CourseModel>(Course);
         }
 
-        public async Task<List<CourseModel>?> GetAllPagination(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<CourseModel>?> GetAllPagination(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var courses = await _repository.GetAllCourse(pageNumber, pageSize, orderBy);
+            var courses = await _repository.GetAllCourse(pageNumber, pageSize, sortField, sortOrder);
 
             if (!courses.Any())
             {
@@ -87,10 +87,10 @@ namespace SWD.SmartThrive.Services.Services.Service
             return _mapper.Map<List<CourseModel>>(courses);
         }
 
-        public async Task<(List<CourseModel>?, long)> GetAllCourseSearch(CourseModel courseModel, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<CourseModel>?, long)> GetAllCourseSearch(CourseModel courseModel, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
             var courses = _mapper.Map<Course>(courseModel);
-            var coursesWithTotalOrigin = await _repository.GetAllCourseSearch(courses, pageNumber, pageSize, orderBy);
+            var coursesWithTotalOrigin = await _repository.GetAllCourseSearch(courses, pageNumber, pageSize, sortField, sortOrder);
 
             if (!coursesWithTotalOrigin.Item1.Any())
             {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.API.RequestModel;
@@ -13,6 +14,7 @@ namespace SWD.SmartThrive.API.Controllers
 {
     [Route("api/subject")]
     [ApiController]
+    [Authorize]
     public class SubjectController : ControllerBase
     {
         private readonly ISubjectService _service;
@@ -47,14 +49,14 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var subjects = await _service.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var subjects = await _service.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField, paginatedRequest.SortOrder.Value);
                 long totalOrigin = await _service.GetTotalCount();
 
                 return subjects switch
                 {
                     null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.NotFound)),
                     not null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.Success, subjects, totalOrigin,
-                                        paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                                        paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField))
                 };
             }
             catch (Exception ex)
@@ -115,12 +117,12 @@ namespace SWD.SmartThrive.API.Controllers
             try
             {
                 var subject = _mapper.Map<SubjectModel>(paginatedRequest.Result);
-                var subjects = await _service.Search(subject, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var subjects = await _service.Search(subject, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField, paginatedRequest.SortOrder.Value);
 
                 return subjects.Item1 switch
                 {
-                    null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.NotFound, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.Success, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.NotFound, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField)),
+                    not null => Ok(new PaginatedListResponse<SubjectModel>(ConstantMessage.Success, subjects.Item1, subjects.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField))
                 };
             }
             catch (Exception ex)

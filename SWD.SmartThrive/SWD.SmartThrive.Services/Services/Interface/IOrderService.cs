@@ -11,9 +11,9 @@ namespace SWD.SmartThrive.Services.Services.Interface
         Task<OrderModel> GetOrder(Guid id);
         Task<bool> UpdateOrder(OrderModel OrderModel);
 
-        public Task<List<OrderModel>?> GetAllPagination(int pageNumber, int pageSize, string orderBy);
+        public Task<List<OrderModel>?> GetAllPagination(int pageNumber, int pageSize, string sortField, int sortOrder);
 
-        public Task<(List<OrderModel>?, long)> GetAllOrderSearch(OrderModel ordermodel, int pageNumber, int pageSize, string orderBy);
+        public Task<(List<OrderModel>?, long)> GetAllOrderSearch(OrderModel ordermodel, int pageNumber, int pageSize, string sortField, int sortOrder);
 
         public Task<long> GetTotalCount();
 

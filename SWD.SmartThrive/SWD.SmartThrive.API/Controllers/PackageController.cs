@@ -11,7 +11,7 @@ using SWD.SmartThrive.API.SearchRequest;
 
 namespace SWD.SmartThrive.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/package")]
     [ApiController]
     [Authorize]
     public class PackageController : ControllerBase
@@ -165,12 +165,12 @@ namespace SWD.SmartThrive.API.Controllers
             try
             {
                 var package = _mapper.Map<PackageModel>(paginatedRequest.Result);
-                var packages = await _service.GetAllPackageSearch(package, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var packages = await _service.GetAllPackageSearch(package, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField, paginatedRequest.SortOrder.Value);
 
                 return packages.Item1 switch
                 {
-                    null => Ok(new PaginatedListResponse<PackageModel>(ConstantMessage.NotFound, packages.Item1, packages.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedListResponse<PackageModel>(ConstantMessage.Success, packages.Item1, packages.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<PackageModel>(ConstantMessage.NotFound, packages.Item1, packages.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField)),
+                    not null => Ok(new PaginatedListResponse<PackageModel>(ConstantMessage.Success, packages.Item1, packages.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField))
                 };
             }
             catch (Exception ex)
@@ -185,12 +185,12 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var packages = await _service.GetAllPagination(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var packages = await _service.GetAllPagination(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField, paginatedRequest.SortOrder.Value);
                 long totalOrigin = await _service.GetTotalCount();
                 return packages switch
                 {
                     null => Ok(new PaginatedListResponse<PackageModel>(ConstantMessage.NotFound)),
-                    not null => Ok(new PaginatedListResponse<PackageModel>(ConstantMessage.Success, packages, totalOrigin, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    not null => Ok(new PaginatedListResponse<PackageModel>(ConstantMessage.Success, packages, totalOrigin, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField))
                 };
             }
             catch (Exception ex)

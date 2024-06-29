@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD.SmartThrive.API.RequestModel;
@@ -12,6 +13,7 @@ namespace SWD.SmartThrive.API.Controllers
 {
     [Route("api/category")]
     [ApiController]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _service;
@@ -46,14 +48,14 @@ namespace SWD.SmartThrive.API.Controllers
         {
             try
             {
-                var categories = await _service.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var categories = await _service.GetAllPaginationWithOrder(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField, paginatedRequest.SortOrder.Value);;
                 long totalOrigin = await _service.GetTotalCount();
 
                 return categories switch
                 {
                     null => Ok(new PaginatedListResponse<CategoryModel>(ConstantMessage.NotFound)),
                     not null => Ok(new PaginatedListResponse<CategoryModel>(ConstantMessage.Success, categories, totalOrigin,
-                                        paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                                        paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField))
                 };
             }
             catch (Exception ex)
@@ -91,12 +93,12 @@ namespace SWD.SmartThrive.API.Controllers
             try
             {
                 var category = _mapper.Map<CategoryModel>(paginatedRequest.Result);
-                var categories = await _service.Search(category, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                var categories = await _service.Search(category, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField, paginatedRequest.SortOrder.Value);;
 
                 return categories.Item1 switch
                 {
-                    null => Ok(new PaginatedListResponse<CategoryModel>(ConstantMessage.NotFound, categories.Item1, categories.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
-                    not null => Ok(new PaginatedListResponse<CategoryModel>(ConstantMessage.Success, categories.Item1, categories.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                    null => Ok(new PaginatedListResponse<CategoryModel>(ConstantMessage.NotFound, categories.Item1, categories.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField)),
+                    not null => Ok(new PaginatedListResponse<CategoryModel>(ConstantMessage.Success, categories.Item1, categories.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.SortField))
                 };
             }
             catch (Exception ex)

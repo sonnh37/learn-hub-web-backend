@@ -76,9 +76,9 @@ namespace SWD.SmartThrive.Services.Services.Service
             return _mapper.Map<OrderModel>(Order);
         }
 
-        public async Task<List<OrderModel>?> GetAllPagination(int pageNumber, int pageSize, string orderBy)
+        public async Task<List<OrderModel>?> GetAllPagination(int pageNumber, int pageSize, string sortField, int sortOrder)
         {
-            var orders = await _repository.GetAllOrder(pageNumber, pageSize, orderBy);
+            var orders = await _repository.GetAllOrder(pageNumber, pageSize, sortField, sortOrder);
 
             if (!orders.Any())
             {
@@ -88,10 +88,10 @@ namespace SWD.SmartThrive.Services.Services.Service
             return _mapper.Map<List<OrderModel>>(orders);
         }
 
-        public async Task<(List<OrderModel>?, long)> GetAllOrderSearch(OrderModel ordermodel, int pageNumber, int pageSize, string orderBy)
+        public async Task<(List<OrderModel>?, long)> GetAllOrderSearch(OrderModel ordermodel, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
             var orders= _mapper.Map<Order>(ordermodel);
-            var ordersWithTotalOrigin = await _repository.GetAllOrderSearch(orders, pageNumber, pageSize, orderBy);
+            var ordersWithTotalOrigin = await _repository.GetAllOrderSearch(orders, pageNumber, pageSize, sortField, sortOrder);
 
             if (!ordersWithTotalOrigin.Item1.Any())
             {
