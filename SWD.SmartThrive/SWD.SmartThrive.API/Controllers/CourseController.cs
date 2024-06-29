@@ -7,6 +7,7 @@ using SWD.SmartThrive.API.Tool.Constant;
 using SWD.SmartThrive.API.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
 using SWD.SmartThrive.Services.Services.Service;
+using SWD.SmartThrive.API.SearchRequest;
 
 namespace SWD.SmartThrive.API.Controllers
 {
@@ -131,6 +132,47 @@ namespace SWD.SmartThrive.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("search")]
+        public async Task<IActionResult> GetAllCourseSearch(PaginatedRequest<CourseSearchRequest> paginatedRequest)
+        {
+            try
+            {
+                var course = _mapper.Map<CourseModel>(paginatedRequest.Result);
+                var courses = await _service.GetAllCourseSearch(course, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+
+                return courses.Item1 switch
+                {
+                    null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.NotFound, courses.Item1, courses.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy)),
+                    not null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.Success, courses.Item1, courses.Item2, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
+        }
+
+        [HttpPost("get-all-pagination")]
+        public async Task<IActionResult> GetAllCoures(PaginatedRequest paginatedRequest)
+        {
+            try
+            {
+                var courses = await _service.GetAllPagination(paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy);
+                long totalOrigin = await _service.GetTotalCount();
+                return courses switch
+                {
+                    null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.NotFound)),
+                    not null => Ok(new PaginatedListResponse<CourseModel>(ConstantMessage.Success, courses, totalOrigin, paginatedRequest.PageNumber, paginatedRequest.PageSize, paginatedRequest.OrderBy))
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            };
         }
     }
 }
