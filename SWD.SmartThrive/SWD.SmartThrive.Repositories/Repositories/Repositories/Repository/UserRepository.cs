@@ -30,8 +30,15 @@ namespace SWD.SmartThrive.Repositories.Repositories.Repositories.Repository
                 );
             }
 
+            if (!queryable.Any())
+            {
+                return null;
+            }
+
             queryable = queryable.Include(entity => entity.Role);
-            var result = await queryable.FirstOrDefaultAsync();
+            
+
+            var result = await queryable.SingleOrDefaultAsync();
 
             return result;
         }

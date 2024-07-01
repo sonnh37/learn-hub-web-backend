@@ -84,6 +84,10 @@ namespace SWD.SmartThrive.Services.Base
             if (httpContext != null && httpContext.Request.Headers.ContainsKey("Authorization"))
             {
                 var token = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                if (token == "null")
+                {
+                    return null;
+                }
                 if (!string.IsNullOrEmpty(token))
                 {
                     var userFromToken = GetUserEmailWithUserenameFromToken(token);
